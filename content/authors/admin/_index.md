@@ -73,7 +73,7 @@ skills:
     items:
       - name: 触覚技術 (Haptics)
         description: '形状提示、力覚フィードバック'
-        percent: 90
+        percent: 95
         icon: hand-paper
       - name: バーチャルリアリティ (VR)
         description: 'Unity, HMD (Meta Quest 3)'
