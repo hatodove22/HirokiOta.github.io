@@ -16,6 +16,14 @@ publication_types:
 publication: '*2024 IEEE Conference Virtual Reality and 3D User Interfaces (VR)*'
 doi: 10.1109/VR58804.2024.00028
 tags:
-- Actuators;Three-dimensional displays;Shape;Virtual reality;User interfaces;Motors;Haptic
-  interfaces;haptic device;shape presentation;material presentation
+- Actuators
+- Three-dimensional displays
+- Shape
+- Virtual reality
+- User interfaces
+- Motors
+- Haptic interfaces
+- haptic device
+- shape presentation
+- material presentation
 ---
