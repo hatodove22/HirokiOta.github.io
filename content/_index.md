@@ -35,11 +35,7 @@ sections:
       title: '📚 My Research'
       subtitle: ''
       text: |-
-        Use this area to speak to your mission. I'm a research scientist in the Moonshot team at DeepMind. I blog about machine learning, deep learning, and moonshots.
-
-        I apply a range of qualitative and quantitative methods to comprehensively investigate the role of science and technology in the economy.
-        
-        Please reach out to collaborate 😃
+        私の主な興味は，物体の把持・操作体験を実現する触力覚提示装置の開発にあります．特にバーチャルリアリティ分野において，バーチャルオブジェクトの触感を再現する技術の開発に取り組んでいます．
     design:
       columns: '1'
   - block: collection
