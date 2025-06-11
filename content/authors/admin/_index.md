@@ -114,7 +114,7 @@ languages:
   - name: 英語 (English)
     percent: 80
   - name: フランス語 (French)
-    percent: 30
+    percent: 10
 
 awards:
   - title: ベストデモンストレーション賞 (Best Demonstration Award)
