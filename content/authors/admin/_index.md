@@ -125,6 +125,64 @@ awards:
     summary: |
       開発した形状提示装置「FresnelShape」のデモ展示が、約200名の参加者投票により最多得票数を獲得。
       The demonstration of the developed shape display device "FresnelShape" received the most votes from approximately 200 participants.
+
+extracurricular_activities:
+  - title: 缶サット甲子園, 全国大会準優勝(通算2回受賞)
+    date: '' # Add date if known, otherwise leave empty or remove
+    summary: ''
+  - title: Google Science Jam 2015, JAXA 審査員賞
+    date: '2015-01-01' # Assuming a placeholder date for 2015
+    summary: ''
+  - title: IVRC 2022, SEED STAGE選出
+    date: '2022-01-01' # Assuming a placeholder date for 2022
+    summary: ''
+  - title: 経済産業省 令和4年度未踏的な地方の若手人材発掘育成事業補助金AKATSUKIプロジェクト採択事業
+    date: '' # Add date if known
+    summary: ''
+  - title: 関西テック・クリエイティブ人材共創事業,採択
+    date: '' # Add date if known
+    summary: ''
+
+funding_received:
+  - title: 関西テッククリエイターチャレンジ
+    amount: 165万円
+    date: '' # Add date if known
+    summary: ''
+  - title: JASSO 海外留学支援制度（協定派遣）
+    amount: 66万円
+    date: '' # Add date if known
+    summary: ''
+  - title: NAIST 長期留学支援制度
+    amount: 70万円
+    date: '' # Add date if known
+    summary: ''
+  - title: JST 次世代研究者挑戦的研究プログラム(NAIST Granite Program)
+    amount: 総額約800万円
+    date: '' # Add date if known
+    summary: ''
+
+academic_contributions:
+  - title: 触覚若手の会 第19回集会疑似査読者会議
+    date: '' # Add date if known
+    summary: ''
+  - title: 触覚若手の会 触覚デモ交流会（ベストプレゼンテーション賞）
+    date: '' # Add date if known
+    summary: 'Also listed in Awards, but included here for completeness of contributions.'
+  - title: 触覚講習会2024 (デモ展示)
+    date: '2024-01-01' # Assuming placeholder date for 2024
+    summary: ''
+  - title: IEEE International Conference on Robotics and Automation (ICRA), 2024, Student Volunteer
+    date: '2024-01-01' # Assuming placeholder date for 2024
+    summary: ''
+  - title: IEEE Conference Virtual Reality and 3D User Interfaces (IEEE VR), 2025, Student Volunteer
+    date: '2025-01-01' # Assuming placeholder date for 2025
+    summary: ''
+  - title: International Conference on Augmented Humans (AHs), 査読協力
+    date: '' # Add date if known
+    summary: 'Peer review cooperation'
+  - title: IEEE World Haptics Conference (WHC), 2025, 査読協力
+    date: '2025-01-01' # Assuming placeholder date for 2025
+    summary: 'Peer review cooperation'
 ---
 
 ## About Me
