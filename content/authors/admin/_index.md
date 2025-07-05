@@ -26,7 +26,7 @@ profiles:
   - icon: brands/github
     url: https://github.com/hatodove22
   - icon: brands/linkedin
-    url: www.linkedin.com/in/hiroki-ota-54a11119b
+    url: https://www.linkedin.com/in/hiroki-ota-54a11119b/
   - icon: academicons/google-scholar
     url: https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl
   - icon: academicons/orcid
