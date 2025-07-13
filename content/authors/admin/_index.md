@@ -103,7 +103,7 @@ skills:
         description: ''
         percent: 100
         icon: cat
-      - name: TOEIC
+      - name: TOEIC(870)
         description: ''
         percent: 87
         icon: camera-retro
