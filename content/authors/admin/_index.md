@@ -103,6 +103,8 @@ skills:
         description: ''
         percent: 100
         icon: cat
+  - name: Skills
+    items:
       - name: TOEIC(870)
         description: ''
         percent: 87
