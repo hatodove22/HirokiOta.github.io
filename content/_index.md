@@ -35,7 +35,7 @@ sections:
       title: '📚 My Research'
       subtitle: ''
       text: |-
-        私の主な興味は，物体の把持・操作体験を実現する触力覚提示装置の開発にあります．特にバーチャルリアリティ分野において，バーチャルオブジェクトの触感を再現する技術の開発に取り組んでいます．
+        私の主な興味は，物体の把持・操作体験を実現する触力覚提示装置の開発にあります．特にバーチャルリアリティ分野において，バーチャルオブジェクトの触感を再現する技術の開発に取り組んでいます．<br>My primary interest lies in developing haptic feedback devices that enable the experience of grasping and manipulating objects. Specifically, within the field of virtual reality, I am engaged in developing technologies to reproduce the tactile sensations of virtual objects.
     design:
       columns: '1'
   - block: collection
