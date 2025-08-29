@@ -74,23 +74,23 @@ skills:
       - name: 触覚技術 (Haptics)
         description: '形状提示、力覚フィードバック'
         percent: 95
-        icon: hand-paper
+        icon: "custom/hand-solid-full"
       - name: バーチャルリアリティ (VR)
         description: 'Unity, HMD (Meta Quest 3)'
         percent: 85
-        icon: vr-cardboard
+        icon: "custom/vr-cardboard-solid-full"
       - name: デバイス開発 (Device Development)
         description: '3Dプリンティング, 回路設計, マイコン (ESP32), センサ, アクチュエータ'
         percent: 80
-        icon: tools
+        icon: "custom/screwdriver-wrench-solid-full"
       - name: 実験計画・実施 (Experiment Design & Execution)
         description: 'ユーザー評価, 心理物理実験 (PsychoPy), データ分析'
         percent: 75
-        icon: chart-bar
+        icon: "custom/chart-bar-solid-full"
       - name: プログラミング (Programming)
         description: 'Python (PsychoPy), C# (Unity), C/C++ (Microcontroller)'
         percent: 70
-        icon: code
+        icon: "custom/code-solid-full"
   - name: Hobbies
     color: '#eeac02'
     color_border: '#f0bf23'
@@ -98,17 +98,17 @@ skills:
       - name: Hiking
         description: ''
         percent: 60
-        icon: person-hiking
+        icon: "custom/person-hiking-solid-full"
       - name: Reading
         description: ''
         percent: 100
-        icon: cat
+        icon: "custom/book-solid-full"
   - name: Skills
     items:
       - name: TOEIC(870)
         description: ''
         percent: 87
-        icon: camera-retro
+        icon: "custom/t-solid-full"
 
 languages:
   - name: 日本語 (Japanese)
@@ -123,7 +123,7 @@ awards:
     url: ''
     date: '2024-09-01'
     awarder: 触覚若手の会 触覚デモ交流会
-    icon: award
+    icon: "custom/award-solid-full"
     summary: |
       開発した形状提示装置「FresnelShape」のデモ展示が、約200名の参加者投票により最多得票数を獲得。
       The demonstration of the developed shape display device "FresnelShape" received the most votes from approximately 200 participants.
