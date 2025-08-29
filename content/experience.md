@@ -28,7 +28,6 @@ sections:
     content:
       title: Awards
       username: admin
-    design:
       icon: "custom/award-solid-full"
   # New sections start here
   - block: markdown
