@@ -1,52 +1,21 @@
-# [Hugo Academic CV Theme](https://github.com/HugoBlox/theme-academic-cv)
+# ”m‰Û’öŠw¶ƒ|[ƒgƒtƒHƒŠƒI V1
 
-[![Screenshot](.github/preview.webp)](https://hugoblox.com/templates/)
+”m‰Û’öŠw¶ƒ|[ƒgƒtƒHƒŠƒI V1 ‚Ì React + Vite À‘•‚Å‚·BŒ³ƒfƒUƒCƒ“‚ÍŸ‚Ì Figma ƒhƒLƒ…ƒƒ“ƒg‚ğ‚²QÆ‚­‚¾‚³‚¢B
+https://www.figma.com/design/q96wxyH2JhBsvZj0gPyVxD/%E5%8D%9A%E5%A3%AB%E8%AA%B2%E7%A8%8B%E5%AD%A6%E7%94%9F%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA-V1
 
-The Hugo **Academic CV Template** empowers you to easily create your job-winning online resumÃ©, showcase your academic publications, and create online courses or knowledge bases to grow your audience.
+## ŠJ”­ŠÂ‹«
 
-[![Get Started](https://img.shields.io/badge/-Get%20started-ff4655?style=for-the-badge)](https://hugoblox.com/templates/)
-[![Discord](https://img.shields.io/discord/722225264733716590?style=for-the-badge)](https://discord.com/channels/722225264733716590/742892432458252370/742895548159492138)  
-[![Twitter Follow](https://img.shields.io/twitter/follow/GetResearchDev?label=Follow%20on%20Twitter)](https://twitter.com/GetResearchDev)
+```bash
+npm install
+npm run dev
+```
 
-ï¸**Trusted by 250,000+ researchers, educators, and students.** Highly customizable via the integrated **no-code, Hugo Blox Builder**, making every site truly personalized â­â­â­â­â­
+Vite ‚ÌŠJ”­ƒT[ƒo[‚ª `http://localhost:3000/` ‚Å‹N“®‚µ‚Ü‚·B
 
-Easily write technical content with plain text Markdown, LaTeX math, diagrams, RMarkdown, or Jupyter, and import publications from BibTeX.
+## –{”Ôƒrƒ‹ƒh
 
-[Check out the latest demo](https://academic-demo.netlify.app/) of what you'll get in less than 10 minutes, or [get inspired by our academics and research groups](https://hugoblox.com/creators/).
+```bash
+npm run build
+```
 
-The integrated [**Hugo Blox Builder**](https://hugoblox.com) and CMS makes it easy to create a beautiful website for free. Edit your site in the CMS (or your favorite editor), generate it with [Hugo](https://github.com/gohugoio/hugo), and deploy with GitHub or Netlify. Customize anything on your site with widgets, light/dark themes, and language packs.
-
-- ğŸ‘‰ [**Get Started**](https://hugoblox.com/templates/)
-- ğŸ“š [View the **documentation**](https://docs.hugoblox.com/)
-- ğŸ’¬ [Chat with the **Hugo Blox Builder community**](https://discord.gg/z8wNYzb) or [**Hugo community**](https://discourse.gohugo.io)
-- ğŸ¦ Twitter: [@GetResearchDev](https://twitter.com/GetResearchDev) [@GeorgeCushen](https://twitter.com/GeorgeCushen) [#MadeWithHugoBlox](https://twitter.com/search?q=%23MadeWithHugoBlox&src=typed_query)
-- â¬‡ï¸ **Automatically import your publications from BibTeX** with the [Hugo Academic CLI](https://github.com/GetRD/academic-file-converter)
-- ğŸ’¡ [Suggest an improvement](https://github.com/HugoBlox/hugo-blox-builder/issues)
-- â¬†ï¸ **Updating?** View the [Update Guide](https://docs.hugoblox.com/reference/update/) and [Release Notes](https://github.com/HugoBlox/hugo-blox-builder/releases)
-
-## We ask you, humbly, to support this open source movement
-
-Today we ask you to defend the open source independence of the Hugo Blox Builder and themes ğŸ§
-
-We're an open source movement that depends on your support to stay online and thriving, but 99.9% of our creators don't give; they simply look the other way.
-
-### [â¤ï¸ Click here to become a Sponsor, unlocking awesome perks such as _exclusive academic templates and blocks_](https://hugoblox.com/sponsor/)
-
-<!--
-<p align="center"><a href="https://hugoblox.com/templates/" target="_blank" rel="noopener"><img src="https://hugoblox.com/uploads/readmes/academic_logo_200px.png" alt="Hugo Academic Theme for Hugo Blox Builder"></a></p>
--->
-
-## Demo image credits
-
-- [Unsplash](https://unsplash.com)
-
-## Latest news
-
-<!--START_SECTION:news-->
-
-- [Easily make an academic CV website to get more cites and grow your audience ğŸš€](https://hugoblox.com/blog/easily-make-academic-website/)
-- [What&#39;s new in v5.2?](https://hugoblox.com/blog/whats-new-in-v5.2/)
-- [What&#39;s new in v5.1?](https://hugoblox.com/blog/whats-new-in-v5.1/)
-- [Version 5.0 (February 2021)](https://hugoblox.com/blog/version-5.0-february-2021/)
-- [Version 5.0 Beta 3 (February 2021)](https://hugoblox.com/blog/version-5.0-beta-3-february-2021/)
-<!--END_SECTION:news-->
+¶¬•¨‚Í `build/` ƒfƒBƒŒƒNƒgƒŠ‚Éo—Í‚³‚ê‚Ü‚·iGit ‚É‚ÍŠÜ‚ß‚Ä‚¢‚Ü‚¹‚ñjB
