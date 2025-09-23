@@ -19,7 +19,7 @@ export function ProjectCard({ project, locale, onClick }: ProjectCardProps) {
   const mainCategory = project.tags[0] || ''
   
   // Get author info from translations
-  const authorName = locale === 'ja' ? '山田太郎' : 'Taro Yamada'
+  const authorName = locale === 'ja' ? '太田裕紀' : 'Ota Hiroki'
 
   // Format date to show only year and month
   const formatProjectDate = (dateString: string) => {

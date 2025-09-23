@@ -48,6 +48,21 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
   }, [locale])
 
   const researchAreas = ['Machine Learning', 'Deep Learning', 'Computer Vision']
+  const heroLines =
+    locale === 'ja'
+      ? {
+          title: '博士課程学生',
+          university: '奈良先端科学技術大学院大学',
+          lab: 'サイバネティクスリアリティ工学研究室',
+        }
+      : {
+          title: 'PhD Student',
+          university: 'Nara Institute of Science and Technology (NAIST)',
+          lab: 'Cybernetics Reality Engineering Laboratory',
+        }
+
+  const labUrl = 'https://carelab.info/ja/'
+
 
   return (
     <div className="space-y-16 pb-16">
@@ -66,9 +81,18 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
                 {t.about.profile.name}
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground">
-                {t.home.title} · {t.home.subtitle}
-              </p>
+              <div className="text-lg md:text-xl text-muted-foreground leading-tight space-y-1">
+                <div>{heroLines.title}</div>
+                <div>{heroLines.university}</div>
+                <a
+                  href={labUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline inline-block"
+                >
+                  {heroLines.lab}
+                </a>
+              </div>
             </div>
           </div>
 

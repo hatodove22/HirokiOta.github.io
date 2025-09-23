@@ -111,7 +111,7 @@ export const translations: Record<Locale, Translations> = {
     home: {
       title: '博士課程学生',
       subtitle: '機械学習・データサイエンス研究者',
-      description: '深層学習とデータサイエンスを専門とし、実世界の問題解決に取り組んでいます。',
+      description: '私は奈良先端科学技術大学院大学（NAIST）の博士課程学生です。触覚技術、ロボティクス、バーチャルリアリティの研究に従事しています。特に、人間の触覚的形状認知特性に着目したハンドヘルド型形状提示装置「FresnelShape」の開発と評価を行っています。VR環境における触覚体験の向上を目指しています。',
       cta: {
         contact: 'お問い合わせ',
         cv: '履歴書ダウンロード'
@@ -127,7 +127,7 @@ export const translations: Record<Locale, Translations> = {
     about: {
       title: '自己紹介',
       profile: {
-        name: '山田太郎',
+        name: '太田裕紀',
         title: '博士課程学生',
         affiliation: '○○大学 工学研究科'
       },
@@ -206,7 +206,7 @@ export const translations: Record<Locale, Translations> = {
     home: {
       title: 'PhD Student',
       subtitle: 'Machine Learning & Data Science Researcher',
-      description: 'Specializing in deep learning and data science, working on real-world problem solving.',
+      description: 'I am a Ph.D. student at the Nara Institute of Science and Technology (NAIST). I am engaged in research on haptic technology, robotics, and virtual reality. Specifically, I am developing and evaluating “FresnelShape,” a handheld shape display device focusing on human tactile shape perception characteristics. I aim to enhance tactile experiences in VR environments.',
       cta: {
         contact: 'Contact',
         cv: 'Download CV'
@@ -222,7 +222,7 @@ export const translations: Record<Locale, Translations> = {
     about: {
       title: 'About',
       profile: {
-        name: 'Taro Yamada',
+        name: 'Ota Hiroki',
         title: 'PhD Student',
         affiliation: 'Graduate School of Engineering, XX University'
       },
