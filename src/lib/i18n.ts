@@ -125,11 +125,11 @@ export const translations: Record<Locale, Translations> = {
       }
     },
     about: {
-      title: '自己紹介',
+      title: 'About Me',
       profile: {
         name: '太田裕紀',
         title: '博士課程学生',
-        affiliation: '○○大学 工学研究科'
+        affiliation: '奈良先端科学技術大学院大学　サイバネティクスリアリティ工学研究室'
       },
       sections: {
         biography: '略歴',

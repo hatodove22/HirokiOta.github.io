@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { ArrowRight, Download, ExternalLink, Mail } from 'lucide-react'
+import { useEffect, useState, type ReactNode } from 'react'
+import { ArrowRight, Download, ExternalLink, Mail, Github, Twitter, Linkedin, GraduationCap, IdCard } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -16,6 +16,26 @@ import profileImage from 'figma:asset/37d3f31165fb6b41b77513c4d8e0d1b581053602.p
 interface HomePageProps {
   locale: Locale
   onNavigate: (page: string, slug?: string) => void
+}
+
+
+
+function HeroSocialLink({ href, label, children }: {
+  href: string;
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex size-10 items-center justify-center rounded-full border border-border hover:border-border-strong hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
+    >
+      <span className="sr-only">{label}</span>
+      {children}
+    </a>
+  );
 }
 
 export function HomePage({ locale, onNavigate }: HomePageProps) {
@@ -65,61 +85,81 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
 
 
   return (
-    <div className="space-y-16 pb-16">
+    <div className="flex flex-col space-y-16 pb-16">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 pt-16">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="flex items-center gap-6">
-            <div className="flex-shrink-0">
-              <img 
-                src={profileImage} 
+      <section className="relative flex min-h-[100svh] items-center">
+        <div className="container mx-auto px-4 py-16">
+          <div className="mx-auto flex w-full max-w-4xl flex-col items-start gap-12">
+            {/* Name + Photo row */}
+            <div className="flex w-full items-center gap-6">
+              <img
+                src={profileImage}
                 alt={t.about.profile.name}
-                className="w-24 h-24 md:w-32 md:h-32 rounded-full object-cover"
+                className="h-32 w-32 rounded-full object-cover shadow-lg md:h-32 md:w-32"
               />
-            </div>
-            <div className="space-y-2">
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-                {t.about.profile.name}
-              </h1>
-              <div className="text-lg md:text-xl text-muted-foreground leading-tight space-y-1">
-                <div>{heroLines.title}</div>
-                <div>{heroLines.university}</div>
-                <a
-                  href={labUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline inline-block"
-                >
-                  {heroLines.lab}
-                </a>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
+                  {t.about.profile.name}
+                </h1>
+                <div className="mt-2 space-y-1 text-lg text-muted-foreground leading-tight md:text-xl">
+                  <div>{heroLines.title}</div>
+                  <div>{heroLines.university}</div>
+                  <a
+                    href={labUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
+                    {heroLines.lab}
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex flex-wrap gap-2">
-            {researchAreas.map((area) => (
-              <Badge key={area} variant="secondary" className="text-sm">
-                {area}
-              </Badge>
-            ))}
-          </div>
+            {/* Social links under the header row */}
+            <div className="mt-4 flex items-center gap-3 text-primary">
+              <HeroSocialLink href="https://github.com/hatodove22" label="GitHub">
+                <Github className="h-5 w-5" />
+              </HeroSocialLink>
+              <HeroSocialLink href="https://x.com/troll01234" label="X (Twitter)">
+                <Twitter className="h-5 w-5" />
+              </HeroSocialLink>
+              <HeroSocialLink href="https://www.linkedin.com/in/hiroki-ota-54a11119b/" label="LinkedIn">
+                <Linkedin className="h-5 w-5" />
+              </HeroSocialLink>
+              <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="Google Scholar">
+                <GraduationCap className="h-5 w-5" />
+              </HeroSocialLink>
+              <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="ORCID">
+                <IdCard className="h-5 w-5" />
+              </HeroSocialLink>
+            </div>
 
-          <p className="text-lg text-muted-foreground max-w-2xl">
-            {t.home.description}
-          </p>
+            <div className="mt-4 flex w-full flex-wrap gap-4">
+              {researchAreas.map((area) => (
+                <Badge key={area} variant="secondary" className="text-sm">
+                  {area}
+                </Badge>
+              ))}
+            </div>
 
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" onClick={() => onNavigate('about')}>
-              {t.nav.about}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            
-            <Button variant="outline" size="lg" asChild>
-              <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-                <Download className="mr-2 h-4 w-4" />
-                {t.home.cta.cv}
-              </a>
-            </Button>
+            <p className="mt-4 max-w-2xl text-left text-lg text-muted-foreground">
+              {t.home.description}
+            </p>
+
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:gap-6">
+              <Button size="lg" onClick={() => onNavigate('about')}>
+                {t.nav.about}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+
+              <Button variant="outline" size="lg" asChild>
+                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
+                  <Download className="mr-2 h-4 w-4" />
+                  {t.home.cta.cv}
+                </a>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

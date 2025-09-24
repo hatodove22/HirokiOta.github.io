@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { Separator } from '../components/ui/separator'
 import { Locale } from '../lib/types'
+import profileImage from '../assets/37d3f31165fb6b41b77513c4d8e0d1b581053602.png'
 import { getTranslations } from '../lib/i18n'
 
 interface AboutPageProps {
@@ -92,9 +93,11 @@ export function AboutPage({ locale }: AboutPageProps) {
           <h1 className="text-4xl font-bold">{t.about.title}</h1>
           
           <div className="flex justify-center">
-            <div className="w-32 h-32 bg-muted rounded-full flex items-center justify-center">
-              <span className="text-4xl">👨‍🎓</span>
-            </div>
+            <img
+              src={profileImage}
+              alt={t.about.profile.name}
+              className="w-32 h-32 rounded-full object-cover border shadow-sm"
+            />
           </div>
 
           <div className="space-y-2">
