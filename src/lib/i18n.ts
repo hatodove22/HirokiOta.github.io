@@ -35,9 +35,11 @@ export interface Translations {
       affiliation: string
     }
     sections: {
-      biography: string
-      timeline: string
-      skills: string
+      introduction: string
+      profile: string
+      capabilities: string
+      interests: string
+      goals: string
       awards: string
     }
   }
@@ -132,9 +134,11 @@ export const translations: Record<Locale, Translations> = {
         affiliation: '奈良先端科学技術大学院大学　サイバネティクスリアリティ工学研究室'
       },
       sections: {
-        biography: '略歴',
-        timeline: '学歴・職歴',
-        skills: 'スキル',
+        introduction: '自己紹介',
+        profile: 'プロフィール',
+        capabilities: '私にできること',
+        interests: '主な興味関心',
+        goals: 'これからの目標',
         awards: '受賞歴'
       }
     },
@@ -227,9 +231,11 @@ export const translations: Record<Locale, Translations> = {
         affiliation: 'Graduate School of Engineering, XX University'
       },
       sections: {
-        biography: 'Biography',
-        timeline: 'Education & Experience',
-        skills: 'Skills',
+        introduction: 'Introduction',
+        profile: 'Profile',
+        capabilities: 'What I Can Do',
+        interests: 'Key Interests',
+        goals: 'Future Goals',
         awards: 'Awards'
       }
     },

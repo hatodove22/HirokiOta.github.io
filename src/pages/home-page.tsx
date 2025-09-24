@@ -98,7 +98,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                 className="h-32 w-32 rounded-full object-cover shadow-lg md:h-32 md:w-32"
               />
               <div className="flex-1 min-w-0">
-                <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
+                <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                   {t.about.profile.name}
                 </h1>
                 <div className="mt-2 space-y-1 text-lg text-muted-foreground leading-tight md:text-xl">

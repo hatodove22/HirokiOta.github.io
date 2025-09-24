@@ -1,8 +1,7 @@
-import { Download, Calendar, Award, Code, Brain } from 'lucide-react'
+import { Download, Calendar, Award, Code, Brain, Compass, Target } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { Separator } from '../components/ui/separator'
 import { Locale } from '../lib/types'
 import profileImage from '../assets/37d3f31165fb6b41b77513c4d8e0d1b581053602.png'
 import { getTranslations } from '../lib/i18n'
@@ -61,6 +60,27 @@ export function AboutPage({ locale }: AboutPageProps) {
     'GPU Computing'
   ]
 
+  const goals = [
+    {
+      title: locale === 'ja' ? '医療AIの社会実装を加速する' : 'Accelerate the clinical adoption of medical AI',
+      description: locale === 'ja'
+        ? '医療現場のニーズを踏まえ、診断支援や治療計画に直結するAIシステムの共同開発を推進します。'
+        : 'Advance collaborative development of AI systems that directly support diagnosis and treatment planning in clinical settings.'
+    },
+    {
+      title: locale === 'ja' ? '国際共同研究をリードする' : 'Lead impactful international collaborations',
+      description: locale === 'ja'
+        ? '海外研究機関との長期的な連携を構築し、医療AIの国際基準策定と社会実装を加速させます。'
+        : 'Build long-term partnerships with global institutes to shape standards and accelerate worldwide deployment of medical AI.'
+    },
+    {
+      title: locale === 'ja' ? '次世代研究者の育成に貢献する' : 'Empower the next generation of researchers',
+      description: locale === 'ja'
+        ? '教育・コミュニティ活動を通じて、研究倫理と実践力を兼ね備えた若手人材の育成に取り組みます。'
+        : 'Invest in mentoring and community work to foster young talents with both research ethics and practical skills.'
+    }
+  ]
+
   const awards = [
     {
       year: 2024,
@@ -114,18 +134,18 @@ export function AboutPage({ locale }: AboutPageProps) {
           </Button>
         </section>
 
-        {/* Biography */}
+        {/* Introduction */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
             <Brain className="mr-3 h-6 w-6" />
-            {t.about.sections.biography}
+            {t.about.sections.introduction}
           </h3>
           
           <Card>
             <CardContent className="p-6">
               <p className="text-muted-foreground leading-relaxed">
                 {locale === 'ja' 
-                  ? '機械学習とコンピュータビジョンを専門とする博士課程学生です。特に医療画像解析と自然言語処理の分野で革新的な研究を行っており、実世界の問題解決に向けた応用研究に情熱を注いでいます。これまでに国際的なトップカンファレンスで10本以上の論文を発表し、複数の賞を受賞しています。研究と並行して、オープンソースプロジェクトへの貢献や技術コミュニティでの活動も積極的に行っています。'
+                  ? '機械学習とコンピュータビジョンを専門とする博士課程学生です。特に医療画像解析と自然言語処理の領域で革新的な研究を行っており、実世界の課題解決に向けた応用研究に情熱を注いでいます。これまでに国際的なトップカンファレンスで10本以上の論文を発表し、複数の賞を受賞してきました。研究と並行して、オープンソースプロジェクトへの貢献や技術コミュニティでの活動も積極的に行っています。'
                   : 'I am a PhD student specializing in machine learning and computer vision. I conduct innovative research particularly in medical image analysis and natural language processing, with a passion for applied research toward real-world problem solving. I have published over 10 papers at international top-tier conferences and received multiple awards. Alongside my research, I actively contribute to open-source projects and engage in technical community activities.'
                 }
               </p>
@@ -133,28 +153,28 @@ export function AboutPage({ locale }: AboutPageProps) {
           </Card>
         </section>
 
-        {/* Timeline */}
+        {/* Profile */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
             <Calendar className="mr-3 h-6 w-6" />
-            {t.about.sections.timeline}
+            {t.about.sections.profile}
           </h3>
 
           <div className="space-y-6">
-            {timeline.map((item, index) => (
+            {timeline.slice().reverse().map((item, index) => (
               <div key={index} className="flex">
-                <div className="flex flex-col items-center mr-6">
-                  <div className="w-3 h-3 bg-primary rounded-full"></div>
+                <div className="mr-6 flex flex-col items-center">
+                  <div className="h-3 w-3 rounded-full bg-primary"></div>
                   {index < timeline.length - 1 && (
-                    <div className="w-px h-20 bg-border mt-2"></div>
+                    <div className="mt-2 h-20 w-px bg-border"></div>
                   )}
                 </div>
                 <div className="flex-1 pb-8">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                  <div className="mb-2 flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <h4 className="font-semibold">{item.title}</h4>
                     <span className="text-sm text-muted-foreground">{item.year}</span>
                   </div>
-                  <p className="text-muted-foreground mb-2">{item.organization}</p>
+                  <p className="mb-2 text-muted-foreground">{item.organization}</p>
                   <p className="text-sm text-muted-foreground">{item.description}</p>
                 </div>
               </div>
@@ -162,14 +182,14 @@ export function AboutPage({ locale }: AboutPageProps) {
           </div>
         </section>
 
-        {/* Skills */}
+        {/* Capabilities */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
             <Code className="mr-3 h-6 w-6" />
-            {t.about.sections.skills}
+            {t.about.sections.capabilities}
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">
@@ -206,6 +226,89 @@ export function AboutPage({ locale }: AboutPageProps) {
           </div>
         </section>
 
+        {/* Interests */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-semibold flex items-center">
+            <Compass className="mr-3 h-6 w-6" />
+            {t.about.sections.interests}
+          </h3>
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div>
+                  <h4 className="mb-3 font-semibold">
+                    {locale === 'ja' ? '機械学習・深層学習' : 'Machine Learning & Deep Learning'}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {locale === 'ja'
+                      ? '新たなアーキテクチャや最適化手法の設計、医療・産業領域への応用を探求しています。'
+                      : 'Designing novel architectures, refining optimization methods, and exploring applications in healthcare and industry.'
+                    }
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="mb-3 font-semibold">
+                    {locale === 'ja' ? '医療画像解析' : 'Medical Image Analysis'}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {locale === 'ja'
+                      ? '画像診断支援のためのセグメンテーション、疾患検出、ベンチマーク構築に注力しています。'
+                      : 'Focusing on segmentation, disease detection, and benchmark creation for computer-aided diagnosis.'
+                    }
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="mb-3 font-semibold">
+                    {locale === 'ja' ? '自然言語処理' : 'Natural Language Processing'}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {locale === 'ja'
+                      ? '医療記録や学術情報を対象にした情報抽出、質疑応答、会話システムを研究しています。'
+                      : 'Researching information extraction, question answering, and dialogue systems for medical and scholarly text.'
+                    }
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="mb-3 font-semibold">
+                    {locale === 'ja' ? 'コンピュータビジョン' : 'Computer Vision'}
+                  </h4>
+                  <p className="text-sm text-muted-foreground">
+                    {locale === 'ja'
+                      ? '物体検出やシーン理解など、現場で機能するロバストな視覚認識技術を追求しています。'
+                      : 'Advancing robust visual recognition technologies for object detection and scene understanding in the real world.'
+                    }
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Goals */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-semibold flex items-center">
+            <Target className="mr-3 h-6 w-6" />
+            {t.about.sections.goals}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {goals.map((goal) => (
+              <Card key={goal.title}>
+                <CardHeader>
+                  <CardTitle className="text-lg">{goal.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">{goal.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
         {/* Awards */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
@@ -218,7 +321,7 @@ export function AboutPage({ locale }: AboutPageProps) {
               <Card key={index}>
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
-                    <div className="space-y-1 flex-1">
+                    <div className="flex-1 space-y-1">
                       <h4 className="font-semibold">{award.title}</h4>
                       <p className="text-sm text-muted-foreground">{award.description}</p>
                     </div>
@@ -230,67 +333,8 @@ export function AboutPage({ locale }: AboutPageProps) {
           </div>
         </section>
 
-        {/* Research Interests */}
-        <section className="space-y-6">
-          <h3 className="text-2xl font-semibold">
-            {locale === 'ja' ? '研究分野' : 'Research Interests'}
-          </h3>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="font-semibold mb-3">
-                    {locale === 'ja' ? '機械学習・深層学習' : 'Machine Learning & Deep Learning'}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {locale === 'ja'
-                      ? '新たなアーキテクチャの開発、最適化手法の改良、実用的なアプリケーションへの応用'
-                      : 'Development of novel architectures, optimization method improvements, practical applications'
-                    }
-                  </p>
-                </div>
-                
-                <div>
-                  <h4 className="font-semibold mb-3">
-                    {locale === 'ja' ? '医療画像解析' : 'Medical Image Analysis'}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {locale === 'ja'
-                      ? '画像セグメンテーション、疾患検出、診断支援システムの開発'
-                      : 'Image segmentation, disease detection, diagnostic support system development'
-                    }
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-3">
-                    {locale === 'ja' ? '自然言語処理' : 'Natural Language Processing'}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {locale === 'ja'
-                      ? 'テキスト分類、情報抽出、対話システムの研究'
-                      : 'Text classification, information extraction, dialogue system research'
-                    }
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-semibold mb-3">
-                    {locale === 'ja' ? 'コンピュータビジョン' : 'Computer Vision'}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {locale === 'ja'
-                      ? '物体検出、画像認識、シーン理解の技術開発'
-                      : 'Object detection, image recognition, scene understanding technology development'
-                    }
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
       </div>
     </div>
   )
 }
+
