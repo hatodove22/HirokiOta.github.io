@@ -1,4 +1,4 @@
-import { Project, Paper, NewsItem, Locale, FilterParams, NotionBlock } from './types'
+import { Project, Paper, NewsItem, BlogPost, Locale, FilterParams, NotionBlock } from './types'
 
 // Mock data for development (used when Notion API is not configured)
 const mockProjects: Project[] = [
@@ -250,7 +250,68 @@ const mockNews: NewsItem[] = [
     language: 'en'
   }
 ]
-
+const mockBlogPosts: BlogPost[] = [
+  {
+    id: 'blog-1',
+    title: '医療AI研究の実験メモ',
+    slug: 'medical-ai-lab-notes',
+    date: '2024-08-20',
+    tags: ['Research', 'Medical AI'],
+    summary: '最新の医療画像解析モデルで得られた知見と課題を共有します。',
+    heroImage: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1080&q=80',
+    readTime: '5 min',
+    language: 'ja',
+    body: [
+      { heading: '臨床現場から得た示唆', content: '臨床現場で協力いただいた医師や技師の方々とのディスカッションを基に、実験設計と評価指標を見直しました。' },
+      { heading: '改善タスクの整理', content: 'ハイパーパラメータ探索の結果と失敗事例も含めて、今後の改善方針を整理しています。' },
+    ]
+  },
+  {
+    id: 'blog-2',
+    title: '国際学会での発表を振り返って',
+    slug: 'conference-retrospective',
+    date: '2024-07-05',
+    tags: ['Conference', 'Diary'],
+    summary: 'MICCAIでの発表内容と得られたフィードバック、コミュニティでの交流をまとめました。',
+    heroImage: 'https://images.unsplash.com/photo-1503424886308-418b744a73a3?auto=format&fit=crop&w=1080&q=80',
+    readTime: '4 min',
+    language: 'ja',
+    body: [
+      { heading: '発表準備の舞台裏', content: 'プレゼンテーション準備から本番までのプロセスと、現地で得られた気づきを共有します。' },
+      { heading: '今後のアクション', content: '研究の方向性をブラッシュアップするための改善タスクも整理しました。' },
+    ]
+  },
+  {
+    id: 'blog-3',
+    title: 'Behind the scenes of our tactile display prototype',
+    slug: 'tactile-display-behind-the-scenes',
+    date: '2024-06-12',
+    tags: ['Haptics', 'Hardware'],
+    summary: 'A look at the design decisions and iterations that shaped our latest tactile display prototype.',
+    heroImage: 'https://images.unsplash.com/photo-1582719478250-0901a3da57a7?auto=format&fit=crop&w=1080&q=80',
+    readTime: '6 min',
+    language: 'en',
+    body: [
+      { heading: 'Iteration Diary', content: 'We share the iterations, failures, and breakthroughs that occurred while designing the latest tactile display prototype.' },
+      { heading: 'Technical Notes', content: 'The article also covers material choices, control firmware, and what we plan to explore next.' },
+    ]
+  },
+  {
+    id: 'blog-4',
+    title: 'Notes from collaborating with clinicians',
+    slug: 'collaborating-with-clinicians',
+    date: '2024-05-18',
+    tags: ['Collaboration', 'Healthcare'],
+    summary: 'Key lessons from co-design workshops and pilot studies conducted with partner hospitals.',
+    heroImage: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1080&q=80',
+    readTime: '7 min',
+    language: 'en',
+    body: [
+      { heading: 'Clinic Partnerships', content: 'Collaborating with clinicians taught us how to align research metrics with practical needs and constraints.' },
+      { heading: 'What Comes Next', content: 'We summarise workshop outcomes, pilot study feedback, and the roadmap for integrating their requests.' },
+    ]
+  }
+]
 // Notion API integration (stub implementation)
 class NotionService {
   private token: string | undefined
@@ -344,6 +405,21 @@ class NotionService {
     return mockPapers.filter(p => p.language === locale || p.language === 'both').sort((a, b) => b.year - a.year)
   }
 
+  async getLatestBlogPosts(locale: Locale, limit: number = 3): Promise<BlogPost[]> {
+    if (!this.isConfigured()) {
+      return mockBlogPosts
+        .filter(post => post.language === locale)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, limit)
+    }
+
+    // TODO: Implement actual Notion API call
+    return mockBlogPosts
+      .filter(post => post.language === locale)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, limit)
+  }
+
   async getLatestNews(locale: Locale, limit: number = 3): Promise<NewsItem[]> {
     if (!this.isConfigured()) {
       return mockNews
@@ -383,6 +459,63 @@ class NotionService {
       children: block.children ? this.convertNotionBlocks(block.children) : undefined
     }))
   }
+
+  async getBlogPostBySlug(locale: Locale, slug: string): Promise<BlogPost | null> {
+    if (!this.isConfigured()) {
+      return mockBlogPosts.find((post) => post.slug === slug && post.language === locale) || null
+    }
+
+    // TODO: Implement actual Notion API call
+    return mockBlogPosts.find((post) => post.slug === slug && post.language === locale) || null
+  }
+
+  async getBlogPosts(locale: Locale, filters: FilterParams = {}): Promise<BlogPost[]> {
+    if (!this.isConfigured()) {
+      let posts = mockBlogPosts
+        .filter(post => post.language === locale)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+      if (filters.tag) {
+        posts = posts.filter(post => post.tags.includes(filters.tag!))
+      }
+      if (filters.year) {
+        posts = posts.filter(post => new Date(post.date).getFullYear() === filters.year)
+      }
+      if (filters.q) {
+        const query = filters.q!.toLowerCase()
+        posts = posts.filter(post =>
+          post.title.toLowerCase().includes(query) ||
+          post.summary.toLowerCase().includes(query) ||
+          post.tags.some(tag => tag.toLowerCase().includes(query))
+        )
+      }
+
+      return posts
+    }
+
+    // TODO: Implement actual Notion API call
+    let posts = mockBlogPosts
+      .filter(post => post.language === locale)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+    if (filters.tag) {
+      posts = posts.filter(post => post.tags.includes(filters.tag!))
+    }
+    if (filters.year) {
+      posts = posts.filter(post => new Date(post.date).getFullYear() === filters.year)
+    }
+    if (filters.q) {
+      const query = filters.q!.toLowerCase()
+      posts = posts.filter(post =>
+        post.title.toLowerCase().includes(query) ||
+        post.summary.toLowerCase().includes(query) ||
+        post.tags.some(tag => tag.toLowerCase().includes(query))
+      )
+    }
+
+    return posts
+  }
+
 }
 
 export const notionService = new NotionService()
@@ -390,7 +523,11 @@ export const notionService = new NotionService()
 // Export convenience functions
 export const getPinnedProjects = (locale: Locale) => notionService.getPinnedProjects(locale)
 export const getProjects = (locale: Locale, filters?: FilterParams) => notionService.getProjects(locale, filters)
+export const getBlogPosts = (locale: Locale, filters?: FilterParams) => notionService.getBlogPosts(locale, filters)
+export const getBlogPostBySlug = (locale: Locale, slug: string) => notionService.getBlogPostBySlug(locale, slug)
 export const getProjectBySlug = (locale: Locale, slug: string) => notionService.getProjectBySlug(locale, slug)
 export const getPapers = (locale: Locale, filters?: FilterParams) => notionService.getPapers(locale, filters)
 export const getRecentPapers = (locale: Locale, limit?: number) => notionService.getRecentPapers(locale, limit)
 export const getLatestNews = (locale: Locale, limit?: number) => notionService.getLatestNews(locale, limit)
+export const getLatestBlogPosts = (locale: Locale, limit?: number) => notionService.getLatestBlogPosts(locale, limit)
+

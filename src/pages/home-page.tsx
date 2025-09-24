@@ -5,11 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog'
 import { ProjectCard } from '../components/project-card'
+import { BlogCard } from '../components/blog-card'
 import { PaperListItem } from '../components/paper-list-item'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
-import { Locale, Project, NewsItem, Paper } from '../lib/types'
+import { Locale, Project, NewsItem, Paper, BlogPost } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
-import { getPinnedProjects, getLatestNews, getRecentPapers } from '../lib/notion'
+import { getPinnedProjects, getLatestNews, getRecentPapers, getLatestBlogPosts } from '../lib/notion'
 import { formatDate, formatDateJa } from '../lib/utils'
 import profileImage from 'figma:asset/37d3f31165fb6b41b77513c4d8e0d1b581053602.png'
 
@@ -40,6 +41,7 @@ function HeroSocialLink({ href, label, children }: {
 
 export function HomePage({ locale, onNavigate }: HomePageProps) {
   const [pinnedProjects, setPinnedProjects] = useState<Project[]>([])
+  const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
   const [latestNews, setLatestNews] = useState<NewsItem[]>([])
   const [recentPapers, setRecentPapers] = useState<Paper[]>([])
   const [loading, setLoading] = useState(true)
@@ -49,12 +51,14 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [projects, news, papers] = await Promise.all([
+        const [projects, blogs, news, papers] = await Promise.all([
           getPinnedProjects(locale),
+          getLatestBlogPosts(locale, 3),
           getLatestNews(locale, 3),
           getRecentPapers(locale, 3)
         ])
         setPinnedProjects(projects)
+        setLatestBlogs(blogs)
         setLatestNews(news)
         setRecentPapers(papers)
       } catch (error) {
@@ -200,6 +204,44 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                   project={project} 
                   locale={locale}
                   onClick={() => onNavigate('project-detail', project.slug)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Latest Blog Posts */}
+      <section className="container mx-auto px-4 max-w-4xl">
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-bold">{t.home.sections.blog}</h2>
+            <Button variant="ghost" onClick={() => onNavigate('blog')} className="cursor-pointer">
+              {t.common.readMore}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {[...Array(3)].map((_, i) => (
+                <Card key={i} className="h-64">
+                  <CardContent className="h-full animate-pulse space-y-4 p-4">
+                    <div className="bg-muted h-32 w-full rounded"></div>
+                    <div className="bg-muted h-4 w-3/4 rounded"></div>
+                    <div className="bg-muted h-3 w-1/2 rounded"></div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {latestBlogs.map((post) => (
+                <BlogCard
+                  key={post.id}
+                  post={post}
+                  locale={locale}
+                  onClick={() => onNavigate('blog-detail', post.slug)}
                 />
               ))}
             </div>

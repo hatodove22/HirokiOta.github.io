@@ -21,6 +21,19 @@ export interface Project {
   isPinned?: boolean
 }
 
+export interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  date: string
+  tags: string[]
+  summary: string
+  heroImage?: string
+  readTime?: string
+  body: { heading: string; content: string }[]
+  language: Locale
+}
+
 export interface Paper {
   id: string
   title: string

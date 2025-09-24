@@ -9,6 +9,7 @@ export interface Translations {
     about: string
     projects: string
     papers: string
+    blog: string
     contact: string
   }
   home: {
@@ -21,6 +22,7 @@ export interface Translations {
     }
     sections: {
       highlights: string
+      blog: string
       news: string
       papers: string
       contact: string
@@ -55,6 +57,16 @@ export interface Translations {
       view: string
       demo: string
       repo: string
+    }
+  }
+  blog: {
+    title: string
+    description: string
+    filters: {
+      search: string
+      tag: string
+      year: string
+      clear: string
     }
   }
   papers: {
@@ -108,6 +120,7 @@ export const translations: Record<Locale, Translations> = {
       about: '私について',
       projects: 'プロジェクト',
       papers: '論文',
+      blog: 'ブログ',
       contact: 'お問い合わせ'
     },
     home: {
@@ -120,6 +133,7 @@ export const translations: Record<Locale, Translations> = {
       },
       sections: {
         highlights: '注目プロジェクト',
+        blog: 'ブログ',
         news: '最新ニュース',
         papers: '発表論文',
         contact: 'お問い合わせ',
@@ -154,6 +168,16 @@ export const translations: Record<Locale, Translations> = {
         view: '詳細を見る',
         demo: 'デモ',
         repo: 'リポジトリ'
+      }
+    },
+    blog: {
+      title: 'ブログ',
+      description: '研究の気づきやイベントレポートなどをお届けします。',
+      filters: {
+        search: '検索',
+        tag: 'カテゴリ',
+        year: '年',
+        clear: 'リセット'
       }
     },
     papers: {
@@ -205,6 +229,7 @@ export const translations: Record<Locale, Translations> = {
       about: 'About',
       projects: 'Projects',
       papers: 'Papers',
+      blog: 'Blog',
       contact: 'Contact'
     },
     home: {
@@ -217,6 +242,7 @@ export const translations: Record<Locale, Translations> = {
       },
       sections: {
         highlights: 'Featured Projects',
+        blog: 'ブログ',
         news: 'Latest News',
         papers: 'Recent Publications',
         contact: 'Get in Touch',
@@ -251,6 +277,16 @@ export const translations: Record<Locale, Translations> = {
         view: 'View Details',
         demo: 'Demo',
         repo: 'Repository'
+      }
+    },
+    blog: {
+      title: 'Blog',
+      description: 'Insights on research progress, events, and behind-the-scenes updates.',
+      filters: {
+        search: 'Search',
+        tag: 'Category',
+        year: 'Year',
+        clear: 'Clear'
       }
     },
     papers: {

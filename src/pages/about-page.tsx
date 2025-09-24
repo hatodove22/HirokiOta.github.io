@@ -170,7 +170,7 @@ export function AboutPage({ locale }: AboutPageProps) {
                   )}
                 </div>
                 <div className="flex-1 pb-8">
-                  <div className="mb-2 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mb-2 space-y-1">
                     <h4 className="font-semibold">{item.title}</h4>
                     <span className="text-sm text-muted-foreground">{item.year}</span>
                   </div>
