@@ -59,12 +59,18 @@ export function ProjectCard({ project, locale, onClick }: ProjectCardProps) {
           )}
           
           {/* Title */}
-          <h3 className="text-lg font-bold mb-2 line-clamp-2 leading-tight text-foreground">
+          <h3
+            className="text-lg font-bold leading-tight text-foreground"
+            style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
             {project.title}
           </h3>
           
           {/* Description */}
-          <p className="text-muted-foreground text-xs mb-4 line-clamp-3 leading-relaxed">
+          <p
+            className="text-muted-foreground text-xs leading-relaxed mb-4"
+            style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
             {truncate(project.summary, 120)}
           </p>
         </div>

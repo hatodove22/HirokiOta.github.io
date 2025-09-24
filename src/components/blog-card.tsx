@@ -39,11 +39,17 @@ export function BlogCard({ post, locale, onClick }: BlogCardProps) {
             </span>
           )}
 
-          <h3 className="line-clamp-2 text-lg font-bold leading-tight text-foreground">
+          <h3
+            className="text-lg font-bold leading-tight text-foreground"
+            style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
             {post.title}
           </h3>
 
-          <p className="line-clamp-3 text-xs leading-relaxed text-muted-foreground">
+          <p
+            className="text-xs leading-relaxed text-muted-foreground"
+            style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+          >
             {truncate(post.summary, 120)}
           </p>
         </div>
