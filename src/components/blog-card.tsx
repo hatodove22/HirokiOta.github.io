@@ -1,9 +1,23 @@
+
+import type { CSSProperties } from 'react'
 import { Calendar } from 'lucide-react'
 import { Card, CardContent } from './ui/card'
 import { ImageWithFallback } from './figma/ImageWithFallback'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { BlogPost, Locale } from '../lib/types'
-import { formatDate, formatDateJa, truncate } from '../lib/utils'
+import { formatDate, formatDateJa } from '../lib/utils'
+
+const CLAMP_STYLES: CSSProperties = (() => {
+  const styles: CSSProperties = {
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+    overflow: 'hidden',
+  }
+
+  ;(styles as CSSProperties & { lineClamp?: number }).lineClamp = 2
+  return styles
+})()
 
 interface BlogCardProps {
   post: BlogPost
@@ -14,6 +28,7 @@ interface BlogCardProps {
 export function BlogCard({ post, locale, onClick }: BlogCardProps) {
   const authorName = locale === 'ja' ? '太田裕紀' : 'Ota Hiroki'
   const primaryTag = post.tags[0] || ''
+  const summaryText = post.summary ?? ''
   const publishedAt = locale === 'ja' ? formatDateJa(post.date) : formatDate(post.date)
 
   return (
@@ -31,7 +46,7 @@ export function BlogCard({ post, locale, onClick }: BlogCardProps) {
         </div>
       )}
 
-      <CardContent className="flex flex-1 flex-col gap-4 p-4">
+      <CardContent className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-3">
         <div className="space-y-3">
           {primaryTag && (
             <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
@@ -39,18 +54,12 @@ export function BlogCard({ post, locale, onClick }: BlogCardProps) {
             </span>
           )}
 
-          <h3
-            className="text-lg font-bold leading-tight text-foreground"
-            style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-          >
+          <h3 className="text-lg font-bold leading-tight text-foreground" style={CLAMP_STYLES}>
             {post.title}
           </h3>
 
-          <p
-            className="text-xs leading-relaxed text-muted-foreground"
-            style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-          >
-            {truncate(post.summary, 120)}
+          <p className="text-xs leading-relaxed text-muted-foreground" style={CLAMP_STYLES}>
+            {summaryText}
           </p>
         </div>
 
@@ -68,7 +77,7 @@ export function BlogCard({ post, locale, onClick }: BlogCardProps) {
           <div className="flex items-center gap-1">
             <Calendar className="h-3.5 w-3.5" />
             <span>{publishedAt}</span>
-            {post.readTime && <span>· {post.readTime}</span>}
+            {post.readTime && <span>・{post.readTime}</span>}
           </div>
         </div>
       </CardContent>

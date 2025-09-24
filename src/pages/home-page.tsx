@@ -105,16 +105,17 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                 <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
                   {t.about.profile.name}
                 </h1>
-                <div className="mt-2 space-y-1 text-lg text-muted-foreground leading-tight md:text-xl">
+                <div className="mt-2 space-y-1 text-base text-muted-foreground leading-tight md:text-lg">
                   <div>{heroLines.title}</div>
                   <div>{heroLines.university}</div>
                   <a
                     href={labUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:underline"
+                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary hover:underline"
                   >
                     {heroLines.lab}
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
                   </a>
                 </div>
               </div>
@@ -404,7 +405,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                     <h4 className="font-medium mb-2">Bio (50 words)</h4>
                     <p className="text-sm text-muted-foreground">
                       {locale === 'ja' 
-                        ? '機械学習とコンピュータビジョンを専門とする博士課程学生。医療画像解析や自然言語処理の研究で複数の国際会議で受賞。実世界の問題解決に向けた応用研究に取り組んでいる。'
+                        ? '機械学習とコンピュータビジョンを専門とする博士課程学生。医療画像解析や自然言語処理の研究で成果を上げ、実世界の課題解決に向けた応用研究に取り組んでいる。'
                         : 'PhD student specializing in machine learning and computer vision. Award-winning researcher in medical image analysis and NLP at international conferences. Focused on practical applications for real-world problem solving.'
                       }
                     </p>
@@ -414,7 +415,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                     <h4 className="font-medium mb-2">Bio (150 words)</h4>
                     <p className="text-sm text-muted-foreground">
                       {locale === 'ja'
-                        ? '山田太郎は○○大学工学研究科の博士課程学生で、機械学習とコンピュータビジョンを専門としています。特に医療画像解析と自然言語処理の分野で革新的な研究を行い、MICCAI 2024でBest Paper Awardを受賞するなど、国際的に高い評価を受けています。これまでにトップカンファレンスで10本以上の論文を発表し、実世界の問題解決に向けた応用研究に積極的に取り組んでいます。研究と並行してオープンソースプロジェクトにも貢献し、技術コミュニティでの活動も活発に行っています。'
+                        ? '太田裕紀は奈良先端科学技術大学院大学の博士課程学生で、機械学習とコンピュータビジョンを専門としています。特に医療画像解析と自然言語処理の分野で研究を進め、国際会議での発表や受賞歴があります。これまでにトップカンファレンスで多数の論文を発表し、実世界の課題解決に資する応用研究にも積極的に取り組んでいます。研究と並行してオープンソースへの貢献やコミュニティ活動も行っています。'
                         : 'Taro Yamada is a PhD student at the Graduate School of Engineering, XX University, specializing in machine learning and computer vision. He conducts innovative research particularly in medical image analysis and natural language processing, receiving international recognition including the Best Paper Award at MICCAI 2024. He has published over 10 papers at top-tier conferences and actively engages in applied research for real-world problem solving. Alongside his research, he contributes to open-source projects and is active in the technical community.'
                       }
                     </p>
@@ -450,3 +451,4 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
     </div>
   )
 }
+
