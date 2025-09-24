@@ -15,6 +15,80 @@ import { BlogDetailPage } from './pages/blog-detail-page'
 import { ContactPage } from './pages/contact-page'
 import { Locale, defaultLocale } from './lib/types'
 
+type HistoryState = {
+  page: string
+  slug: string | null
+}
+
+const VALID_PAGES = new Set([
+  'home',
+  'about',
+  'projects',
+  'project-detail',
+  'papers',
+  'blog',
+  'blog-detail',
+  'contact'
+])
+
+const parseHistoryState = (state: Partial<HistoryState> | null | undefined): HistoryState => {
+  if (!state) {
+    return { page: 'home', slug: null }
+  }
+
+  let page = state.page && VALID_PAGES.has(state.page) ? state.page : 'home'
+  let slug = state.slug ? state.slug : null
+
+  if (page === 'project-detail' && !slug) {
+    page = 'projects'
+  }
+
+  if (page === 'blog-detail' && !slug) {
+    page = 'blog'
+  }
+
+  return { page, slug }
+}
+
+const getStateFromLocation = (): HistoryState => {
+  if (typeof window === 'undefined') {
+    return { page: 'home', slug: null }
+  }
+
+  const params = new URLSearchParams(window.location.search)
+  const pageParam = params.get('page')
+  const slugParam = params.get('slug')
+
+  return parseHistoryState({
+    page: pageParam ?? undefined,
+    slug: slugParam ?? undefined
+  })
+}
+
+const buildUrl = (page: string, slug: string | null) => {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
+
+  const url = new URL(window.location.href)
+
+  if (page === 'home' && !slug) {
+    url.searchParams.delete('page')
+    url.searchParams.delete('slug')
+  } else {
+    url.searchParams.set('page', page)
+    if (slug) {
+      url.searchParams.set('slug', slug)
+    } else {
+      url.searchParams.delete('slug')
+    }
+  }
+
+  url.hash = ''
+
+  return `${url.pathname}${url.search}`
+}
+
 export default function App() {
   const [currentLocale, setCurrentLocale] = useState<Locale>(defaultLocale)
   const [currentPage, setCurrentPage] = useState('home')
@@ -22,7 +96,31 @@ export default function App() {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      setMounted(true)
+      return
+    }
+
+    const initialState = getStateFromLocation()
+    setCurrentPage(initialState.page)
+    setCurrentSlug(initialState.slug)
+    const initialUrl = buildUrl(initialState.page, initialState.slug)
+    if (initialUrl) {
+      window.history.replaceState(initialState, '', initialUrl)
+    }
+
+    const handlePopState = (event: PopStateEvent) => {
+      const state = parseHistoryState(event.state ?? getStateFromLocation())
+      setCurrentPage(state.page)
+      setCurrentSlug(state.slug)
+    }
+
+    window.addEventListener('popstate', handlePopState)
     setMounted(true)
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
   }, [])
 
   const navigate = (page: string, slug?: string) => {
@@ -31,6 +129,13 @@ export default function App() {
       setCurrentSlug(slug)
     } else {
       setCurrentSlug(null)
+    }
+
+    const nextState: HistoryState = { page, slug: slug ?? null }
+    const nextUrl = buildUrl(page, nextState.slug)
+
+    if (typeof window !== 'undefined' && nextUrl) {
+      window.history.pushState(nextState, '', nextUrl)
     }
   }
 
