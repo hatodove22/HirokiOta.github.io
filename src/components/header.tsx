@@ -8,6 +8,8 @@ import { LanguageSwitcher } from './language-switcher'
 import { Locale } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
 import { cn } from '../lib/utils'
+import logoLight from '../assets/logo_light.svg'
+import logoDark from '../assets/logo_dark.svg'
 
 interface HeaderProps {
   locale: Locale
@@ -35,9 +37,11 @@ export function Header({ locale, currentPage, onNavigate, onLocaleChange }: Head
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <button
           onClick={() => onNavigate('home')}
-          className="cursor-pointer text-lg font-semibold transition-colors hover:text-primary"
+          className="flex items-center space-x-2 transition-opacity hover:opacity-90"
         >
-          {t.about.profile.name}
+          <span className="sr-only">{t.about.profile.name}</span>
+          <img src={logoLight} alt={t.about.profile.name} className="h-10 w-auto dark:hidden" />
+          <img src={logoDark} alt={t.about.profile.name} className="hidden h-8 w-auto dark:block" />
         </button>
 
         <nav className="hidden items-center space-x-6 md:flex">
