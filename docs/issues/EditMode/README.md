@@ -1,14 +1,21 @@
 # Edit Mode 実装タスク分割
 
-EditMode.mdで定義されたCMS機能を段階的に開発するためのIssue一覧です。各IssueはGitHub上で個別に起票することを想定しており、依存関係を考慮した順序で並べています。
+EditMode.mdで定義されたCMS機能を、より小さなイテレーションで進めるためのIssue一覧です。薄い縦切りで価値を確認しやすい順に並べています。
 
-1. [Decap CMS基盤とGitHub連携の初期実装](issue-01-decap-cms-foundation.md)
-2. [共通編集UIコンポーネントとライブプレビュー土台の構築](issue-02-shared-editing-ui.md)
-3. [ニュース編集フォームとプレビュー実装](issue-03-news-collection.md)
-4. [プロジェクト編集フォームと関連論文リレーション](issue-04-projects-collection.md)
-5. [論文編集フォームとBibTeX同期フローの実装](issue-05-papers-bibtex.md)
-6. [MarkdownコンテンツのJSON生成パイプライン実装](issue-06-content-build-pipeline.md)
-7. [GitHub Actionsによるビルド・品質チェック・Bib同期の統合](issue-07-ci-automation.md)
-8. [多言語入力バリデーションとプレビュー切替の強化](issue-08-multilingual-validation.md)
+1. [Decap CMS管理画面の最小セットアップ](issue-01-decap-admin-shell.md)
+2. [GitHub backend認証と手順ドキュメント整備](issue-02-decap-github-auth.md)
+3. [メディアライブラリ用ディレクトリの初期化](issue-03-media-library-structure.md)
+4. [共通編集レイアウトとプレビュー連携の土台](issue-04-shared-layout-preview-skeleton.md)
+5. [ニュースコレクションのフィールド定義と最小バリデーション](issue-05-news-schema-baseline.md)
+6. [ニュース記事プレビューのLive更新](issue-06-news-preview-live.md)
+7. [プロジェクトコレクションのフィールドスキーマ](issue-07-projects-schema-baseline.md)
+8. [プロジェクトと論文の関連参照モック連携](issue-08-projects-related-papers.md)
+9. [論文コレクションのフィールドスキーマ](issue-09-papers-schema-baseline.md)
+10. [BibTeX入出力フローの雛形](issue-10-bibtex-sync-shell.md)
+11. [Markdown→JSON変換スクリプトのローカル実行](issue-11-content-json-export.md)
+12. [JSON生成をViteビルドに統合](issue-12-build-integration.md)
+13. [GitHub Actionsでのビルドとチェックの自動化](issue-13-ci-automation.md)
+14. [多言語入力バリデーションの共通化](issue-14-multilingual-validation-core.md)
+15. [プレビューの言語切替UIと警告表示](issue-15-preview-language-toggle.md)
 
-上記を順次進めることで、編集UI・ビルドパイプライン・CIまでを段階的に完成させる計画です。
+これらを順次進めることで、ニュースのエンドツーエンドを早期に成立させ、その後プロジェクト・論文・ビルド/CI・多言語対応へと段階的に拡張する計画です。
