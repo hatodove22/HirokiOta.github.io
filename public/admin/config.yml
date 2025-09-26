@@ -1,0 +1,47 @@
+﻿# Decap CMS configuration
+backend:
+  name: github
+  repo: yamaokayuki20/ota_portfolio
+  branch: main
+  base_url: https://<your-netlify-site>.netlify.app/.netlify/functions
+  auth_endpoint: auth
+  preview_context: deploy-preview
+
+local_backend: true
+publish_mode: editorial_workflow
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: news
+    label: ニュース
+    label_singular: 記事
+    folder: content/news
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "news/{{slug}}"
+    fields:
+      - label: タイトル
+        name: title
+        widget: string
+      - label: 公開日
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+      - label: タグ
+        name: tags
+        widget: list
+        required: false
+      - label: 公開言語
+        name: language
+        widget: select
+        options: [ja, en]
+        default: ja
+      - label: 概要
+        name: summary
+        widget: text
+        required: false
+      - label: 本文
+        name: body
+        widget: markdown
