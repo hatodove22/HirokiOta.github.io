@@ -47,11 +47,11 @@ GitHub リポジトリ（content/** と public/images/**）
 
 ---
 
-## 3) 多言語（JA/EN/両方）
+## 3) 多言語（JA/EN）
 
-* 方式：1エントリ中に `publish: { ja, en }` と `title_ja/_en`, `summary_ja/_en`, `body(ja/en)` を保持。
-* 一覧/詳細：公開フラグで出し分け。
-* 保存時バリデーション：Decap の `pattern` ルール＋軽いカスタムバリデーションで「公開対象言語に必要な項目が未入力なら保存不可」。
+* 現行のReactアプリでは `src/lib/types.ts` に定義された `Project` / `Paper` / `NewsItem` が `language: 'ja' | 'en'` フィールドで判別され、1レコード＝1言語として配信している。
+* Markdown管理でも同じ設計を踏襲し、言語ごとにファイルを分ける。翻訳関係は CMS 内部メタ（例：`translation_of` や共通 slug）で追跡し、UIからは「翻訳を開く」導線で行き来するが、生成されるJSONの型は既存実装と同一に保つ。
+* 保存時バリデーション：`language` が未設定のまま保存しない。`Project` のように `status` を持つコレクションは `status: 'Published'` のときに必須項目をチェックし、`News`/`Paper` は常に必要項目を検証する。
 
 ---
 
@@ -177,8 +177,8 @@ scripts/
   * AC: URL（slug）は既定ロック／必要時のみ変更＋リダイレクト提案。
 * US-A3（削除）
   * When: 古いお知らせを非表示にしたい。
-  * I want: `published:false` のソフト削除を選んで一覧から隠す。
-  * AC: 公開中一覧から即非表示。完全削除は管理者のみ。
+  * I want: `status: Draft`（または `archived: true`）として残しつつ公開一覧から除外したい。
+  * AC: JSON生成時に `status !== 'Published'` の項目は出力されない。完全削除は管理者のみ。
 
 ### B. 編集者（プロジェクト）
 
@@ -222,10 +222,10 @@ scripts/
 ## 0. 前提・共通方針
 
 * レビュー体制：レビュアーは置かず、編集者がPRプレビューを確認して自己マージ（ブランチ保護ルールは任意）。
-* 公開言語：日本語／英語／日英両方（内部：`publish: { ja: true|false, en: true|false }`）。
+* 公開言語：レコード単位で `language: 'ja' | 'en'` を保持し、翻訳ペアは `translation_of`（同じID/slug）で紐付ける。
 * URL安定：`slug` は原則ロック。変更時は旧→新のリダイレクト案内を出す。
-* 削除：既定はソフト削除（`published:false`）。完全削除は管理者のみ。
-* 画像：アップロード時に最適化（WebP・リサイズ）。公開言語ごとに `alt_ja / alt_en` を持つ。
+* 削除：既定はソフト削除（`status: Draft` や `archived: true` に戻してJSON出力から除外）。完全削除は管理者のみ。
+* 画像：アップロード時に最適化（WebP・リサイズ）。言語レコードごとに `alt` を保持する。
 * プレビュー：右ペインで JA/EN 切替、PC/モバイル幅切替あり。本番と同一コンポーネントを利用。
 
 ---
@@ -250,16 +250,16 @@ scripts/
 
 ### 1.5 公開設定ドロワー（個別編集時のみ）
 * 公開状態：`Draft / Reviewing / Published`
-* 公開言語：`日本語 / 英語 / 日英両方`（内部：`publish.ja/en`）
+* 言語：`日本語 / 英語`（frontmatterの `language` フィールド）
 * 公開日：`date`（予約公開可）
 * SEO（任意）：OG タイトル・OG 説明
 
 ### 1.6 本文タブ（言語別）
-* JAタブ／ENタブ（公開対象言語のみ必須）。Markdown 入力、リンクチェッカー。
+* レコードは単一言語を扱う。現在編集している `language` に対応したMarkdownエディタを表示し、翻訳レコードが存在する場合はタブ／ボタンで別レコードへ遷移（読み取りのみ可）。リンクチェッカーは共通。
 
 ### 1.7 画像タブ（共通仕様）
 * サムネイル（アップロード／D&D）。自動最適化（WebP化・複数解像度）、簡易クロップ（16:9 推奨）。
-* `alt_ja / alt_en`：公開言語ごとに必須。
+* `alt`：各レコードで必須（同じビジュアルを共有する別言語レコードではコピーを許可）。
 * OG 画像：未指定時はサムネイルを流用。
 
 ### 1.8 保存時バリデーション
@@ -306,11 +306,13 @@ scripts/
     - `fast-glob` で `.md` を列挙
     - `gray-matter` で frontmatter/本文抽出
     - `zod` でfrontmatterを検証（必須/型/多言語フラグ）
-    - 内部統一スキーマへマッピング（例）
-      - News: `{ id, slug, date, pinned, tags, title: {ja,en}, summary:{ja,en}, body:{ja?,en?}, image, alt:{ja,en}, published, publish:{ja,en} }`
-      - Project: `{ id, slug, status, featured, date, tags, title:{ja,en}, summary:{ja,en}, body:{ja?,en?}, image, alt:{ja,en}, related_papers:string[], published, publish:{ja,en} }`
-      - Paper: `{ id, slug, title:{ja?,en}, authors:string[], venue, date, doi?, url?, arxiv?, pdf?, code?, tags, abstract:{ja?,en?}, image?, alt:{ja?,en?}, related_projects:string[], published, publish:{ja,en} }`
-    - 言語フィルタリング（`publish.ja/en`に応じてUI側で出し分け）
+    - （現状）`src/lib/notion.ts` の `mockProjects` / `mockPapers` / `mockNews` が `src/lib/types.ts` の型どおりに定義されており、Notion未設定時はこれらを返却している。
+    - 内部統一スキーマへマッピング（`src/lib/types.ts` の型と一致させる）
+      - News (`NewsItem`): `{ id, title, date, link?, language }`
+      - Project (`Project`): `{ id, title, slug, status, date, tags, summary, body, repoUrl?, demoUrl?, slidesUrl?, relatedPapers: string[], heroImage?, language, isPinned? }`
+      - Paper (`Paper`): `{ id, title, venue, year, authors, doi?, arxiv?, slidesUrl?, posterUrl?, award?, relatedProjects: string[], language: 'ja' | 'en' | 'both', categories: { scope, type, peerReview } }`
+      - 編集用メタ（`status`, `archived`, `translation_of` など）はビルド時にフィルタへ利用し、JSONには含めない。
+    - 言語フィルタリング（`language` でJSONを分割し、必要に応じて `status !== 'Published'` や `archived` を除外）
     - `public/api/news.json`, `projects.json`, `papers.json` を書き出し
 - 利用（フロント）
   - SPA から `fetch('/api/news.json')` 等で取得し描画
