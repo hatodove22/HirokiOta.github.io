@@ -20,7 +20,7 @@
       public_folder: '/images/uploads',
       collections: [
         {
-          name: 'news',
+          name: 'news_dev',
           label: 'ニュース',
           label_singular: '記事',
           folder: 'content/news',
@@ -71,7 +71,18 @@
     if (!window.CMS) { document.addEventListener('CMSLoaded', init, { once: true }); return; }
 
     if (hasDevBypass()) {
+      // Initialize with in-memory backend only (no YAML requested)
       CMS.init({ config: buildDevConfig() });
+      // Force navigate to collections in dev mode so UI is visible
+      try {
+        const tryNav = () => {
+          if (!location.hash || location.hash === '#/' || location.hash === '#') {
+            location.hash = '#/collections/news_dev';
+          }
+        };
+        setTimeout(tryNav, 300);
+        setTimeout(tryNav, 1200);
+      } catch(e){}
       return;
     }
 
@@ -99,3 +110,4 @@
 
   init();
 })();
+
