@@ -60,6 +60,7 @@ export function Header({ locale, currentPage, onNavigate, onLocaleChange }: Head
         </nav>
 
         <div className="hidden items-center space-x-2 md:flex">
+          <a href="/edit" target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-muted-foreground hover:text-primary">編集</a>
           <LanguageSwitcher currentLocale={locale} onLocaleChange={onLocaleChange} />
           <ThemeToggle locale={locale} />
         </div>
@@ -99,3 +100,4 @@ export function Header({ locale, currentPage, onNavigate, onLocaleChange }: Head
     </header>
   )
 }
+

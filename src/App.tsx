@@ -14,6 +14,7 @@ import { BlogsPage } from './pages/blogs-page'
 import { BlogDetailPage } from './pages/blog-detail-page'
 import { ContactPage } from './pages/contact-page'
 import { EditModePage } from './pages/edit-mode-page'
+import { EditProtoPage } from './pages/edit-proto-page'
 import { ErrorBoundary } from './components/error-boundary'
 import { Locale, defaultLocale } from './lib/types'
 
@@ -22,17 +23,7 @@ type HistoryState = {
   slug: string | null
 }
 
-const VALID_PAGES = new Set([
-  'home',
-  'about',
-  'projects',
-  'project-detail',
-  'papers',
-  'blog',
-  'blog-detail',
-  'contact',
-  'edit-mode'
-])
+const VALID_PAGES = new Set([\n  'home',\n  'about',\n  'projects',\n  'project-detail',\n  'papers',\n  'blog',\n  'blog-detail',\n  'contact',\n  'edit-mode',\n  'edit-proto'\n])
 
 const parseHistoryState = (state: Partial<HistoryState> | null | undefined): HistoryState => {
   if (!state) {
@@ -56,6 +47,16 @@ const parseHistoryState = (state: Partial<HistoryState> | null | undefined): His
 const getStateFromLocation = (): HistoryState => {
   if (typeof window === 'undefined') {
     return { page: 'home', slug: null }
+  }
+  const pathname = window.location.pathname
+  if (pathname === '/edit' || pathname === '/edit/') {
+    return { page: 'edit-proto', slug: null }
+  }
+  const params = new URLSearchParams(window.location.search)
+  const pageParam = params.get('page')
+  const slugParam = params.get('slug')
+  return parseHistoryState({ page: pageParam ?? undefined, slug: slugParam ?? undefined })
+}
   }
 
   const params = new URLSearchParams(window.location.search)
@@ -200,6 +201,7 @@ if (!mounted) {
     </ThemeProvider>
   )
 }
+
 
 
 
