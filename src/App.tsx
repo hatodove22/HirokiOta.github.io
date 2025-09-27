@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { ThemeProvider } from 'next-themes'
@@ -13,6 +13,7 @@ import { PapersPage } from './pages/papers-page'
 import { BlogsPage } from './pages/blogs-page'
 import { BlogDetailPage } from './pages/blog-detail-page'
 import { ContactPage } from './pages/contact-page'
+import { EditModePage } from './pages/edit-mode-page'
 import { Locale, defaultLocale } from './lib/types'
 
 type HistoryState = {
@@ -28,7 +29,8 @@ const VALID_PAGES = new Set([
   'papers',
   'blog',
   'blog-detail',
-  'contact'
+  'contact',
+  'edit-mode'
 ])
 
 const parseHistoryState = (state: Partial<HistoryState> | null | undefined): HistoryState => {
@@ -140,29 +142,31 @@ export default function App() {
   }
 
   const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage locale={currentLocale} onNavigate={navigate} />
-      case 'about':
-        return <AboutPage locale={currentLocale} />
-      case 'projects':
-        return <ProjectsPage locale={currentLocale} onNavigate={navigate} />
-      case 'project-detail':
-        return <ProjectDetailPage locale={currentLocale} slug={currentSlug!} onNavigate={navigate} />
-      case 'papers':
-        return <PapersPage locale={currentLocale} />
-      case 'blog':
-        return <BlogsPage locale={currentLocale} onNavigate={navigate} />
-      case 'blog-detail':
-        return <BlogDetailPage locale={currentLocale} slug={currentSlug!} onNavigate={navigate} />
-      case 'contact':
-        return <ContactPage locale={currentLocale} />
-      default:
-        return <HomePage locale={currentLocale} onNavigate={navigate} />
-    }
+  switch (currentPage) {
+    case 'home':
+      return <HomePage locale={currentLocale} onNavigate={navigate} />
+    case 'about':
+      return <AboutPage locale={currentLocale} />
+    case 'projects':
+      return <ProjectsPage locale={currentLocale} onNavigate={navigate} />
+    case 'project-detail':
+      return <ProjectDetailPage locale={currentLocale} slug={currentSlug!} onNavigate={navigate} />
+    case 'papers':
+      return <PapersPage locale={currentLocale} />
+    case 'blog':
+      return <BlogsPage locale={currentLocale} onNavigate={navigate} />
+    case 'blog-detail':
+      return <BlogDetailPage locale={currentLocale} slug={currentSlug!} onNavigate={navigate} />
+    case 'contact':
+      return <ContactPage locale={currentLocale} />
+    case 'edit-mode':
+      return <EditModePage />
+    default:
+      return <HomePage locale={currentLocale} onNavigate={navigate} />
   }
+}
 
-  if (!mounted) {
+if (!mounted) {
     return (
       <div className="size-full flex items-center justify-center">
         <div className="animate-pulse">Loading...</div>
@@ -195,3 +199,9 @@ export default function App() {
     </ThemeProvider>
   )
 }
+
+
+
+
+
+
