@@ -2,11 +2,11 @@
 
 EditMode.md で定義された CMS 機能を小さなイテレーションで進めるための Issue 一覧です。薄い単位で価値を確認しながら積み上げていく順番を整理しています。
 
-1. [Decap CMS 管理画面の最小セットアップ](issue-01-decap-admin-shell.md)
-2. [GitHub backend 認証と手順ドキュメント整備](issue-02-decap-github-auth.md)
-3. [メディアライブラリ用ディレクトリの初期化](issue-03-media-library-structure.md)
-4. [共通編集レイアウトとプレビュー連携の土台](issue-04-shared-layout-preview-skeleton.md)
-5. [ニュースコレクションのフィールド定義と最小バリデーション](issue-05-news-schema-baseline.md)
+1. [完了] [Decap CMS 管理画面の最小セットアップ](issue-01-decap-admin-shell.md)
+2. [完了] [GitHub backend 認証と手順ドキュメント整備](issue-02-decap-github-auth.md)
+3. [完了] [メディアライブラリ用ディレクトリの初期化](issue-03-media-library-structure.md)
+4. [完了] [共通編集レイアウトとプレビュー連携の土台](issue-04-shared-layout-preview-skeleton.md)
+5. [完了] [ニュースコレクションのフィールド定義と最小バリデーション](issue-05-news-schema-baseline.md)
 6. [ニュース記事プレビューの Live 更新](issue-06-news-preview-live.md)
 7. [プロジェクトコレクションのフィールドスキーマ](issue-07-projects-schema-baseline.md)
 8. [プロジェクトと論文の関連参照モック連携](issue-08-projects-related-papers.md)

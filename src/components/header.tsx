@@ -41,7 +41,7 @@ export function Header({ locale, currentPage, onNavigate, onLocaleChange }: Head
         >
           <span className="sr-only">{t.about.profile.name}</span>
           <img src={logoLight} alt={t.about.profile.name} className="h-10 w-auto dark:hidden" />
-          <img src={logoDark} alt={t.about.profile.name} className="hidden h-8 w-auto dark:block" />
+          <img src={logoDark} alt={t.about.profile.name} className="hidden h-10 w-auto dark:block" />
         </button>
 
         <nav className="hidden items-center space-x-6 md:flex">

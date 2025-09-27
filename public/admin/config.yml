@@ -19,29 +19,86 @@ collections:
     label_singular: 記事
     folder: content/news
     create: true
+    identifier_field: slug
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     preview_path: "news/{{slug}}"
+    sort: "date:desc"
     fields:
-      - label: タイトル
-        name: title
-        widget: string
+      - label: 公開ステータス
+        name: status
+        widget: select
+        default: draft
+        options:
+          - { label: 下書き, value: draft }
+          - { label: レビュー中, value: reviewing }
+          - { label: 公開済み, value: published }
+      - label: 公開フラグ
+        name: published
+        widget: boolean
+        default: false
+        hint: "公開済みにした場合のみサイトへ反映されます"
+      - label: 公開言語
+        name: publish
+        widget: object
+        collapsed: false
+        fields:
+          - { label: 日本語, name: ja, widget: boolean, default: true }
+          - { label: 英語, name: en, widget: boolean, default: false }
       - label: 公開日
         name: date
         widget: datetime
-        format: "YYYY-MM-DDTHH:mm:ssZ"
+        format: "YYYY-MM-DD"
+        time_format: false
+      - label: スラッグ
+        name: slug
+        widget: string
+        hint: "変更は最小限にしてください (例: 2024-update-beta)"
+        pattern:
+          - '^[a-z0-9-]+$'
+          - "英数字とハイフンのみが使用できます"
+      - label: ピン留め (トップ表示)
+        name: pinned
+        widget: boolean
+        default: false
       - label: タグ
         name: tags
         widget: list
         required: false
-      - label: 公開言語
-        name: language
-        widget: select
-        options: [ja, en]
-        default: ja
-      - label: 概要
+        summary: "{{fields.tag}}"
+        field:
+          label: タグ
+          name: tag
+          widget: string
+      - label: タイトル
+        name: title
+        widget: object
+        collapsed: false
+        fields:
+          - { label: 日本語, name: ja, widget: string, required: true }
+          - { label: 英語, name: en, widget: string, required: false }
+      - label: サマリー
         name: summary
-        widget: text
-        required: false
+        widget: object
+        collapsed: false
+        fields:
+          - { label: 日本語, name: ja, widget: text, required: true }
+          - { label: 英語, name: en, widget: text, required: false }
       - label: 本文
         name: body
-        widget: markdown
+        widget: object
+        collapsed: false
+        fields:
+          - { label: 日本語, name: ja, widget: markdown, required: false }
+          - { label: 英語, name: en, widget: markdown, required: false }
+      - label: サムネイル画像
+        name: image
+        widget: image
+        allow_multiple: false
+        hint: "16:9 の WebP 形式推奨"
+      - label: 代替テキスト
+        name: alt
+        widget: object
+        collapsed: false
+        fields:
+          - { label: 日本語, name: ja, widget: string, required: true }
+          - { label: 英語, name: en, widget: string, required: false }
