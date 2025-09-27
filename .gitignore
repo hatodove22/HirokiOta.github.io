@@ -1,3 +1,10 @@
 node_modules
 dist/
 build/
+
+Portfolio_EditSystem_Proto/**/node_modules
+Portfolio_EditSystem_Proto/**/dist
+Portfolio_EditSystem_Proto/**/.vite
+Portfolio_EditSystem_Proto/**/.turbo
+Portfolio_EditSystem_Proto/**/.next
+
