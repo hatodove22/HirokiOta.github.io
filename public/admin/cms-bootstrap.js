@@ -94,13 +94,7 @@
       const observer = new MutationObserver(() => {
         const btn = Array.from(document.querySelectorAll('button, a')).find(el => /login with github/i.test(el.textContent || ''));
         if (btn) {
-          btn.addEventListener('click', (ev) => {
-            ev.preventDefault();
-            localStorage.setItem('decap_dev_bypass', '1');
-            const url = new URL(location.href);
-            url.searchParams.set('dev','1');
-            location.href = url.toString();
-          }, { once: true });
+          btn.addEventListener('click', (ev) => {\r\n            ev.preventDefault();\r\n            try { location.href = new URL('/edit', location.origin).toString(); } catch(e) { location.href = '/edit'; }\r\n          }, { once: true });
           observer.disconnect();
         }
       });
@@ -110,4 +104,6 @@
 
   init();
 })();
+
+
 
