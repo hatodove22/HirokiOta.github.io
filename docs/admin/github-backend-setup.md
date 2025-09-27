@@ -62,3 +62,31 @@ Netlify 上では次の環境変数を設定しておくと便利です。
 | ローカルで GitHub 認証を試したい | `local_backend: false` に変更し、Netlify と同じ base_url/auth_endpoint を設定して実行する。 |
 
 より詳細なカスタマイズは [Decap CMS の GitHub backend ドキュメント](https://decapcms.org/docs/backends-overview/#github-backend) を参照してください。
+
+## GitHub App 認証（Functions 連携）テンプレート
+
+本番運用時は Decap の backend を GitHub App 経由に切り替えます。最低限の構成は以下です。
+
+1) Functions 側（例: Cloudflare Pages Functions / Vercel / Netlify Functions / Render）
+- `POST /auth` を実装（GitHub App OAuth → コラボレータ権限チェック → CMS 用トークン発行）
+- CORS 設定で `/admin` からの呼び出しを許可
+
+2) public/admin/config.yml の backend を差し替え
+```yml
+backend:
+  name: github
+  repo: yamaokayuki20/ota_portfolio_auth
+  branch: main
+  base_url: https://<your-functions-host>/api   # ← あなたの Functions ルート
+  auth_endpoint: auth                            # ← /api/auth を指す
+  preview_context: deploy-preview
+```
+
+3) 開発時の切替
+- 認証なしで動かすとき: `/admin/?dev=1`（config.yml は読まず、オブジェクト構成のみで初期化）
+- 認証ありで確認: `/admin`（config.yml を使用）
+
+4) セキュリティ
+- Functions 側は GitHub API で `push` 権限を確認
+- 発行トークンは短寿命・スコープ最小
+- ログにトークンを残さない

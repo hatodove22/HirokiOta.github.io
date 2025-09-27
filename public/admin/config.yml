@@ -102,3 +102,14 @@ collections:
         fields:
           - { label: 日本語, name: ja, widget: string, required: true }
           - { label: 英語, name: en, widget: string, required: false }
+
+
+# --- GitHub App backend template (production) ---
+# backend:
+#   name: github
+#   repo: yamaokayuki20/ota_portfolio_auth
+#   branch: main
+#   base_url: https://<your-functions-host>/api
+#   auth_endpoint: auth
+#   preview_context: deploy-preview
+
