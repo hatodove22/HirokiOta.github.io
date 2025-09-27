@@ -14,6 +14,7 @@ import { BlogsPage } from './pages/blogs-page'
 import { BlogDetailPage } from './pages/blog-detail-page'
 import { ContactPage } from './pages/contact-page'
 import { EditModePage } from './pages/edit-mode-page'
+import { ErrorBoundary } from './components/error-boundary'
 import { Locale, defaultLocale } from './lib/types'
 
 type HistoryState = {
@@ -199,6 +200,7 @@ if (!mounted) {
     </ThemeProvider>
   )
 }
+
 
 
 
