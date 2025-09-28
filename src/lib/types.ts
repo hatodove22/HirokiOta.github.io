@@ -48,7 +48,7 @@ export interface Paper {
   relatedProjects: string[]
   language: Locale | 'both'
   categories: {
-    scope: '国際' | '国内' | '学位論文'
+    scope: '国内' | '国際' | '学位論文'
     type: 'ジャーナル' | '会議' | 'ワークショップ'
     peerReview: '査読付き' | '査読なし'
   }
@@ -94,3 +94,4 @@ export interface SEOData {
     hreflang?: Record<string, string>
   }
 }
+

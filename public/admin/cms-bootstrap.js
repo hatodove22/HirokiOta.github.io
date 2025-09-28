@@ -1,109 +1,46 @@
-﻿(function(){
+(function(){
   if (window.__editModeCMSInited) return;
   window.__editModeCMSInited = true;
   window.CMS_MANUAL_INIT = true;
 
-  function hasDevBypass(){
-    try{
-      const p = new URLSearchParams(location.search);
-      if (p.get('dev') === '1') return true;
-      return localStorage.getItem('decap_dev_bypass') === '1';
-    }catch(e){ return false; }
-  }
+  // Where to send users after clicking "Login with GitHub"
+  var PROTO_URL = (function(){
+    try { return localStorage.getItem('proto_url') || 'http://localhost:5174'; } catch(e) { return 'http://localhost:5174'; }
+  })();
 
-  function buildDevConfig(){
-    return {
-      backend: { name: 'test-repo' },
-      local_backend: false,
-      publish_mode: 'editorial_workflow',
-      media_folder: 'public/images/uploads',
-      public_folder: '/images/uploads',
-      collections: [
-        {
-          name: 'news_dev',
-          label: 'ニュース',
-          label_singular: '記事',
-          folder: 'content/news',
-          create: true,
-          identifier_field: 'slug',
-          slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
-          preview_path: "news/{{slug}}",
-          sort: 'date:desc',
-          fields: [
-            { label: '公開ステータス', name: 'status', widget: 'select', default: 'draft', options: [
-              { label: '下書き', value: 'draft' },
-              { label: 'レビュー中', value: 'reviewing' },
-              { label: '公開済み', value: 'published' }
-            ]},
-            { label: '公開フラグ', name: 'published', widget: 'boolean', default: false },
-            { label: '公開言語', name: 'publish', widget: 'object', collapsed: false, fields: [
-              { label: '日本語', name: 'ja', widget: 'boolean', default: true },
-              { label: '英語', name: 'en', widget: 'boolean', default: false }
-            ]},
-            { label: '公開日', name: 'date', widget: 'datetime', format: 'YYYY-MM-DD', time_format: false },
-            { label: 'スラッグ', name: 'slug', widget: 'string', pattern: ['^[a-z0-9-]+$', '英数字とハイフンのみが使用できます'] },
-            { label: 'ピン留め (トップ表示)', name: 'pinned', widget: 'boolean', default: false },
-            { label: 'タグ', name: 'tags', widget: 'list', required: false, summary: '{{fields.tag}}', field: { label: 'タグ', name: 'tag', widget: 'string' } },
-            { label: 'タイトル', name: 'title', widget: 'object', collapsed: false, fields: [
-              { label: '日本語', name: 'ja', widget: 'string', required: true },
-              { label: '英語', name: 'en', widget: 'string', required: false }
-            ]},
-            { label: 'サマリー', name: 'summary', widget: 'object', collapsed: false, fields: [
-              { label: '日本語', name: 'ja', widget: 'text', required: true },
-              { label: '英語', name: 'en', widget: 'text', required: false }
-            ]},
-            { label: '本文', name: 'body', widget: 'object', collapsed: false, fields: [
-              { label: '日本語', name: 'ja', widget: 'markdown' },
-              { label: '英語', name: 'en', widget: 'markdown' }
-            ]},
-            { label: 'サムネイル画像', name: 'image', widget: 'image', allow_multiple: false },
-            { label: '代替テキスト', name: 'alt', widget: 'object', collapsed: false, fields: [
-              { label: '日本語', name: 'ja', widget: 'string', required: true },
-              { label: '英語', name: 'en', widget: 'string' }
-            ]}
-          ]
-        }
-      ]
-    };
-  }
+  // Wait until window.CMS is available, then init with YAML config only
+  let tries = 0;
+  const timer = setInterval(() => {
+    tries++;
+    if (window.CMS) {
+      clearInterval(timer);
+      CMS.init({ config: '/admin/config.yml' });
 
-  function init(){
-    if (!window.CMS) { document.addEventListener('CMSLoaded', init, { once: true }); return; }
-
-    if (hasDevBypass()) {
-      // Initialize with in-memory backend only (no YAML requested)
-      CMS.init({ config: buildDevConfig() });
-      // Force navigate to collections in dev mode so UI is visible
+      // Attach redirect on the login page
       try {
-        const tryNav = () => {
-          if (!location.hash || location.hash === '#/' || location.hash === '#') {
-            location.hash = '#/collections/news_dev';
+        const attach = () => {
+          // only on the login/landing hash
+          const onLoginHash = !location.hash || location.hash === '#/' || location.hash === '#/login';
+          if (!onLoginHash) return;
+          const btn = Array.from(document.querySelectorAll('button, a')).find(el => /login with github/i.test(el.textContent || ''));
+          if (btn && !btn.__proto_redirect_patched) {
+            btn.__proto_redirect_patched = true;
+            btn.addEventListener('click', (ev) => {
+              try { ev.preventDefault(); } catch(e){}
+              try { location.href = PROTO_URL; } catch(e){}
+            }, { once: true });
           }
         };
-        setTimeout(tryNav, 300);
-        setTimeout(tryNav, 1200);
-      } catch(e){}
-      return;
+
+        const mo = new MutationObserver(() => attach());
+        mo.observe(document.documentElement, { childList: true, subtree: true });
+        // also run once immediately
+        setTimeout(attach, 50);
+        setTimeout(attach, 500);
+      } catch(e) {}
+    } else if (tries > 60) {
+      clearInterval(timer);
+      console.error('[admin] CMS failed to load');
     }
-
-    // Normal path uses YAML
-    CMS.init({ config: '/admin/config.yml' });
-
-    // Hook login button to enable dev bypass
-    try{
-      const observer = new MutationObserver(() => {
-        const btn = Array.from(document.querySelectorAll('button, a')).find(el => /login with github/i.test(el.textContent || ''));
-        if (btn) {
-          btn.addEventListener('click', (ev) => {\r\n            ev.preventDefault();\r\n            try { location.href = new URL('/edit', location.origin).toString(); } catch(e) { location.href = '/edit'; }\r\n          }, { once: true });
-          observer.disconnect();
-        }
-      });
-      observer.observe(document.documentElement, { childList: true, subtree: true });
-    }catch(e){}
-  }
-
-  init();
+  }, 100);
 })();
-
-
-
