@@ -13,6 +13,17 @@
 - 変更はスコープ最小・副作用最小。無関係な改修は行わない。
 - セキュリティ/認可/言語切替（i18n）に関わる差分は理由・影響範囲をコメントに1行で併記。
 
+## SDD（Spec Driven Codex）の利用
+- リポジトリに `spec-driven-codex` を導入済み。仕様起点で開発する。
+- 仕様ファイル: `.sdd/description.md`（最上位の1枚仕様）、`.sdd/target-spec.txt`（要件の箇条書き）。
+- Codex プロンプト: `sdd-design.md` / `sdd-implement.md` / `sdd-highway.md` / `sdd-steering.md` / `sdd-tasks.md` / `sdd-archive.md`。
+- 運用ルール:
+  1) まず `.sdd/target-spec.txt` を更新して要件を確定。
+  2) `sdd-design.md` → 設計を固め、影響範囲と受入条件を列挙。
+  3) 実装時は `sdd-implement.md` を使い、変更点を TODO/PLAN に反映。
+  4) 作業後に `sdd-steering.md` でふりかえり、`sdd-archive.md` に記録。
+  5) 変更が UI に影響する場合は chrome-devtools MCP で必ず検証（必須）。
+
 ## 言語/出力ポリシー
 - 内部思考・設計検討は英語ベースで行う（ログや出力に思考過程は含めない）。
 - ユーザー向けの最終出力は日本語で記述する（依頼があれば英語/他言語に切替）。
