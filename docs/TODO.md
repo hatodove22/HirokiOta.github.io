@@ -24,3 +24,4 @@
 - タスクを追加/完了したら、本ファイルを更新し、必要に応じて `docs/PLAN.md` のマイルストーンも更新してください。
 
 - [x] 2025-09-28 chrome-devtools代替(Puppeteer) smoke: /admin→/edit バイパスOK、Proto iframe描画OK、console fatalなし(※favicon 404除外)
+- [x] 2025-09-28 sdd-steering 実施: /admin ログインUIの暫定仕様確定、次アクション(M4/M3/M5/CI)整理
