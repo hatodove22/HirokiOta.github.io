@@ -1,0 +1,8 @@
+Target: Edit Mode uses Portfolio_EditSystem_Proto (2025-09-29)
+- Editor: Use `/edit` with Proto UI (React + shadcn). Decap preview deprecated.
+- Schema: Single source of truth in `src/lib/types.ts` for News/Project/Paper.
+- I18n: JA/EN fields validated via shared utils; preview language toggle in Proto.
+- Storage: Proto saves to JSON compatible with public/api/{news,projects,papers}.json.
+- Build: Vite build runs JSON generation step (no Decap dependency).
+- CI: Generate JSON → build → type/lint → Lighthouse smoke.
+- Admin: `/admin` (Decap) optional for auth/media library only.

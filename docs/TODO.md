@@ -21,7 +21,13 @@
 - [ ] （ここに完了したタスクを移動）
 
 ## メモ
+- [x] 2025-09-28 MCP smoke: chrome-devtools-mcp 起動・接続ログ確認（headless/isolated）。GitHub MCP エンドポイント疎通OK（401＝トークン未付与を確認）。
+- [ ] 2025-09-28 MCP 認証トークンの外部化: `.codex/config.toml` の GitHub トークンを環境変数へ移行（セキュリティ）。
 - タスクを追加/完了したら、本ファイルを更新し、必要に応じて `docs/PLAN.md` のマイルストーンも更新してください。
 
 - [x] 2025-09-28 chrome-devtools代替(Puppeteer) smoke: /admin→/edit バイパスOK、Proto iframe描画OK、console fatalなし(※favicon 404除外)
 - [x] 2025-09-28 sdd-steering 実施: /admin ログインUIの暫定仕様確定、次アクション(M4/M3/M5/CI)整理
+## 方針メモ（2025-09-29 / Proto移行）
+- 編集UIを `Portfolio_EditSystem_Proto` に統一。Decapプレビュー連携は廃止（/admin は任意運用）。
+- 型の一次情報を `src/lib/types.ts` に統一し、Protoのフォーム/プレビューと同期。
+- JSON生成（Issue 11）とビルド統合（Issue 12）を Proto 由来に差し替え。

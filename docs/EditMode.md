@@ -344,3 +344,7 @@ scripts/
 - 例: 2025-09-27-portfolio-release（日付prefixを採用する運用に切替えた場合）
 
 上記はアプリ内でバリデーションと自動生成（編集画面）を実装します。
+# 方針更新（2025-09-29）
+- 編集UIは Decap CMS のプレビュー連携ではなく、`Portfolio_EditSystem_Proto`（`/Portfolio_EditSystem_Proto` 配下）を正式採用します。
+- `/edit` で Proto UI を用いた編集・プレビュー（JA/EN切替・ライブ反映）を提供します。
+- `public/admin/`（Decap）は、必要に応じて認証やメディア運用の補助として任意利用します（プレビュー連携は廃止）。

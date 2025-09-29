@@ -16,3 +16,5 @@ EditMode.mdの実装ではDecap CMSが編集UIの土台となる。まずはニ�
 ## 依存/備考
 - GitHub backendや画像アップロードは後続Issueで扱うため、本Issueではローカル確認を優先する
 - `EditMode.md` のコレクション定義のうち、必須項目のみ最小限で取り込む
+# Issue: Decap CMS管理画面の最小セットアップ
+> 運用変更（2025-09-29）: 編集UIは `Portfolio_EditSystem_Proto` を採用。Decap 管理画面は任意（認証・メディア補助）として存置。プレビュー連携は廃止。
