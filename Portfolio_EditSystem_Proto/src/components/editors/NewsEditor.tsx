@@ -34,7 +34,8 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [activeLanguage, setActiveLanguage] = useState<Language>('ja');
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   const [previewTheme, setPreviewTheme] = useState<'light' | 'dark'>('light');
-  const [previewLanguage, setPreviewLanguage] = useState<Language>('ja');
+  
+  const [showPreview, setShowPreview] = useState(true);
   const [publishStatus, setPublishStatus] = useState<'draft' | 'published'>('draft');
 
   const updateField = (field: keyof NewsItem, value: any) => {
@@ -269,10 +270,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
           </section>
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
-        
-        {/* Right Panel - Preview */}
-        <ResizablePanel defaultSize={35} minSize={25}>
+        {showPreview ? <ResizableHandle withHandle /> : ''}\n        {/* Right Panel - Preview */}\n        {showPreview ? <ResizablePanel : <!-- preview hidden --> <div className='hidden'>} defaultSize={35} minSize={25}>
           <section className="flex flex-col overflow-hidden h-full">
             <div className="flex items-center justify-between p-4 border-b flex-wrap gap-4">
               <div className="flex items-center gap-2">
@@ -347,3 +345,4 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
     </div>
   );
 }
+
