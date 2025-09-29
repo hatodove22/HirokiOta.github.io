@@ -1,25 +1,15 @@
-import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import { Switch } from '../ui/switch';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Calendar } from '../ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '../ui/resizable';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { 
-  ArrowLeft,
-  CalendarIcon, 
-  Eye,
-  Monitor,
-  Smartphone,
-  Sun,
-  Moon,
-  Upload
-} from 'lucide-react';
+import { ArrowLeft, CalendarIcon, Eye, EyeOff, Monitor, Smartphone, Sun, Moon } from 'lucide-react';
 import { NewsItem, Language } from '../../types/content';
 import { NewsPreview } from '../previews/NewsPreview';
 
@@ -34,37 +24,44 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [activeLanguage, setActiveLanguage] = useState<Language>('ja');
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   const [previewTheme, setPreviewTheme] = useState<'light' | 'dark'>('light');
-  
+  const [previewLanguage, setPreviewLanguage] = useState<Language>('ja');
   const [showPreview, setShowPreview] = useState(true);
-  const [publishStatus, setPublishStatus] = useState<'draft' | 'published'>('draft');
+  const [publishStatus, setPublishStatus] = useState<'draft' | 'published'>(item.published ? 'published' : 'draft');
 
   const updateField = (field: keyof NewsItem, value: any) => {
     setEditingItem(prev => ({ ...prev, [field]: value }));
   };
 
-  const updateLocalizedField = (field: 'title' | 'summary' | 'body' | 'alt' | 'ogTitle' | 'ogDescription', language: Language, value: string) => {
+  const updateLocalizedField = (
+    field: 'title' | 'summary' | 'body' | 'alt' | 'ogTitle' | 'ogDescription',
+    language: Language,
+    value: string
+  ) => {
     setEditingItem(prev => ({
       ...prev,
       [field]: { ...prev[field], [language]: value }
     }));
   };
 
-  const updatePublishLanguage = (language: Language, value: boolean) => {
-    setEditingItem(prev => ({
-      ...prev,
-      publish: { ...prev.publish, [language]: value }
-    }));
-  };
-
   const handleSave = () => {
-    const finalItem = {
+    const finalItem: NewsItem = {
       ...editingItem,
-      published: publishStatus === 'published'
+      published: publishStatus === 'published',
+      publish: { ja: true, en: true },
     };
     onSave(finalItem);
   };
 
-  const isRequiredFieldFilled = (language: Language) => !!(editingItem.title[language] && editingItem.summary[language]);\n  const bothLanguagesFilled = () => (isRequiredFieldFilled('ja') && isRequiredFieldFilled('en'));\n  React.useEffect(() => { if (previewLanguage !== activeLanguage) setPreviewLanguage(activeLanguage); }, [activeLanguage]);\n  React.useEffect(() => { if (activeLanguage !== previewLanguage) setActiveLanguage(previewLanguage); }, [previewLanguage]);\n  };
+  const isRequiredFieldFilled = (language: Language) => !!(editingItem.title[language] && editingItem.summary[language]);
+  const bothLanguagesFilled = () => isRequiredFieldFilled('ja') && isRequiredFieldFilled('en');
+
+  // Link writing language and preview language in both directions
+  useEffect(() => {
+    if (previewLanguage !== activeLanguage) setPreviewLanguage(activeLanguage);
+  }, [activeLanguage, previewLanguage]);
+  useEffect(() => {
+    if (activeLanguage !== previewLanguage) setActiveLanguage(previewLanguage);
+  }, [previewLanguage, activeLanguage]);
 
   return (
     <div className="w-full min-h-[100dvh] overflow-hidden">
@@ -79,7 +76,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                   <Button variant="ghost" size="sm" onClick={onCancel} className="p-2">
                     <ArrowLeft className="w-4 h-4" />
                   </Button>
-                  <h1 className="text-xl font-semibold">ニュース編雁E/h1>
+                  <h1 className="text-xl font-semibold">ニュース編集</h1>
                 </div>
               </div>
 
@@ -87,14 +84,14 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
               <div className="grid grid-cols-4 gap-4">
                 {/* Publication Status */}
                 <div className="space-y-2">
-                  <Label className="text-sm">公開状慁E/Label>
+                  <Label className="text-sm">公開状態</Label>
                   <Select value={publishStatus} onValueChange={(value) => setPublishStatus(value as 'draft' | 'published')}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="draft">下書ぁE/SelectItem>
-                      <SelectItem value="published">公閁E/SelectItem>
+                      <SelectItem value="draft">下書き</SelectItem>
+                      <SelectItem value="published">公開</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -106,11 +103,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                     <PopoverTrigger asChild>
                       <Button variant="outline" className="w-full justify-start">
                         <CalendarIcon className="w-4 h-4 mr-2" />
-                        {new Date().toLocaleDateString('ja-JP', {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit'
-                        })}
+                        {new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -134,8 +127,8 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                   />
                 </div>
 
-                {/* Publish Languages removed: JA/EN both required */\n                </div>
-                </div>
+                {/* Language toggle removed intentionally (JA/EN are both required) */}
+                <div />
               </div>
             </div>
 
@@ -145,31 +138,19 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                 <div className="space-y-8">
                   {/* Thumbnail Image */}
                   <div className="space-y-3">
-                    <Label className="text-base font-medium">サムネイル画僁E/Label>
+                    <Label className="text-base font-medium">サムネイル画像</Label>
                     <div className="w-full h-64 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center bg-muted/10 hover:bg-muted/20 transition-colors cursor-pointer">
                       {editingItem.image ? (
                         <div className="relative w-full h-full">
-                          <img 
-                            src={editingItem.image} 
-                            alt="サムネイル" 
-                            className="w-full h-full object-cover rounded-lg"
-                          />
-                          <Button
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => updateField('image', '')}
-                            className="absolute top-2 right-2"
-                          >
+                          <img src={editingItem.image} alt="サムネイル" className="w-full h-full object-cover rounded-lg" />
+                          <Button variant="destructive" size="sm" onClick={() => updateField('image', '')} className="absolute top-2 right-2">
                             削除
                           </Button>
                         </div>
                       ) : (
                         <div className="text-center space-y-3">
-                          <Upload className="w-12 h-12 text-muted-foreground mx-auto" />
-                          <div>
-                            <p className="text-lg font-medium text-foreground">画像をアチE�EローチE/p>
-                            <p className="text-sm text-muted-foreground">クリチE��また�EドラチE��&ドロチE�Eして画像を選抁E/p>
-                          </div>
+                          <div className="text-lg font-medium text-foreground">画像をアップロード</div>
+                          <div className="text-sm text-muted-foreground">クリックまたはドラッグ&ドロップで画像を選択</div>
                         </div>
                       )}
                     </div>
@@ -177,67 +158,46 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
 
                   {/* Content Tabs */}
                   <div className="space-y-4">
-                    <Label className="text-base font-medium">執筁E��誁E/Label>
+                    <Label className="text-base font-medium">執筆言語</Label>
                     <Tabs value={activeLanguage} onValueChange={(value) => setActiveLanguage(value as Language)}>
                       <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="ja" className="flex items-center gap-2">
-                          日本誁E                          {editingItem.publish.ja && !isRequiredFieldFilled('ja') && (
-                            <div className="w-2 h-2 bg-destructive rounded-full" />
-                          )}
+                          日本語
+                          {!isRequiredFieldFilled('ja') && (<Badge variant="destructive" className="ml-2">必須</Badge>)}
                         </TabsTrigger>
                         <TabsTrigger value="en" className="flex items-center gap-2">
                           English
-                          {editingItem.publish.en && !isRequiredFieldFilled('en') && (
-                            <div className="w-2 h-2 bg-destructive rounded-full" />
-                          )}
+                          {!isRequiredFieldFilled('en') && (<Badge variant="destructive" className="ml-2">Required</Badge>)}
                         </TabsTrigger>
                       </TabsList>
 
                       <TabsContent value="ja" className="space-y-6 mt-6">
                         <div className="space-y-3">
                           <Label htmlFor="title-ja" className="text-base font-medium">タイトル</Label>
-                          <Input
-                            id="title-ja"
-                            value={editingItem.title.ja || ''}
-                            onChange={(e) => updateLocalizedField('title', 'ja', e.target.value)}
-                            placeholder="概要を入力！E0字程度�E�E
-                            className="text-lg"
-                          />
+                          <Input id="title-ja" value={editingItem.title.ja || ''} onChange={(e) => updateLocalizedField('title', 'ja', e.target.value)} placeholder="50字程度" className="text-lg" />
                         </div>
                         <div className="space-y-3">
-                          <Label htmlFor="body-ja" className="text-base font-medium">本斁E/Label>
-                          <Textarea
-                            id="body-ja"
-                            value={editingItem.body.ja || ''}
-                            onChange={(e) => updateLocalizedField('body', 'ja', e.target.value)}
-                            placeholder="本斁E��入力してください..."
-                            rows={20}
-                            className="min-h-[500px] resize-none text-base leading-relaxed"
-                          />
+                          <Label htmlFor="summary-ja" className="text-base font-medium">概要</Label>
+                          <Textarea id="summary-ja" rows={3} value={editingItem.summary.ja || ''} onChange={(e) => updateLocalizedField('summary', 'ja', e.target.value)} />
+                        </div>
+                        <div className="space-y-3">
+                          <Label htmlFor="body-ja" className="text-base font-medium">本文</Label>
+                          <Textarea id="body-ja" rows={12} value={editingItem.body.ja || ''} onChange={(e) => updateLocalizedField('body', 'ja', e.target.value)} className="min-h-[300px] resize-none text-base leading-relaxed" />
                         </div>
                       </TabsContent>
 
                       <TabsContent value="en" className="space-y-6 mt-6">
                         <div className="space-y-3">
                           <Label htmlFor="title-en" className="text-base font-medium">Title</Label>
-                          <Input
-                            id="title-en"
-                            value={editingItem.title.en || ''}
-                            onChange={(e) => updateLocalizedField('title', 'en', e.target.value)}
-                            placeholder="Enter title (about 50 characters)"
-                            className="text-lg"
-                          />
+                          <Input id="title-en" value={editingItem.title.en || ''} onChange={(e) => updateLocalizedField('title', 'en', e.target.value)} placeholder="~50 chars" className="text-lg" />
+                        </div>
+                        <div className="space-y-3">
+                          <Label htmlFor="summary-en" className="text-base font-medium">Summary</Label>
+                          <Textarea id="summary-en" rows={3} value={editingItem.summary.en || ''} onChange={(e) => updateLocalizedField('summary', 'en', e.target.value)} />
                         </div>
                         <div className="space-y-3">
                           <Label htmlFor="body-en" className="text-base font-medium">Body</Label>
-                          <Textarea
-                            id="body-en"
-                            value={editingItem.body.en || ''}
-                            onChange={(e) => updateLocalizedField('body', 'en', e.target.value)}
-                            placeholder="Enter body content..."
-                            rows={20}
-                            className="min-h-[500px] resize-none text-base leading-relaxed"
-                          />
+                          <Textarea id="body-en" rows={12} value={editingItem.body.en || ''} onChange={(e) => updateLocalizedField('body', 'en', e.target.value)} className="min-h-[300px] resize-none text-base leading-relaxed" />
                         </div>
                       </TabsContent>
                     </Tabs>
@@ -245,24 +205,10 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
 
                   {/* Save Buttons */}
                   <div className="flex justify-end gap-3 pt-6 border-t">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => {
-                        setPublishStatus('draft');
-                        handleSave();
-                      }}
-                      size="lg"
-                    >
-                      下書き保孁E                    </Button>
-                    <Button 
-                      onClick={() => {
-                        setPublishStatus('published');
-                        handleSave();
-                      }}
-                      size="lg"
-                      className="bg-green-600 hover:bg-green-700 text-white"
-                    >
-                      公閁E                    </Button>
+                    <Button variant="outline" onClick={() => { setPublishStatus('draft'); handleSave(); }} size="lg">下書き保存</Button>
+                    <Button onClick={() => { setPublishStatus('published'); handleSave(); }} size="lg" className="bg-green-600 hover:bg-green-700 text-white" disabled={!bothLanguagesFilled()}>
+                      公開
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -270,79 +216,42 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
           </section>
         </ResizablePanel>
 
-        {showPreview ? <ResizableHandle withHandle /> : ''}\n        {/* Right Panel - Preview */}\n        {showPreview ? <ResizablePanel : <!-- preview hidden --> <div className='hidden'>} defaultSize={35} minSize={25}>
-          <section className="flex flex-col overflow-hidden h-full">
-            <div className="flex items-center justify-between p-4 border-b flex-wrap gap-4">
-              <div className="flex items-center gap-2">
-                <Eye className="w-4 h-4" />
-                <span className="font-medium">プレビュー</span>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <div className="flex items-center bg-muted rounded-lg p-1">
-                  <Button
-                    variant={previewLanguage === 'ja' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setPreviewLanguage('ja')}
-                  >
-                    日本誁E                  </Button>
-                  <Button
-                    variant={previewLanguage === 'en' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setPreviewLanguage('en')}
-                  >
-                    English
-                  </Button>
+        {showPreview ? <ResizableHandle withHandle /> : null}
+
+        {/* Right Panel - Preview */}
+        {showPreview ? (
+          <ResizablePanel defaultSize={35} minSize={25}>
+            <section className="flex flex-col overflow-hidden h-full">
+              <div className="flex items-center justify-between p-4 border-b flex-wrap gap-4">
+                <div className="flex items-center gap-2">
+                  <Eye className="w-4 h-4" />
+                  <span className="font-medium">プレビュー</span>
                 </div>
-                <div className="flex items-center bg-muted rounded-lg p-1">
-                  <Button
-                    variant={previewDevice === 'desktop' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setPreviewDevice('desktop')}
-                  >
-                    <Monitor className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={previewDevice === 'mobile' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setPreviewDevice('mobile')}
-                  >
-                    <Smartphone className="w-4 h-4" />
-                  </Button>
-                </div>
-                <div className="flex items-center bg-muted rounded-lg p-1">
-                  <Button
-                    variant={previewTheme === 'light' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setPreviewTheme('light')}
-                  >
-                    <Sun className="w-4 h-4" />
-                  </Button>
-                  <Button
-                    variant={previewTheme === 'dark' ? 'default' : 'ghost'}
-                    size="sm"
-                    onClick={() => setPreviewTheme('dark')}
-                  >
-                    <Moon className="w-4 h-4" />
-                  </Button>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center bg-muted rounded-lg p-1">
+                    <Button variant={previewLanguage === 'ja' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewLanguage('ja')}>日本語</Button>
+                    <Button variant={previewLanguage === 'en' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewLanguage('en')}>English</Button>
+                  </div>
+                  <div className="flex items-center bg-muted rounded-lg p-1">
+                    <Button variant={previewDevice === 'desktop' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewDevice('desktop')}><Monitor className="w-4 h-4" /></Button>
+                    <Button variant={previewDevice === 'mobile' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewDevice('mobile')}><Smartphone className="w-4 h-4" /></Button>
+                  </div>
+                  <div className="flex items-center bg-muted rounded-lg p-1">
+                    <Button variant={previewTheme === 'light' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewTheme('light')}><Sun className="w-4 h-4" /></Button>
+                    <Button variant={previewTheme === 'dark' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewTheme('dark')}><Moon className="w-4 h-4" /></Button>
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={() => setShowPreview(false)}><EyeOff className="w-4 h-4" /></Button>
                 </div>
               </div>
-            </div>
-            
-            <div className="flex-1 overflow-auto p-4">
-              <div 
-                className={`${previewDevice === 'mobile' ? 'max-w-sm mx-auto' : 'w-full'} ${previewTheme === 'dark' ? 'dark' : ''}`}
-              >
-                <NewsPreview 
-                  item={editingItem} 
-                  language={previewLanguage}
-                  theme={previewTheme}
-                />
+              <div className="flex-1 overflow-auto p-4">
+                <div className={`${previewDevice === 'mobile' ? 'max-w-sm mx-auto' : 'w-full'} ${previewTheme === 'dark' ? 'dark' : ''}`}>
+                  <NewsPreview item={editingItem} language={previewLanguage} theme={previewTheme} />
+                </div>
               </div>
-            </div>
-          </section>
-        </ResizablePanel>
+            </section>
+          </ResizablePanel>
+        ) : null}
       </ResizablePanelGroup>
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Badge } from '../ui/badge';
 import { Calendar, Pin } from 'lucide-react';
 import { NewsItem, Language } from '../../types/content';
@@ -163,7 +163,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   if (!getContent('title') && !getContent('summary')) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        {language === 'ja' ? 'プレビューするコンチE��チE��ありません' : 'No content to preview'}
+        {language === 'ja' ? 'プレビューするコンチE��チE��ありません' : 'No content to preview'}
       </div>
     );
   }
@@ -232,7 +232,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
               {language === 'ja' ? 'ニュース' : 'News'}
             </div>
             <div className="flex items-center gap-4">
-              <Badge variant="outline" className="text-xs">���{��</Badge> <Badge variant="outline" className="text-xs">English</Badge>
+              <Badge variant="outline" className="text-xs">日本語</Badge> <Badge variant="outline" className="text-xs">English</Badge>
             </div>
           </div>
         </footer>
