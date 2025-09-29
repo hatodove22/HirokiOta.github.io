@@ -6,6 +6,8 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
+import type { NewsDraft } from '@/lib/types'
+import { validateNewsDraft } from '@/lib/validation'
 
 type Lang = 'ja' | 'en'
 
@@ -29,6 +31,22 @@ export function EditModePage(){
   const [status, setStatus] = useState<'draft'|'reviewing'|'published'>('draft')
   const [errors, setErrors] = useState<string[]>([])
 
+  // Proto/Issue05: 現在のフォーム状態から NewsDraft を構築
+  function buildDraft(): NewsDraft {
+    return {
+      id: 'draft-1',
+      slug,
+      date,
+      imageUrl,
+      status,
+      publish: { ja: publishJA, en: publishEN },
+      content: {
+        ja: { title: titleJA, summary: summaryJA, body: bodyJA, alt: altJA },
+        en: { title: titleEN, summary: summaryEN, body: bodyEN, alt: altEN },
+      },
+    }
+  }
+
   function toSlug(input:string){
     return input.toLowerCase().normalize('NFKD')
       .replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-')
@@ -42,6 +60,12 @@ export function EditModePage(){
     return errs
   }
   useEffect(()=>{ setErrors(validate()) },[slug,date,publishJA,publishEN,titleJA,titleEN,altJA,altEN])
+
+  // Issue14/05: 共通バリデーションを併用し、エラーをユニオン
+  useEffect(()=>{
+    const merged = Array.from(new Set([...(errors||[]), ...validateNewsDraft(buildDraft())]))
+    setErrors(merged)
+  },[slug,date,publishJA,publishEN,titleJA,titleEN,altJA,altEN,imageUrl,status])
 
   const preview = useMemo(()=>{
     const t = lang==='ja'?titleJA:titleEN

@@ -62,6 +62,41 @@ export interface NewsItem {
   language: Locale
 }
 
+// Edit Mode (Proto) — News schema baseline
+export type NewsStatus = 'draft' | 'reviewing' | 'published'
+
+export interface NewsLocaleContent {
+  title: string
+  summary?: string
+  body?: string
+  alt?: string
+}
+
+export interface NewsDraft {
+  id: string
+  slug: string
+  date: string // YYYY-MM-DD
+  tags?: string[]
+  imageUrl?: string
+  status: NewsStatus
+  publish: { ja: boolean; en: boolean }
+  content: { ja: NewsLocaleContent; en: NewsLocaleContent }
+}
+
+// Helper to project a draft into locale-specific display item
+export function toNewsItem(draft: NewsDraft, locale: Locale): NewsItem | null {
+  const enabled = draft.publish[locale]
+  const title = draft.content[locale]?.title?.trim()
+  if (!enabled || !title) return null
+  return {
+    id: draft.id,
+    title,
+    date: draft.date,
+    link: `#/news/${draft.slug}?lang=${locale}`,
+    language: locale,
+  }
+}
+
 export interface NotionBlock {
   type: string
   content: string
@@ -94,4 +129,3 @@ export interface SEOData {
     hreflang?: Record<string, string>
   }
 }
-
