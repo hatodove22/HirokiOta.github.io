@@ -31,3 +31,6 @@
 - 編集UIを `Portfolio_EditSystem_Proto` に統一。Decapプレビュー連携は廃止（/admin は任意運用）。
 - 型の一次情報を `src/lib/types.ts` に統一し、Protoのフォーム/プレビューと同期。
 - JSON生成（Issue 11）とビルド統合（Issue 12）を Proto 由来に差し替え。
+## 進捗（2025-09-29）
+- [x] Issue05: NewsDraft 型・共通スキーマを `src/lib/types.ts` に追加。
+- [x] Issue06: 編集画面に共通バリデーションを適用し、ライブプレビュー連携を確認。
