@@ -461,6 +461,10 @@
     position: relative;
   }
 
+  .sticky {
+    position: sticky;
+  }
+
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
@@ -797,6 +801,10 @@
 
   .h-svh {
     height: 100svh;
+  }
+
+  .h-\[100dvh\] {
+    height: 100dvh;
   }
 
   .max-h-\(--radix-dropdown-menu-content-available-height\) {

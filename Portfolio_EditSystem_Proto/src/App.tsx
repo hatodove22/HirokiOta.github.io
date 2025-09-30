@@ -9,9 +9,9 @@ export default function App() {
 
   return (
     <SidebarProvider>
-      <div className="w-screen min-h-[100dvh] overflow-hidden bg-background">
+      <div className="w-screen h-[100dvh] overflow-hidden bg-background">
         {/* Sidebar + content should be siblings inside a horizontal flex container. */}
-        <div className="flex w-full min-h-[100dvh]">
+        <div className="flex w-full h-[100dvh]">
           <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
           <SidebarInset>
             <MainContent activeSection={activeSection} />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -14,6 +14,7 @@ import { cn } from '../ui/utils';
 import { NewsItem, Language } from '../../types/content';
 import { NewsPreview } from '../previews/NewsPreview';
 import { editorTexts, getPreviewText, previewTexts } from '../../lib/preview-translations';
+import { useMainContentHeader } from '../MainContentHeaderContext';
 
 interface NewsEditorProps {
   item: NewsItem;
@@ -60,8 +61,6 @@ const previewLanguageToggleLabels = {
   en: previewTexts.en.languageToggle.en,
 };
 
-const LAYOUT_VARS = { '--header-h': '64px' } as React.CSSProperties;
-
 export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [editingItem, setEditingItem] = useState<NewsItem>(item);
   const [activeLanguage, setActiveLanguage] = useState<Language>('ja');
@@ -70,10 +69,44 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [previewLanguage, setPreviewLanguage] = useState<Language>('ja');
   const [showPreview, setShowPreview] = useState(true);
   const [publishStatus, setPublishStatus] = useState<'draft' | 'published'>(item.published ? 'published' : 'draft');
+  const { setHeaderLeft, setHeaderRight } = useMainContentHeader();
 
   const previewCopy = getPreviewText(previewLanguage);
   const showPreviewLabel = previewCopy.showButton;
   const hidePreviewLabel = previewCopy.hideButton;
+
+  useEffect(() => {
+    const headerLeftNode = (
+      <div className="flex items-center gap-3">
+        <Button variant="ghost" size="sm" onClick={onCancel} className="p-2">
+          <ArrowLeft className="w-4 h-4" />
+        </Button>
+        <h1 className="text-xl font-semibold">{editorCopy.heading}</h1>
+      </div>
+    );
+
+    const headerRightNode = (
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setShowPreview(prev => !prev)}
+        className="flex items-center gap-2"
+      >
+        {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+        <span className="hidden sm:inline-block">
+          {showPreview ? hidePreviewLabel : showPreviewLabel}
+        </span>
+      </Button>
+    );
+
+    setHeaderLeft(headerLeftNode);
+    setHeaderRight(headerRightNode);
+
+    return () => {
+      setHeaderLeft(null);
+      setHeaderRight(null);
+    };
+  }, [setHeaderLeft, setHeaderRight, onCancel, editorCopy.heading, showPreview, hidePreviewLabel, showPreviewLabel, previewLanguage]);
   const previewTitle = previewCopy.title;
 
   const updateField = (field: keyof NewsItem, value: any) => {
@@ -117,31 +150,8 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const bothLanguagesFilled = () => isRequiredFieldFilled('ja') && isRequiredFieldFilled('en');
 
     return (
-    <div className="relative w-full min-h-[100dvh] bg-background" style={LAYOUT_VARS}>
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between gap-3 px-4 py-4 md:px-6">
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" size="sm" onClick={onCancel} className="p-2">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-            <h1 className="text-xl font-semibold">{editorCopy.heading}</h1>
-          </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowPreview(prev => !prev)}
-            className="flex items-center gap-2"
-          >
-            {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-            <span className="hidden sm:inline-block">
-              {showPreview ? hidePreviewLabel : showPreviewLabel}
-            </span>
-          </Button>
-        </div>
-      </header>
-
-
-<main className="px-4 pb-12 md:px-6">
+    <div className="relative w-full min-h-[100dvh] bg-background">
+<main className="px-4 pb-12 pt-6 md:px-6">
   <div
     className={cn(
       'mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-start',
@@ -322,7 +332,8 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
 
     {showPreview && (
       <aside
-        className="sm:w-[420px] sm:flex-shrink-0 sm:sticky sm:top-[calc(var(--header-h)+16px)] sm:h-[calc(100dvh-var(--header-h)-24px)]"
+        className="sm:w-[420px] sm:flex-shrink-0 sticky"
+        style={{ top: '64px', height: 'calc(100dvh - 64px)' }}
       >
         <div className="flex h-full flex-col overflow-hidden rounded-md border bg-background shadow-sm">
           <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b bg-background p-4 flex-wrap">
