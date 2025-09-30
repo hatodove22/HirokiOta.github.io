@@ -4,6 +4,9 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
+import TextAlign from '@tiptap/extension-text-align'
+import Highlight from '@tiptap/extension-highlight'
+import Color from '@tiptap/extension-color'
 
 type SimpleEditorProps = {
   valueHTML?: string
@@ -18,9 +21,13 @@ export default function SimpleEditor({ valueHTML = '', onChangeHTML, placeholder
       StarterKit.configure({
         heading: { levels: [1, 2, 3] },
       }),
-      Link.configure({ openOnClick: true }),
+      Link.configure({ openOnClick: true, autolink: true, linkOnPaste: true }),
       Image,
       Placeholder.configure({ placeholder }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
+      Highlight,
+      Color,
+      // trailing node behavior is already acceptable with StarterKit
     ],
     content: valueHTML || '<p></p>',
     onUpdate: ({ editor }) => {
@@ -46,7 +53,7 @@ export default function SimpleEditor({ valueHTML = '', onChangeHTML, placeholder
 
   return (
     <div className={className}>
-      <div className="flex items-center gap-1 rounded-md border bg-card p-1 mb-2">
+      <div className="flex items-center gap-1 rounded-md border bg-card p-1 mb-2 flex-wrap">
         <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive('heading', { level: 1 })}>H1</ToolbarButton>
         <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive('heading', { level: 2 })}>H2</ToolbarButton>
         <ToolbarButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive('heading', { level: 3 })}>H3</ToolbarButton>
@@ -59,6 +66,27 @@ export default function SimpleEditor({ valueHTML = '', onChangeHTML, placeholder
         <ToolbarButton onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive('orderedList')}>1. List</ToolbarButton>
         <Divider />
         <ToolbarButton onClick={() => editor.chain().focus().setHorizontalRule().run()}>HR</ToolbarButton>
+        <ToolbarButton onClick={() => {
+          const url = window.prompt('Link URL')?.trim();
+          if (!url) return editor.chain().focus().unsetLink().run();
+          editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+        }}>Link</ToolbarButton>
+        <ToolbarButton onClick={() => {
+          const fileInput = document.createElement('input');
+          fileInput.type = 'file';
+          fileInput.accept = 'image/*'
+          fileInput.onchange = () => {
+            const file = (fileInput.files && fileInput.files[0]) || null
+            if (!file) return
+            const url = URL.createObjectURL(file)
+            editor.chain().focus().setImage({ src: url, alt: file.name }).run()
+          }
+          fileInput.click()
+        }}>Image</ToolbarButton>
+        <Divider />
+        <ToolbarButton onClick={() => editor.chain().focus().setTextAlign('left').run()} active={editor.isActive({ textAlign: 'left' })}>⟸</ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().setTextAlign('center').run()} active={editor.isActive({ textAlign: 'center' })}>≡</ToolbarButton>
+        <ToolbarButton onClick={() => editor.chain().focus().setTextAlign('right').run()} active={editor.isActive({ textAlign: 'right' })}>⟹</ToolbarButton>
         <ToolbarButton onClick={() => editor.chain().focus().undo().run()}>↶</ToolbarButton>
         <ToolbarButton onClick={() => editor.chain().focus().redo().run()}>↷</ToolbarButton>
       </div>
@@ -85,4 +113,3 @@ function ToolbarButton({ onClick, active, children }: { onClick: () => void; act
 function Divider() {
   return <span className="w-px h-5 bg-border mx-1 inline-block" />
 }
-

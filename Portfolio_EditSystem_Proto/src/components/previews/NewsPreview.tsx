@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Badge } from '../ui/badge';
 import { Calendar, Pin } from 'lucide-react';
 import { NewsItem, Language } from '../../types/content';
@@ -163,7 +163,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   if (!getContent('title') && !getContent('summary')) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        {language === 'ja' ? 'プレビューするコンチE��チE��ありません' : 'No content to preview'}
+        {'No content to preview'}
       </div>
     );
   }
@@ -179,7 +179,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
             {item.pinned && (
               <>
                 <Pin className="w-4 h-4 ml-2" />
-                <span>{language === 'ja' ? 'ピン留め' : 'Pinned'}</span>
+                <span>{language === 'ja' ? '�s������' : 'Pinned'}</span>
               </>
             )}
           </div>
@@ -238,10 +238,10 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
         <footer className="pt-6 border-t border-border">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div>
-              {language === 'ja' ? 'ニュース' : 'News'}
+              {language === 'ja' ? '�j���[�X' : 'News'}
             </div>
             <div className="flex items-center gap-4">
-              <Badge variant="outline" className="text-xs">日本語</Badge> <Badge variant="outline" className="text-xs">English</Badge>
+              <Badge variant="outline" className="text-xs">JA</Badge> <Badge variant="outline" className="text-xs">EN</Badge>
             </div>
           </div>
         </footer>
@@ -249,3 +249,5 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
     </div>
   );
 }
+
+

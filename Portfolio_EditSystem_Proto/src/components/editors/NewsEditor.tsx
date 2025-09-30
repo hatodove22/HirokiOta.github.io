@@ -3,7 +3,8 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-import SimpleEditor from '../tiptap/simple-editor';
+// Use the official template version (barrel import)
+import { SimpleEditor as SimpleTemplateEditor } from '../tiptap-templates/simple/simple-editor';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Calendar } from '../ui/calendar';
@@ -56,13 +57,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const isRequiredFieldFilled = (language: Language) => !!(editingItem.title[language] && editingItem.summary[language]);
   const bothLanguagesFilled = () => isRequiredFieldFilled('ja') && isRequiredFieldFilled('en');
 
-  // Link writing language and preview language in both directions
-  useEffect(() => {
-    if (previewLanguage !== activeLanguage) setPreviewLanguage(activeLanguage);
-  }, [activeLanguage, previewLanguage]);
-  useEffect(() => {
-    if (activeLanguage !== previewLanguage) setActiveLanguage(previewLanguage);
-  }, [previewLanguage, activeLanguage]);
+  // Link writing language and preview language in both directions\n  // States are kept in sync only by explicit handlers to avoid oscillation.
 
   return (
     <div className="w-full min-h-[100dvh] overflow-hidden">
@@ -183,11 +178,13 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                         </div>
                         <div className="space-y-3">
                           <Label htmlFor="body-ja" className="text-base font-medium">本文</Label>
-                          <SimpleEditor
-                            valueHTML={editingItem.body.ja || ''}
-                            onChangeHTML={(html)=>updateLocalizedField('body','ja',html)}
-                            placeholder="ここに本文を入力"
-                          />
+                          {/* Constrain editor width inside the form column */}
+                          <div className="editor-container">
+                            <SimpleTemplateEditor
+                              initialContent={editingItem.body.ja || ''}
+                              onContentChange={(html:string)=>updateLocalizedField('body','ja',html)}
+                            />
+                          </div>
                         </div>
                       </TabsContent>
 
@@ -202,11 +199,12 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                         </div>
                         <div className="space-y-3">
                           <Label htmlFor="body-en" className="text-base font-medium">Body</Label>
-                          <SimpleEditor
-                            valueHTML={editingItem.body.en || ''}
-                            onChangeHTML={(html)=>updateLocalizedField('body','en',html)}
-                            placeholder="Write the body here"
-                          />
+                          <div className="editor-container">
+                            <SimpleTemplateEditor
+                              initialContent={editingItem.body.en || ''}
+                              onContentChange={(html:string)=>updateLocalizedField('body','en',html)}
+                            />
+                          </div>
                         </div>
                       </TabsContent>
                     </Tabs>
@@ -238,8 +236,8 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <div className="flex items-center bg-muted rounded-lg p-1">
-                    <Button variant={previewLanguage === 'ja' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewLanguage('ja')}>日本語</Button>
-                    <Button variant={previewLanguage === 'en' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewLanguage('en')}>English</Button>
+                    <Button variant={previewLanguage === 'ja' ? 'default' : 'ghost'} size="sm" onClick={() => (setPreviewLanguage('ja'), setActiveLanguage('ja'))}>日本語</Button>
+                    <Button variant={previewLanguage === 'en' ? 'default' : 'ghost'} size="sm" onClick={() => (setPreviewLanguage('en'), setActiveLanguage('en'))}>English</Button>
                   </div>
                   <div className="flex items-center bg-muted rounded-lg p-1">
                     <Button variant={previewDevice === 'desktop' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewDevice('desktop')}><Monitor className="w-4 h-4" /></Button>
@@ -264,3 +262,6 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
     </div>
   );
 }
+
+
+
