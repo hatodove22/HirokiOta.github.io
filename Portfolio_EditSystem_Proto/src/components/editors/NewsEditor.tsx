@@ -67,7 +67,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
     <div className="w-full min-h-[100dvh] overflow-hidden">
       <ResizablePanelGroup direction="horizontal" className="w-full min-h-[100dvh]">
         {/* Left Panel - Editor */}
-        <ResizablePanel defaultSize={65} minSize={45}>
+        <ResizablePanel defaultSize={showPreview ? 65 : 100} minSize={showPreview ? 45 : 100}>
           <section className="flex flex-col overflow-hidden h-full">
             {/* Header */}
             <div className="p-6 border-b bg-background">
@@ -159,7 +159,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                   {/* Content Tabs */}
                   <div className="space-y-4">
                     <Label className="text-base font-medium">執筆言語</Label>
-                    <Tabs value={activeLanguage} onValueChange={(value) => setActiveLanguage(value as Language)}>
+                    <Tabs value={activeLanguage} onValueChange={(value) => { const v=value as Language; setActiveLanguage(v); setPreviewLanguage(v); }}>
                       <TabsList className="grid w-full grid-cols-2">
                         <TabsTrigger value="ja" className="flex items-center gap-2">
                           日本語
