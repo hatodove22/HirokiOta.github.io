@@ -345,6 +345,21 @@ scripts/
 
 上記はアプリ内でバリデーションと自動生成（編集画面）を実装します。
 # 方針更新（2025-09-29）
+# 方針更新（2025-09-29）
 - 編集UIは Decap CMS のプレビュー連携ではなく、`Portfolio_EditSystem_Proto`（`/Portfolio_EditSystem_Proto` 配下）を正式採用します。
 - `/edit` で Proto UI を用いた編集・プレビュー（JA/EN切替・ライブ反映）を提供します。
 - `public/admin/`（Decap）は、必要に応じて認証やメディア運用の補助として任意利用します（プレビュー連携は廃止）。
+
+## エディタ（Tiptap Simple Editor, 2025-09-30）
+- 採用: Tiptap UI Components の Simple Editor テンプレート（Tiptap v3 系）。
+- 目的: 公式テンプレートの見た目・挙動を“そのまま”利用できるよう、テンプレートのソースと SCSS をベンダリング。
+- 主要パス:
+  - `Portfolio_EditSystem_Proto/src/components/tiptap-templates/simple/simple-editor.tsx`
+  - グローバル SCSS: `src/styles/_variables.scss`, `src/styles/_keyframe-animations.scss`（`src/main.tsx`で import 済み）
+- 本文への適用: `src/components/editors/NewsEditor.tsx` の JA/EN Body をテンプレート版に置換。
+- 依存（抜粋）: `@tiptap/react`, `@tiptap/pm`, `@tiptap/starter-kit`, `@tiptap/extension-{image,link,placeholder,text-align,highlight,color,typography,subscript,superscript}`。
+- 画像アップロード: `src/lib/tiptap-utils.ts` の `handleImageUpload` を差し替えて、保存先（例: `/public/images/uploads`）へ接続。
+- E2E 確認（chrome-devtools MCP）:
+  1) 5174 起動 → 詳細編集を開く。
+  2) 見出し/リスト/マーク/整列/リンク/画像の各操作が成功し、エラーが出ないこと。
+  3) JA/EN 切替で本文・プレビューが同期。
