@@ -217,13 +217,22 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
         )}
 
         {/* Content */}
-        {getContent('body') && (
-          <div className="space-y-4">
-            <div className="prose prose-slate max-w-none dark:prose-invert">
-              {renderMarkdown(getContent('body'))}
+        {(() => {
+          const body = getContent('body');
+          if (!body) return null;
+          const looksHtml = /<\w+[\s\S]*>/i.test(body);
+          return (
+            <div className="space-y-4">
+              <div className="prose prose-slate max-w-none dark:prose-invert">
+                {looksHtml ? (
+                  <div dangerouslySetInnerHTML={{ __html: body }} />
+                ) : (
+                  renderMarkdown(body)
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Footer */}
         <footer className="pt-6 border-t border-border">

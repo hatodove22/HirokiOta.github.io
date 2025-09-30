@@ -3,6 +3,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
+import SimpleEditor from '../tiptap/simple-editor';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Calendar } from '../ui/calendar';
@@ -182,7 +183,11 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                         </div>
                         <div className="space-y-3">
                           <Label htmlFor="body-ja" className="text-base font-medium">本文</Label>
-                          <Textarea id="body-ja" rows={12} value={editingItem.body.ja || ''} onChange={(e) => updateLocalizedField('body', 'ja', e.target.value)} className="min-h-[300px] resize-none text-base leading-relaxed" />
+                          <SimpleEditor
+                            valueHTML={editingItem.body.ja || ''}
+                            onChangeHTML={(html)=>updateLocalizedField('body','ja',html)}
+                            placeholder="ここに本文を入力"
+                          />
                         </div>
                       </TabsContent>
 
@@ -197,7 +202,11 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                         </div>
                         <div className="space-y-3">
                           <Label htmlFor="body-en" className="text-base font-medium">Body</Label>
-                          <Textarea id="body-en" rows={12} value={editingItem.body.en || ''} onChange={(e) => updateLocalizedField('body', 'en', e.target.value)} className="min-h-[300px] resize-none text-base leading-relaxed" />
+                          <SimpleEditor
+                            valueHTML={editingItem.body.en || ''}
+                            onChangeHTML={(html)=>updateLocalizedField('body','en',html)}
+                            placeholder="Write the body here"
+                          />
                         </div>
                       </TabsContent>
                     </Tabs>
