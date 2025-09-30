@@ -1,6 +1,8 @@
 import React from 'react';
 import { Badge } from '../ui/badge';
 import { Calendar, Pin } from 'lucide-react';
+import { cn } from '../ui/utils';
+import { previewTexts, getPreviewText } from '../../lib/preview-translations';
 import { NewsItem, Language } from '../../types/content';
 
 interface NewsPreviewProps {
@@ -8,6 +10,12 @@ interface NewsPreviewProps {
   language: Language;
   theme: 'light' | 'dark';
 }
+
+const languageBadgeLabels = {
+  ja: previewTexts.ja.languageBadges.ja,
+  en: previewTexts.en.languageBadges.en,
+};
+
 
 // Simple markdown renderer for basic formatting
 const renderMarkdown = (text: string): React.ReactNode => {
@@ -145,6 +153,12 @@ const renderMarkdown = (text: string): React.ReactNode => {
 };
 
 export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
+  const previewCopy = getPreviewText(language);
+  const languageLabel = previewCopy.newsLabel;
+  const pinnedLabel = previewCopy.pinnedLabel;
+  const emptyState = previewCopy.emptyState;
+  const badgeClass = theme === 'light' ? 'bg-white text-slate-700 border-slate-300' : 'bg-slate-800 text-slate-100 border-slate-500';
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return language === 'ja' 
@@ -163,7 +177,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   if (!getContent('title') && !getContent('summary')) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        {'No content to preview'}
+        {emptyState}
       </div>
     );
   }
@@ -179,7 +193,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
             {item.pinned && (
               <>
                 <Pin className="w-4 h-4 ml-2" />
-                <span>{language === 'ja' ? 'ピン留め' : 'Pinned'}</span>
+                <span>{pinnedLabel}</span>
               </>
             )}
           </div>
@@ -238,10 +252,11 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
         <footer className="pt-6 border-t border-border">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div>
-              {language === 'ja' ? 'ニュース' : 'News'}
+              {languageLabel}
             </div>
             <div className="flex items-center gap-4">
-              <Badge variant="outline" className="text-xs">JA</Badge> <Badge variant="outline" className="text-xs">EN</Badge>
+              <Badge variant="outline" className={cn('text-xs', badgeClass)}>{languageBadgeLabels.ja}</Badge>
+              <Badge variant="outline" className={cn('text-xs', badgeClass)}>{languageBadgeLabels.en}</Badge>
             </div>
           </div>
         </footer>

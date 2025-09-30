@@ -3,6 +3,11 @@
 短期の実行タスクを集約します。セッションをまたいでもここを見れば続きが分かる状態を維持します。
 
 ## Now（着手中）
+- [x] 2025-09-30 Edit Mode: レイアウトを sm ブレークポイントへ変更し、右プレビューの横並び＆重複排除を適用
+- [x] Edit Mode: ニュース編集UIの日本語化とプレビュー固定の再調整
+  - 2025-09-30 Vite build は引き続き exit code 1（ログ出力なし）→原因調査継続
+- [x] Edit Mode: プレビュー再表示ボタンとプレビューUI改善（再表示制御・表示崩れ・固定化）
+  - 2025-09-30 Vite build 実行時に exit code 1（ログなし）→手動要確認
 - [ ] Edit Mode: 多言語プレビューの言語トグルを固定し、URL/状態同期（`/docs/issues/EditMode/issue-15-preview-language-toggle.md`）。
 - [ ] Decap CMS: プレビュー用テンプレートの差分吸収（`public/admin/preview.js` と UI コンポーネントの Props 整合）。
   - 2025-09-28 17:00 build OK。`/admin` のGitHubログインボタン→`/edit` へバイパス、`/edit` は Proto UI を iframe 表示。

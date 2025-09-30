@@ -1,25 +1,66 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
-// Use the official template version (barrel import)
-import { SimpleEditor as SimpleTemplateEditor } from '../tiptap-templates/simple/simple-editor';
+import { SimpleEditor as SimpleTemplateEditor } from '../tiptap-templates/simple/simple-editor'; // Use the official template version (barrel import)
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Calendar } from '../ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '../ui/resizable';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { ArrowLeft, CalendarIcon, Eye, EyeOff, Monitor, Smartphone, Sun, Moon } from 'lucide-react';
+import { cn } from '../ui/utils';
 import { NewsItem, Language } from '../../types/content';
 import { NewsPreview } from '../previews/NewsPreview';
+import { editorTexts, getPreviewText, previewTexts } from '../../lib/preview-translations';
 
 interface NewsEditorProps {
   item: NewsItem;
   onSave: (item: NewsItem) => void;
   onCancel: () => void;
 }
+
+const editorCopy = editorTexts.ja;
+
+const LANGUAGE_META: Record<
+  Language,
+  {
+    tabLabel: string;
+    titleLabel: string;
+    summaryLabel: string;
+    bodyLabel: string;
+    titlePlaceholder: string;
+    summaryPlaceholder: string;
+    bodyPlaceholder: string;
+  }
+> = {
+  ja: {
+    tabLabel: editorCopy.language.tabs.ja,
+    titleLabel: editorCopy.fields.title.label.ja,
+    summaryLabel: editorCopy.fields.summary.label.ja,
+    bodyLabel: editorCopy.fields.body.label.ja,
+    titlePlaceholder: editorCopy.fields.title.placeholder.ja,
+    summaryPlaceholder: editorCopy.fields.summary.placeholder.ja,
+    bodyPlaceholder: editorCopy.fields.body.placeholder.ja,
+  },
+  en: {
+    tabLabel: editorCopy.language.tabs.en,
+    titleLabel: editorCopy.fields.title.label.en,
+    summaryLabel: editorCopy.fields.summary.label.en,
+    bodyLabel: editorCopy.fields.body.label.en,
+    titlePlaceholder: editorCopy.fields.title.placeholder.en,
+    summaryPlaceholder: editorCopy.fields.summary.placeholder.en,
+    bodyPlaceholder: editorCopy.fields.body.placeholder.en,
+  },
+};
+
+const previewLanguageToggleLabels = {
+  ja: previewTexts.ja.languageToggle.ja,
+  en: previewTexts.en.languageToggle.en,
+};
+
+const LAYOUT_VARS = { '--header-h': '64px' } as React.CSSProperties;
 
 export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [editingItem, setEditingItem] = useState<NewsItem>(item);
@@ -30,6 +71,11 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [showPreview, setShowPreview] = useState(true);
   const [publishStatus, setPublishStatus] = useState<'draft' | 'published'>(item.published ? 'published' : 'draft');
 
+  const previewCopy = getPreviewText(previewLanguage);
+  const showPreviewLabel = previewCopy.showButton;
+  const hidePreviewLabel = previewCopy.hideButton;
+  const previewTitle = previewCopy.title;
+
   const updateField = (field: keyof NewsItem, value: any) => {
     setEditingItem(prev => ({ ...prev, [field]: value }));
   };
@@ -37,11 +83,11 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const updateLocalizedField = (
     field: 'title' | 'summary' | 'body' | 'alt' | 'ogTitle' | 'ogDescription',
     language: Language,
-    value: string
+    value: string,
   ) => {
     setEditingItem(prev => ({
       ...prev,
-      [field]: { ...prev[field], [language]: value }
+      [field]: { ...prev[field], [language]: value },
     }));
   };
 
@@ -54,214 +100,303 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
     onSave(finalItem);
   };
 
-  const isRequiredFieldFilled = (language: Language) => !!(editingItem.title[language] && editingItem.summary[language]);
+  const handleTabChange = (value: string) => {
+    const lang = value as Language;
+    setActiveLanguage(lang);
+    setPreviewLanguage(lang);
+  };
+
+  const handlePreviewLanguageChange = (lang: Language) => {
+    setPreviewLanguage(lang);
+    setActiveLanguage(lang);
+  };
+
+  const isRequiredFieldFilled = (language: Language) =>
+    Boolean(editingItem.title[language] && editingItem.summary[language]);
+
   const bothLanguagesFilled = () => isRequiredFieldFilled('ja') && isRequiredFieldFilled('en');
 
-  // Link writing language and preview language in both directions\n  // States are kept in sync only by explicit handlers to avoid oscillation.
+    return (
+    <div className="relative w-full min-h-[100dvh] bg-background" style={LAYOUT_VARS}>
+      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex items-center justify-between gap-3 px-4 py-4 md:px-6">
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="sm" onClick={onCancel} className="p-2">
+              <ArrowLeft className="w-4 h-4" />
+            </Button>
+            <h1 className="text-xl font-semibold">{editorCopy.heading}</h1>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowPreview(prev => !prev)}
+            className="flex items-center gap-2"
+          >
+            {showPreview ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            <span className="hidden sm:inline-block">
+              {showPreview ? hidePreviewLabel : showPreviewLabel}
+            </span>
+          </Button>
+        </div>
+      </header>
 
-  return (
-    <div className="w-full min-h-[100dvh] overflow-hidden">
-      <ResizablePanelGroup direction="horizontal" className="w-full min-h-[100dvh]">
-        {/* Left Panel - Editor */}
-        <ResizablePanel defaultSize={showPreview ? 65 : 100} minSize={showPreview ? 45 : 100}>
-          <section className="flex flex-col overflow-hidden h-full">
-            {/* Header */}
-            <div className="p-6 border-b bg-background">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <Button variant="ghost" size="sm" onClick={onCancel} className="p-2">
-                    <ArrowLeft className="w-4 h-4" />
-                  </Button>
-                  <h1 className="text-xl font-semibold">ニュース編集</h1>
-                </div>
+
+<main className="px-4 pb-12 md:px-6">
+  <div
+    className={cn(
+      'mx-auto flex max-w-6xl flex-col gap-6 sm:flex-row sm:items-start',
+      !showPreview && 'md:max-w-3xl',
+    )}
+  >
+    <section className="flex-1 space-y-6">
+      <div className="rounded-md border bg-background p-6 shadow-sm">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+          <div className="space-y-2">
+            <Label className="text-sm">{editorCopy.status.label}</Label>
+            <Select value={publishStatus} onValueChange={value => setPublishStatus(value as 'draft' | 'published')}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="draft">{editorCopy.status.options.draft}</SelectItem>
+                <SelectItem value="published">{editorCopy.status.options.published}</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-sm">{editorCopy.updatedDate}</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full justify-start">
+                  <CalendarIcon className="w-4 h-4 mr-2" />
+                  {new Date().toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={new Date()}
+                  onSelect={date => date && updateField('date', date.toISOString().split('T')[0])}
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <Label className="text-sm">{editorCopy.tags.label}</Label>
+            <Input
+              value={editingItem.tags.join(', ')}
+              onChange={e =>
+                updateField(
+                  'tags',
+                  e.target.value
+                    .split(',')
+                    .map(tag => tag.trim())
+                    .filter(Boolean),
+                )
+              }
+              placeholder={editorCopy.tags.placeholder}
+              className="text-sm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-8 rounded-md border bg-background p-6 shadow-sm">
+        <div className="space-y-3">
+          <Label className="text-base font-medium">{editorCopy.thumbnail.label}</Label>
+          <div className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/10 transition-colors hover:bg-muted/20">
+            {editingItem.image ? (
+              <div className="relative h-full w-full">
+                <img
+                  src={editingItem.image}
+                  alt="thumbnail"
+                  className="h-full w-full rounded-lg object-cover"
+                />
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => updateField('image', '')}
+                  className="absolute right-2 top-2"
+                >
+                  {editorCopy.thumbnail.remove}
+                </Button>
               </div>
+            ) : (
+              <div className="space-y-3 text-center">
+                <div className="text-lg font-medium text-foreground">{editorCopy.thumbnail.emptyTitle}</div>
+                <div className="text-sm text-muted-foreground">{editorCopy.thumbnail.emptySubtitle}</div>
+              </div>
+            )}
+          </div>
+        </div>
 
-              {/* Header Controls */}
-              <div className="grid grid-cols-4 gap-4">
-                {/* Publication Status */}
-                <div className="space-y-2">
-                  <Label className="text-sm">公開状態</Label>
-                  <Select value={publishStatus} onValueChange={(value) => setPublishStatus(value as 'draft' | 'published')}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="draft">下書き</SelectItem>
-                      <SelectItem value="published">公開</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+        <div className="space-y-4">
+          <Label className="text-base font-medium">{editorCopy.language.label}</Label>
+          <Tabs value={activeLanguage} onValueChange={handleTabChange}>
+            <TabsList className="grid w-full grid-cols-2">
+              {(Object.keys(LANGUAGE_META) as Language[]).map(lang => (
+                <TabsTrigger key={lang} value={lang} className="flex items-center gap-2">
+                  {LANGUAGE_META[lang].tabLabel}
+                  {!isRequiredFieldFilled(lang) && (
+                    <Badge variant="destructive" className="ml-2">
+                      {editorCopy.language.requiredBadge}
+                    </Badge>
+                  )}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-                {/* Update Date */}
-                <div className="space-y-2">
-                  <Label className="text-sm">更新日</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline" className="w-full justify-start">
-                        <CalendarIcon className="w-4 h-4 mr-2" />
-                        {new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' })}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <Calendar
-                        mode="single"
-                        selected={new Date()}
-                        onSelect={(date) => date && updateField('date', date.toISOString().split('T')[0])}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </div>
-
-                {/* Tags */}
-                <div className="space-y-2">
-                  <Label className="text-sm">タグ</Label>
+            {(Object.keys(LANGUAGE_META) as Language[]).map(lang => (
+              <TabsContent key={lang} value={lang} className="mt-6 space-y-6">
+                <div className="space-y-3">
+                  <Label htmlFor={`title-${lang}`} className="text-base font-medium">
+                    {LANGUAGE_META[lang].titleLabel}
+                  </Label>
                   <Input
-                    value={editingItem.tags.join(', ')}
-                    onChange={(e) => updateField('tags', e.target.value.split(',').map(t => t.trim()).filter(Boolean))}
-                    placeholder="AI, Research"
-                    className="text-sm"
+                    id={`title-${lang}`}
+                    value={editingItem.title[lang] || ''}
+                    onChange={e => updateLocalizedField('title', lang, e.target.value)}
+                    placeholder={LANGUAGE_META[lang].titlePlaceholder}
+                    className="text-lg"
                   />
                 </div>
+                <div className="space-y-3">
+                  <Label htmlFor={`summary-${lang}`} className="text-base font-medium">
+                    {LANGUAGE_META[lang].summaryLabel}
+                  </Label>
+                  <Textarea
+                    id={`summary-${lang}`}
+                    rows={3}
+                    value={editingItem.summary[lang] || ''}
+                    placeholder={LANGUAGE_META[lang].summaryPlaceholder}
+                    onChange={e => updateLocalizedField('summary', lang, e.target.value)}
+                  />
+                </div>
+                <div className="space-y-3">
+                  <Label htmlFor={`body-${lang}`} className="text-base font-medium">
+                    {LANGUAGE_META[lang].bodyLabel}
+                  </Label>
+                  <div className="editor-container">
+                    <SimpleTemplateEditor
+                      initialContent={editingItem.body[lang] || ''}
+                      onContentChange={html => updateLocalizedField('body', lang, html)}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        </div>
 
-                {/* Language toggle removed intentionally (JA/EN are both required) */}
-                <div />
-              </div>
+        <div className="flex justify-end gap-3 border-t pt-6">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setPublishStatus('draft');
+              handleSave();
+            }}
+            size="lg"
+          >
+            {editorCopy.actions.saveDraft}
+          </Button>
+          <Button
+            onClick={() => {
+              setPublishStatus('published');
+              handleSave();
+            }}
+            size="lg"
+            className="bg-green-600 text-white hover:bg-green-700"
+            disabled={!bothLanguagesFilled()}
+          >
+            {editorCopy.actions.publish}
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    {showPreview && (
+      <aside
+        className="sm:w-[420px] sm:flex-shrink-0 sm:sticky sm:top-[calc(var(--header-h)+16px)] sm:h-[calc(100dvh-var(--header-h)-24px)]"
+      >
+        <div className="flex h-full flex-col overflow-hidden rounded-md border bg-background shadow-sm">
+          <div className="sticky top-0 z-10 flex items-center justify-between gap-4 border-b bg-background p-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              <Eye className="w-4 h-4" />
+              <span className="font-medium">{previewTitle}</span>
             </div>
-
-            {/* Editor Content */}
-            <div className="flex-1 overflow-auto p-6">
-              <div className="max-w-4xl mx-auto">
-                <div className="space-y-8">
-                  {/* Thumbnail Image */}
-                  <div className="space-y-3">
-                    <Label className="text-base font-medium">サムネイル画像</Label>
-                    <div className="w-full h-64 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center bg-muted/10 hover:bg-muted/20 transition-colors cursor-pointer">
-                      {editingItem.image ? (
-                        <div className="relative w-full h-full">
-                          <img src={editingItem.image} alt="サムネイル" className="w-full h-full object-cover rounded-lg" />
-                          <Button variant="destructive" size="sm" onClick={() => updateField('image', '')} className="absolute top-2 right-2">
-                            削除
-                          </Button>
-                        </div>
-                      ) : (
-                        <div className="text-center space-y-3">
-                          <div className="text-lg font-medium text-foreground">画像をアップロード</div>
-                          <div className="text-sm text-muted-foreground">クリックまたはドラッグ&ドロップで画像を選択</div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Content Tabs */}
-                  <div className="space-y-4">
-                    <Label className="text-base font-medium">執筆言語</Label>
-                    <Tabs value={activeLanguage} onValueChange={(value) => { const v=value as Language; setActiveLanguage(v); setPreviewLanguage(v); }}>
-                      <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="ja" className="flex items-center gap-2">
-                          日本語
-                          {!isRequiredFieldFilled('ja') && (<Badge variant="destructive" className="ml-2">必須</Badge>)}
-                        </TabsTrigger>
-                        <TabsTrigger value="en" className="flex items-center gap-2">
-                          English
-                          {!isRequiredFieldFilled('en') && (<Badge variant="destructive" className="ml-2">Required</Badge>)}
-                        </TabsTrigger>
-                      </TabsList>
-
-                      <TabsContent value="ja" className="space-y-6 mt-6">
-                        <div className="space-y-3">
-                          <Label htmlFor="title-ja" className="text-base font-medium">タイトル</Label>
-                          <Input id="title-ja" value={editingItem.title.ja || ''} onChange={(e) => updateLocalizedField('title', 'ja', e.target.value)} placeholder="50字程度" className="text-lg" />
-                        </div>
-                        <div className="space-y-3">
-                          <Label htmlFor="summary-ja" className="text-base font-medium">概要</Label>
-                          <Textarea id="summary-ja" rows={3} value={editingItem.summary.ja || ''} onChange={(e) => updateLocalizedField('summary', 'ja', e.target.value)} />
-                        </div>
-                        <div className="space-y-3">
-                          <Label htmlFor="body-ja" className="text-base font-medium">本文</Label>
-                          {/* Constrain editor width inside the form column */}
-                          <div className="editor-container">
-                            <SimpleTemplateEditor
-                              initialContent={editingItem.body.ja || ''}
-                              onContentChange={(html:string)=>updateLocalizedField('body','ja',html)}
-                            />
-                          </div>
-                        </div>
-                      </TabsContent>
-
-                      <TabsContent value="en" className="space-y-6 mt-6">
-                        <div className="space-y-3">
-                          <Label htmlFor="title-en" className="text-base font-medium">Title</Label>
-                          <Input id="title-en" value={editingItem.title.en || ''} onChange={(e) => updateLocalizedField('title', 'en', e.target.value)} placeholder="~50 chars" className="text-lg" />
-                        </div>
-                        <div className="space-y-3">
-                          <Label htmlFor="summary-en" className="text-base font-medium">Summary</Label>
-                          <Textarea id="summary-en" rows={3} value={editingItem.summary.en || ''} onChange={(e) => updateLocalizedField('summary', 'en', e.target.value)} />
-                        </div>
-                        <div className="space-y-3">
-                          <Label htmlFor="body-en" className="text-base font-medium">Body</Label>
-                          <div className="editor-container">
-                            <SimpleTemplateEditor
-                              initialContent={editingItem.body.en || ''}
-                              onContentChange={(html:string)=>updateLocalizedField('body','en',html)}
-                            />
-                          </div>
-                        </div>
-                      </TabsContent>
-                    </Tabs>
-                  </div>
-
-                  {/* Save Buttons */}
-                  <div className="flex justify-end gap-3 pt-6 border-t">
-                    <Button variant="outline" onClick={() => { setPublishStatus('draft'); handleSave(); }} size="lg">下書き保存</Button>
-                    <Button onClick={() => { setPublishStatus('published'); handleSave(); }} size="lg" className="bg-green-600 hover:bg-green-700 text-white" disabled={!bothLanguagesFilled()}>
-                      公開
-                    </Button>
-                  </div>
-                </div>
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center bg-muted rounded-lg p-1">
+                <Button
+                  variant={previewLanguage === 'ja' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => handlePreviewLanguageChange('ja')}
+                >
+                  {previewLanguageToggleLabels.ja}
+                </Button>
+                <Button
+                  variant={previewLanguage === 'en' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => handlePreviewLanguageChange('en')}
+                >
+                  {previewLanguageToggleLabels.en}
+                </Button>
               </div>
+              <div className="flex items-center bg-muted rounded-lg p-1">
+                <Button
+                  variant={previewDevice === 'desktop' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setPreviewDevice('desktop')}
+                >
+                  <Monitor className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={previewDevice === 'mobile' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setPreviewDevice('mobile')}
+                >
+                  <Smartphone className="w-4 h-4" />
+                </Button>
+              </div>
+              <div className="flex items-center bg-muted rounded-lg p-1">
+                <Button
+                  variant={previewTheme === 'light' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setPreviewTheme('light')}
+                >
+                  <Sun className="w-4 h-4" />
+                </Button>
+                <Button
+                  variant={previewTheme === 'dark' ? 'default' : 'ghost'}
+                  size="sm"
+                  onClick={() => setPreviewTheme('dark')}
+                >
+                  <Moon className="w-4 h-4" />
+                </Button>
+              </div>
+              <Button variant="ghost" size="sm" onClick={() => setShowPreview(false)}>
+                <EyeOff className="w-4 h-4 mr-1" /> {hidePreviewLabel}
+              </Button>
             </div>
-          </section>
-        </ResizablePanel>
-
-        {showPreview ? <ResizableHandle withHandle /> : null}
-
-        {/* Right Panel - Preview */}
-        {showPreview ? (
-          <ResizablePanel defaultSize={35} minSize={25}>
-            <section className="flex flex-col overflow-hidden h-full">
-              <div className="flex items-center justify-between p-4 border-b flex-wrap gap-4">
-                <div className="flex items-center gap-2">
-                  <Eye className="w-4 h-4" />
-                  <span className="font-medium">プレビュー</span>
-                </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <div className="flex items-center bg-muted rounded-lg p-1">
-                    <Button variant={previewLanguage === 'ja' ? 'default' : 'ghost'} size="sm" onClick={() => (setPreviewLanguage('ja'), setActiveLanguage('ja'))}>日本語</Button>
-                    <Button variant={previewLanguage === 'en' ? 'default' : 'ghost'} size="sm" onClick={() => (setPreviewLanguage('en'), setActiveLanguage('en'))}>English</Button>
-                  </div>
-                  <div className="flex items-center bg-muted rounded-lg p-1">
-                    <Button variant={previewDevice === 'desktop' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewDevice('desktop')}><Monitor className="w-4 h-4" /></Button>
-                    <Button variant={previewDevice === 'mobile' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewDevice('mobile')}><Smartphone className="w-4 h-4" /></Button>
-                  </div>
-                  <div className="flex items-center bg-muted rounded-lg p-1">
-                    <Button variant={previewTheme === 'light' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewTheme('light')}><Sun className="w-4 h-4" /></Button>
-                    <Button variant={previewTheme === 'dark' ? 'default' : 'ghost'} size="sm" onClick={() => setPreviewTheme('dark')}><Moon className="w-4 h-4" /></Button>
-                  </div>
-                  <Button variant="ghost" size="sm" onClick={() => setShowPreview(false)}><EyeOff className="w-4 h-4" /></Button>
-                </div>
-              </div>
-              <div className="flex-1 overflow-auto p-4">
-                <div className={`${previewDevice === 'mobile' ? 'max-w-sm mx-auto' : 'w-full'} ${previewTheme === 'dark' ? 'dark' : ''}`}>
-                  <NewsPreview item={editingItem} language={previewLanguage} theme={previewTheme} />
-                </div>
-              </div>
-            </section>
-          </ResizablePanel>
-        ) : null}
-      </ResizablePanelGroup>
+          </div>
+          <div className="flex-1 overflow-auto p-4">
+            <div className={cn(
+              previewDevice === 'mobile' ? 'max-w-sm mx-auto' : 'w-full',
+              previewTheme === 'dark' && 'dark',
+            )}>
+              <NewsPreview item={editingItem} language={previewLanguage} theme={previewTheme} />
+            </div>
+          </div>
+        </div>
+      </aside>
+    )}
+  </div>
+</main>
     </div>
   );
 }
-
-
-
