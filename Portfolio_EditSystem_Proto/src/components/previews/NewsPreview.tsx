@@ -16,140 +16,21 @@ const languageBadgeLabels = {
   en: previewTexts.en.languageBadges.en,
 };
 
-
-// Simple markdown renderer for basic formatting
-const renderMarkdown = (text: string): React.ReactNode => {
-  if (!text) return null;
-
-  const lines = text.split('\n');
-  const elements: React.ReactNode[] = [];
-  let currentParagraph: string[] = [];
-  let key = 0;
-
-  const flushParagraph = () => {
-    if (currentParagraph.length > 0) {
-      const paragraphText = currentParagraph.join('\n');
-      if (paragraphText.trim()) {
-        elements.push(
-          <p key={key++} className="mb-4 leading-relaxed">
-            {renderInlineMarkdown(paragraphText)}
-          </p>
-        );
-      }
-      currentParagraph = [];
-    }
-  };
-
-  const renderInlineMarkdown = (text: string): React.ReactNode => {
-    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`|\[.*?\]\(.*?\))/);
-    return parts.map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={index}>{part.slice(2, -2)}</strong>;
-      }
-      if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
-        return <em key={index}>{part.slice(1, -1)}</em>;
-      }
-      if (part.startsWith('`') && part.endsWith('`')) {
-        return <code key={index} className="bg-muted px-1 rounded text-sm">{part.slice(1, -1)}</code>;
-      }
-      const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
-      if (linkMatch) {
-        return <a key={index} href={linkMatch[2]} className="text-primary underline" target="_blank" rel="noopener noreferrer">{linkMatch[1]}</a>;
-      }
-      return part;
-    });
-  };
-
-  for (const line of lines) {
-    const trimmedLine = line.trim();
-    
-    if (trimmedLine.startsWith('# ')) {
-      flushParagraph();
-      elements.push(
-        <h1 key={key++} className="text-3xl font-bold mb-6 mt-8 first:mt-0">
-          {renderInlineMarkdown(trimmedLine.slice(2))}
-        </h1>
-      );
-    } else if (trimmedLine.startsWith('## ')) {
-      flushParagraph();
-      elements.push(
-        <h2 key={key++} className="text-2xl font-bold mb-4 mt-6 first:mt-0">
-          {renderInlineMarkdown(trimmedLine.slice(3))}
-        </h2>
-      );
-    } else if (trimmedLine.startsWith('### ')) {
-      flushParagraph();
-      elements.push(
-        <h3 key={key++} className="text-xl font-bold mb-3 mt-5 first:mt-0">
-          {renderInlineMarkdown(trimmedLine.slice(4))}
-        </h3>
-      );
-    } else if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
-      flushParagraph();
-      const nextLines = lines.slice(lines.indexOf(line));
-      const listItems: string[] = [];
-      let i = 0;
-      
-      while (i < nextLines.length && (nextLines[i].trim().startsWith('- ') || nextLines[i].trim().startsWith('* '))) {
-        listItems.push(nextLines[i].trim().slice(2));
-        i++;
-      }
-      
-      elements.push(
-        <ul key={key++} className="list-disc pl-6 mb-4">
-          {listItems.map((item, itemIndex) => (
-            <li key={itemIndex} className="mb-1">
-              {renderInlineMarkdown(item)}
-            </li>
-          ))}
-        </ul>
-      );
-      
-      // Skip processed lines
-      for (let j = 1; j < i; j++) {
-        lines.splice(lines.indexOf(line) + 1, 1);
-      }
-    } else if (trimmedLine.match(/^\d+\. /)) {
-      flushParagraph();
-      const nextLines = lines.slice(lines.indexOf(line));
-      const listItems: string[] = [];
-      let i = 0;
-      
-      while (i < nextLines.length && nextLines[i].trim().match(/^\d+\. /)) {
-        listItems.push(nextLines[i].trim().replace(/^\d+\. /, ''));
-        i++;
-      }
-      
-      elements.push(
-        <ol key={key++} className="list-decimal pl-6 mb-4">
-          {listItems.map((item, itemIndex) => (
-            <li key={itemIndex} className="mb-1">
-              {renderInlineMarkdown(item)}
-            </li>
-          ))}
-        </ol>
-      );
-      
-      // Skip processed lines
-      for (let j = 1; j < i; j++) {
-        lines.splice(lines.indexOf(line) + 1, 1);
-      }
-    } else if (trimmedLine.startsWith('> ')) {
-      flushParagraph();
-      elements.push(
-        <blockquote key={key++} className="border-l-4 border-muted-foreground pl-4 italic mb-4 text-muted-foreground">
-          {renderInlineMarkdown(trimmedLine.slice(2))}
-        </blockquote>
-      );
-    } else if (trimmedLine === '') {
-      flushParagraph();
-    } else {
-      currentParagraph.push(line);
-    }
-  }
+// Simple HTML renderer for Tiptap editor content
+const renderContent = (content: string): React.ReactNode => {
+  if (!content) return null;
   
-  flushParagraph();
-  return <div className="space-y-2">{elements}</div>;
+  // Debug: Log the content being rendered
+  console.log('renderContent - Input content:', content);
+  console.log('renderContent - Contains HTML tags:', /<\w+[\s\S]*>/i.test(content));
+  
+  // Tiptap editor already generates HTML, so we can render it directly
+  return (
+    <div 
+      className="space-y-2" 
+      dangerouslySetInnerHTML={{ __html: content }} 
+    />
+  );
 };
 
 export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
@@ -234,15 +115,17 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
         {(() => {
           const body = getContent('body');
           if (!body) return null;
-          const looksHtml = /<\w+[\s\S]*>/i.test(body);
+          
+          // Debug: Log the content being rendered
+          console.log('NewsPreview - Body content:', body);
+          console.log('NewsPreview - Body type:', typeof body);
+          console.log('NewsPreview - Body length:', body.length);
+          
+          // Tiptap editor generates HTML, so render it directly
           return (
             <div className="space-y-4">
               <div className="prose prose-slate max-w-none dark:prose-invert">
-                {looksHtml ? (
-                  <div dangerouslySetInnerHTML={{ __html: body }} />
-                ) : (
-                  renderMarkdown(body)
-                )}
+                {renderContent(body)}
               </div>
             </div>
           );
