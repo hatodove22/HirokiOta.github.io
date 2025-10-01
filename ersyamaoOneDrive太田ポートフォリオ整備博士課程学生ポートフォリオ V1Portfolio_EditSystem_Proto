@@ -1,0 +1,29 @@
+  feature/edit-mode-screen[m
++ [36mmain[m
+* [32mrebuild[m
+  [31mremotes/auth/HEAD[m -> auth/main
+  [31mremotes/auth/feature/auth-scaffold[m
+  [31mremotes/auth/import/rebuild-20250927-1451[m
+  [31mremotes/auth/main[m
+  [31mremotes/origin/HEAD[m -> origin/main
+  [31mremotes/origin/add-project-pages[m
+  [31mremotes/origin/main[m
+  [31mremotes/origin/rebuild[m
+  [31mremotes/ota/HEAD[m -> ota/main
+  [31mremotes/ota/chore/sdd-setup[m
+  [31mremotes/ota/codereview[m
+  [31mremotes/ota/codex/add-documentation-for-adding-new-papers[m
+  [31mremotes/ota/codex/add-project-setup-instructions-to-readme[m
+  [31mremotes/ota/codex/create-multiple-issues-for-editmode.md[m
+  [31mremotes/ota/codex/evaluate-issues-for-agile-implementation-steps[m
+  [31mremotes/ota/codex/evaluate-issues-for-agile-implementation-steps-szev43[m
+  [31mremotes/ota/codex/fix-browser-back-button-functionality[m
+  [31mremotes/ota/codex/fix-missing-output-directory-for-vercel-deploy[m
+  [31mremotes/ota/codex/update-portfolio-site-content[m
+  [31mremotes/ota/docs/sdd-steering-20250928[m
+  [31mremotes/ota/feat/admin-login-bypass[m
+  [31mremotes/ota/feature/edit-mode-screen[m
+  [31mremotes/ota/import/edit-mode-20250927-1621[m
+  [31mremotes/ota/main[m
+  [31mremotes/ota/proto/layout-fixes[m
+  [31mremotes/ota/rebuild[m

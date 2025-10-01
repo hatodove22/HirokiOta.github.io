@@ -236,8 +236,10 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
     ],
     content: initialContent || content,
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      onContentChange?.(html);
+      // Get the plain text content from the editor
+      const text = editor.getText();
+      console.log('Tiptap text output:', text);
+      onContentChange?.(text);
     },
   })
 
@@ -254,7 +256,7 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
 
   // Update editor content when initialContent changes
   React.useEffect(() => {
-    if (editor && initialContent !== undefined && editor.getHTML() !== initialContent) {
+    if (editor && initialContent !== undefined && editor.getText() !== initialContent) {
       editor.commands.setContent(initialContent, false);
     }
   }, [editor, initialContent])

@@ -16,19 +16,21 @@ const languageBadgeLabels = {
   en: previewTexts.en.languageBadges.en,
 };
 
-// Simple HTML renderer for Tiptap editor content
+// Render markdown content using markdown-it
 const renderContent = (content: string): React.ReactNode => {
   if (!content) return null;
   
   // Debug: Log the content being rendered
   console.log('renderContent - Input content:', content);
-  console.log('renderContent - Contains HTML tags:', /<\w+[\s\S]*>/i.test(content));
   
-  // Tiptap editor already generates HTML, so we can render it directly
+  // Use markdown-it to render the markdown text directly
+  const htmlOutput = md.render(content);
+  console.log('renderContent - markdown-it output:', htmlOutput);
+  
   return (
     <div 
       className="space-y-2" 
-      dangerouslySetInnerHTML={{ __html: content }} 
+      dangerouslySetInnerHTML={{ __html: htmlOutput }} 
     />
   );
 };
