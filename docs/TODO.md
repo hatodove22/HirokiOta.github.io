@@ -9,6 +9,7 @@
 - [x] Edit Mode: プレビュー再表示ボタンとプレビューUI改善（再表示制御・表示崩れ・固定化）
   - 2025-09-30 Vite build 実行時に exit code 1（ログなし）→手動要確認
 - [ ] Edit Mode: 多言語プレビューの言語トグルを固定し、URL/状態同期（`/docs/issues/EditMode/issue-15-preview-language-toggle.md`）。
+- [ ] Edit Mode: プレビューのMarkdownレンダリングをMarkdown出力基盤（tiptap-markdown + markdown-it）で再実装し、エディタとの挙動差異を解消。
 - [ ] Decap CMS: プレビュー用テンプレートの差分吸収（`public/admin/preview.js` と UI コンポーネントの Props 整合）。
   - 2025-09-28 17:00 build OK。`/admin` のGitHubログインボタン→`/edit` へバイパス、`/edit` は Proto UI を iframe 表示。
 

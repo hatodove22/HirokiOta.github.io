@@ -15,7 +15,7 @@ import {
 import { Locale } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
 
-interface BlogFiltersProps {
+interface NewsFiltersProps {
   locale: Locale
   availableTags: string[]
   availableYears: number[]
@@ -27,7 +27,7 @@ interface BlogFiltersProps {
   onFiltersChange: (filters: { tag: string; year: string; q: string }) => void
 }
 
-export function BlogFilters({ locale, availableTags, availableYears, filters, onFiltersChange }: BlogFiltersProps) {
+export function NewsFilters({ locale, availableTags, availableYears, filters, onFiltersChange }: NewsFiltersProps) {
   const [searchQuery, setSearchQuery] = useState(filters.q)
 
   const t = getTranslations(locale)
@@ -57,7 +57,7 @@ export function BlogFilters({ locale, availableTags, availableYears, filters, on
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
         <Input
           type="text"
-          placeholder={t.blog.filters.search}
+          placeholder={t.news.filters.search}
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
           className="pl-10 pr-4"
@@ -68,7 +68,7 @@ export function BlogFilters({ locale, availableTags, availableYears, filters, on
         <div className="flex items-center gap-1">
           <Select value={filters.tag || undefined} onValueChange={(value) => updateFilters({ tag: value || '' })}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={t.blog.filters.tag} />
+              <SelectValue placeholder={t.news.filters.tag} />
             </SelectTrigger>
             <SelectContent>
               {availableTags.map((tag) => (
@@ -93,7 +93,7 @@ export function BlogFilters({ locale, availableTags, availableYears, filters, on
         <div className="flex items-center gap-1">
           <Select value={filters.year || undefined} onValueChange={(value) => updateFilters({ year: value || '' })}>
             <SelectTrigger className="w-[120px]">
-              <SelectValue placeholder={t.blog.filters.year} />
+              <SelectValue placeholder={t.news.filters.year} />
             </SelectTrigger>
             <SelectContent>
               {availableYears.map((year) => (
@@ -118,7 +118,7 @@ export function BlogFilters({ locale, availableTags, availableYears, filters, on
         {activeFiltersCount > 0 && (
           <Button variant="outline" onClick={clearFilters} size="sm">
             <X className="mr-2 h-4 w-4" />
-            {t.blog.filters.clear} ({activeFiltersCount})
+            {t.news.filters.clear} ({activeFiltersCount})
           </Button>
         )}
       </div>

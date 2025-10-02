@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
-import { BlogCard } from '../components/blog-card'
-import { BlogFilters } from '../components/blog-filters'
+import { NewsCard } from '../components/news-card'
+import { NewsFilters } from '../components/news-filters'
 import { Button } from '../components/ui/button'
 import { Skeleton } from '../components/ui/skeleton'
-import { BlogPost, Locale } from '../lib/types'
+import { NewsPost, Locale } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
-import { getBlogPosts } from '../lib/notion'
+import { getNewsPosts } from '../lib/notion'
 
-interface BlogsPageProps {
+interface NewsPageProps {
   locale: Locale
   onNavigate: (page: string, slug?: string) => void
 }
 
-export function BlogsPage({ locale, onNavigate }: BlogsPageProps) {
-  const [posts, setPosts] = useState<BlogPost[]>([])
+export function NewsPage({ locale, onNavigate }: NewsPageProps) {
+  const [posts, setPosts] = useState<NewsPost[]>([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState({
@@ -29,7 +29,7 @@ export function BlogsPage({ locale, onNavigate }: BlogsPageProps) {
     const fetchPosts = async () => {
       setLoading(true)
       try {
-        const allPosts = await getBlogPosts(locale, {
+        const allPosts = await getNewsPosts(locale, {
           tag: filters.tag || undefined,
           year: filters.year ? parseInt(filters.year, 10) : undefined,
           q: filters.q || undefined
@@ -37,7 +37,7 @@ export function BlogsPage({ locale, onNavigate }: BlogsPageProps) {
         setPosts(allPosts)
         setCurrentPage(1)
       } catch (error) {
-        console.error('Failed to fetch blog posts:', error)
+        console.error('Failed to fetch news posts:', error)
       } finally {
         setLoading(false)
       }
@@ -58,7 +58,7 @@ export function BlogsPage({ locale, onNavigate }: BlogsPageProps) {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const BlogSkeleton = () => (
+  const NewsSkeleton = () => (
     <div className="space-y-4">
       <Skeleton className="h-40 w-full" />
       <div className="space-y-2">
@@ -73,14 +73,14 @@ export function BlogsPage({ locale, onNavigate }: BlogsPageProps) {
     <div className="container mx-auto px-4 py-16">
       <div className="space-y-8">
         <div className="space-y-4 text-center">
-          <h1 className="text-4xl font-bold">{t.blog.title}</h1>
+          <h1 className="text-4xl font-bold">{t.news.title}</h1>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            {t.blog.description}
+            {t.news.description}
           </p>
         </div>
 
         <div className="mx-auto max-w-4xl">
-          <BlogFilters
+          <NewsFilters
             locale={locale}
             availableTags={availableTags}
             availableYears={availableYears}
@@ -101,17 +101,17 @@ export function BlogsPage({ locale, onNavigate }: BlogsPageProps) {
           {loading ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {[...Array(6)].map((_, index) => (
-                <BlogSkeleton key={index} />
+                <NewsSkeleton key={index} />
               ))}
             </div>
           ) : currentPosts.length > 0 ? (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {currentPosts.map((post) => (
-                <BlogCard
+                <NewsCard
                   key={post.id}
                   post={post}
                   locale={locale}
-                  onClick={() => onNavigate('blog-detail', post.slug)}
+                  onClick={() => onNavigate('news-detail', post.slug)}
                 />
               ))}
             </div>

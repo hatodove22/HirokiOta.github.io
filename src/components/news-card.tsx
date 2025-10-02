@@ -4,7 +4,7 @@ import { Calendar } from 'lucide-react'
 import { Card, CardContent } from './ui/card'
 import { ImageWithFallback } from './figma/ImageWithFallback'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
-import { BlogPost, Locale } from '../lib/types'
+import { NewsPost, Locale } from '../lib/types'
 import { formatDate, formatDateJa } from '../lib/utils'
 
 const CLAMP_STYLES: CSSProperties = (() => {
@@ -19,13 +19,13 @@ const CLAMP_STYLES: CSSProperties = (() => {
   return styles
 })()
 
-interface BlogCardProps {
-  post: BlogPost
+interface NewsCardProps {
+  post: NewsPost
   locale: Locale
   onClick?: () => void
 }
 
-export function BlogCard({ post, locale, onClick }: BlogCardProps) {
+export function NewsCard({ post, locale, onClick }: NewsCardProps) {
   const authorName = locale === 'ja' ? '太田裕紀' : 'Ota Hiroki'
   const primaryTag = post.tags[0] || ''
   const summaryText = post.summary ?? ''

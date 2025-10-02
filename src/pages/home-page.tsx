@@ -5,12 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog'
 import { ProjectCard } from '../components/project-card'
-import { BlogCard } from '../components/blog-card'
+import { NewsCard } from '../components/news-card'
 import { PaperListItem } from '../components/paper-list-item'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
-import { Locale, Project, NewsItem, Paper, BlogPost } from '../lib/types'
+import { Locale, Project, NewsItem, Paper, NewsPost } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
-import { getPinnedProjects, getLatestNews, getRecentPapers, getLatestBlogPosts } from '../lib/notion'
+import { getPinnedProjects, getRecentPapers, getLatestNewsPosts } from '../lib/notion'
 import { formatDate, formatDateJa } from '../lib/utils'
 import profileImage from 'figma:asset/37d3f31165fb6b41b77513c4d8e0d1b581053602.png'
 
@@ -41,8 +41,7 @@ function HeroSocialLink({ href, label, children }: {
 
 export function HomePage({ locale, onNavigate }: HomePageProps) {
   const [pinnedProjects, setPinnedProjects] = useState<Project[]>([])
-  const [latestBlogs, setLatestBlogs] = useState<BlogPost[]>([])
-  const [latestNews, setLatestNews] = useState<NewsItem[]>([])
+  const [latestNews, setLatestNews] = useState<NewsPost[]>([])
   const [recentPapers, setRecentPapers] = useState<Paper[]>([])
   const [loading, setLoading] = useState(true)
   
@@ -51,15 +50,13 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [projects, blogs, news, papers] = await Promise.all([
+        const [projects, newsPosts, papers] = await Promise.all([
           getPinnedProjects(locale),
-          getLatestBlogPosts(locale, 3),
-          getLatestNews(locale, 3),
+          getLatestNewsPosts(locale, 3),
           getRecentPapers(locale, 3)
         ])
         setPinnedProjects(projects)
-        setLatestBlogs(blogs)
-        setLatestNews(news)
+        setLatestNews(newsPosts)
         setRecentPapers(papers)
       } catch (error) {
         console.error('Failed to fetch home page data:', error)
@@ -212,12 +209,12 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* Latest Blog Posts */}
+      {/* Latest News */}
       <section className="container mx-auto px-4 max-w-4xl">
         <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-bold">{t.home.sections.blog}</h2>
-            <Button variant="ghost" onClick={() => onNavigate('blog')} className="cursor-pointer">
+            <h2 className="text-3xl font-bold">{t.home.sections.news}</h2>
+            <Button variant="ghost" onClick={() => onNavigate('news')} className="cursor-pointer">
               {t.common.readMore}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -237,12 +234,12 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {latestBlogs.map((post) => (
-                <BlogCard
+              {latestNews.map((post) => (
+                <NewsCard
                   key={post.id}
                   post={post}
                   locale={locale}
-                  onClick={() => onNavigate('blog-detail', post.slug)}
+                  onClick={() => onNavigate('news-detail', post.slug)}
                 />
               ))}
             </div>
@@ -250,65 +247,6 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* Latest News */}
-      <section className="container mx-auto px-4 max-w-4xl">
-        <div className="space-y-6">
-          <h2 className="text-3xl font-bold">{t.home.sections.news}</h2>
-          
-          {loading ? (
-            <div className="space-y-4">
-              {[...Array(3)].map((_, i) => (
-                <Card key={i}>
-                  <CardContent className="p-4 animate-pulse cursor-pointer hover:bg-muted/50 transition-colors">
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-2 flex-1">
-                        <div className="bg-muted h-4 rounded w-2/3"></div>
-                        <div className="bg-muted h-3 rounded w-24"></div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {latestNews.map((news) => (
-                <Card key={news.id} className="cursor-pointer hover:bg-muted/50 transition-colors">
-                  <CardContent 
-                    className="p-4"
-                    onClick={() => {
-                      if (news.link) {
-                        window.open(news.link, '_blank', 'noopener,noreferrer')
-                      }
-                    }}
-                  >
-                    <div className="flex justify-between items-start">
-                      <div className="space-y-1 flex-1">
-                        <h3 className="font-medium">{news.title}</h3>
-                        <p className="text-sm text-muted-foreground">
-                          {locale === 'ja' ? formatDateJa(news.date) : formatDate(news.date)}
-                        </p>
-                      </div>
-                      {news.link && (
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          asChild
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <a href={news.link} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="h-4 w-4" />
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
 
       {/* Recent Papers */}
       <section className="container mx-auto px-4 max-w-4xl">

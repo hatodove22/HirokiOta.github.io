@@ -10,8 +10,8 @@ import { AboutPage } from "./pages/about-page";
 import { ProjectsPage } from "./pages/projects-page";
 import { ProjectDetailPage } from "./pages/project-detail-page";
 import { PapersPage } from "./pages/papers-page";
-import { BlogsPage } from "./pages/blogs-page";
-import { BlogDetailPage } from "./pages/blog-detail-page";
+import { NewsPage } from "./pages/news-page";
+import { NewsDetailPage } from "./pages/news-detail-page";
 import { ContactPage } from "./pages/contact-page";
 import { EditModePage } from "./pages/edit-mode-page";
 import { ErrorBoundary } from "./components/error-boundary";
@@ -28,8 +28,8 @@ const VALID_PAGES = new Set([
   "projects",
   "project-detail",
   "papers",
-  "blog",
-  "blog-detail",
+  "news",
+  "news-detail",
   "contact",
   "edit-mode",
 ]);
@@ -48,8 +48,8 @@ const parseHistoryState = (
     page = "projects";
   }
 
-  if (page === "blog-detail" && !slug) {
-    page = "blog";
+  if (page === "news-detail" && !slug) {
+    page = "news";
   }
 
   return { page, slug };
@@ -161,11 +161,11 @@ export default function App() {
         );
       case "papers":
         return <PapersPage locale={currentLocale} />;
-      case "blog":
-        return <BlogsPage locale={currentLocale} onNavigate={navigate} />;
-      case "blog-detail":
+      case "news":
+        return <NewsPage locale={currentLocale} onNavigate={navigate} />;
+      case "news-detail":
         return (
-          <BlogDetailPage
+          <NewsDetailPage
             locale={currentLocale}
             slug={currentSlug!}
             onNavigate={navigate}

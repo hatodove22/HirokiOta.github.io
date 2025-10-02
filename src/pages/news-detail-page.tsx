@@ -4,19 +4,19 @@ import { Button } from '../components/ui/button'
 import { Badge } from '../components/ui/badge'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../components/ui/breadcrumb'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
-import { Locale, BlogPost } from '../lib/types'
+import { Locale, NewsPost } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
-import { getBlogPostBySlug } from '../lib/notion'
+import { getNewsPostBySlug } from '../lib/notion'
 import { formatDate, formatDateJa } from '../lib/utils'
 
-interface BlogDetailPageProps {
+interface NewsDetailPageProps {
   locale: Locale
   slug: string
   onNavigate: (page: string, slug?: string) => void
 }
 
-export function BlogDetailPage({ locale, slug, onNavigate }: BlogDetailPageProps) {
-  const [post, setPost] = useState<BlogPost | null>(null)
+export function NewsDetailPage({ locale, slug, onNavigate }: NewsDetailPageProps) {
+  const [post, setPost] = useState<NewsPost | null>(null)
   const [loading, setLoading] = useState(true)
 
   const t = getTranslations(locale)
@@ -25,10 +25,10 @@ export function BlogDetailPage({ locale, slug, onNavigate }: BlogDetailPageProps
     const fetchPost = async () => {
       setLoading(true)
       try {
-        const blog = await getBlogPostBySlug(locale, slug)
-        setPost(blog)
+        const news = await getNewsPostBySlug(locale, slug)
+        setPost(news)
       } catch (error) {
-        console.error('Failed to fetch blog post:', error)
+        console.error('Failed to fetch news post:', error)
         setPost(null)
       } finally {
         setLoading(false)
@@ -66,11 +66,11 @@ export function BlogDetailPage({ locale, slug, onNavigate }: BlogDetailPageProps
           <p className="text-muted-foreground">
             {locale === 'ja'
               ? 'お探しの記事が見つかりませんでした。'
-              : "We couldn't find the blog post you're looking for."}
+              : "We couldn't find the news post you're looking for."}
           </p>
-          <Button onClick={() => onNavigate('blog')}>
+          <Button onClick={() => onNavigate('news')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t.common.backTo} {t.blog.title}
+            {t.common.backTo} {t.news.title}
           </Button>
         </div>
       </div>
@@ -83,8 +83,8 @@ export function BlogDetailPage({ locale, slug, onNavigate }: BlogDetailPageProps
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink onClick={() => onNavigate('blog')} className="cursor-pointer">
-                {t.blog.title}
+              <BreadcrumbLink onClick={() => onNavigate('news')} className="cursor-pointer">
+                {t.news.title}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -94,9 +94,9 @@ export function BlogDetailPage({ locale, slug, onNavigate }: BlogDetailPageProps
           </BreadcrumbList>
         </Breadcrumb>
 
-        <Button variant="ghost" onClick={() => onNavigate('blog')}>
+        <Button variant="ghost" onClick={() => onNavigate('news')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {t.common.backTo} {t.blog.title}
+          {t.common.backTo} {t.news.title}
         </Button>
 
         <div className="space-y-6">

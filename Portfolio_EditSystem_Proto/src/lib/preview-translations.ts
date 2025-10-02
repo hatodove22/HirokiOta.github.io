@@ -1,4 +1,4 @@
-import { getTranslations } from '../../../src/lib/i18n'
+// import { getTranslations } from '../../../src/lib/i18n'
 
 import { Language } from '../types/content'
 
@@ -134,17 +134,17 @@ const fallbackEditorTexts = {
   },
 } as const
 
-const rawJa = (getTranslations('ja') as any).edit ?? {}
-const rawEn = (getTranslations('en') as any).edit ?? {}
+// const rawJa = (getTranslations('ja') as any).edit ?? {}
+// const rawEn = (getTranslations('en') as any).edit ?? {}
 
 export const previewTexts = {
-  ja: rawJa.preview ?? fallbackPreviewTexts.ja,
-  en: rawEn.preview ?? fallbackPreviewTexts.en,
+  ja: fallbackPreviewTexts.ja,
+  en: fallbackPreviewTexts.en,
 } as const
 
 export const editorTexts = {
-  ja: rawJa.editor ?? fallbackEditorTexts.ja,
-  en: rawEn.editor ?? fallbackEditorTexts.en,
+  ja: fallbackEditorTexts.ja,
+  en: fallbackEditorTexts.en,
 } as const
 
 export const getPreviewText = (language: Language) => previewTexts[language]

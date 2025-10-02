@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Badge } from '../ui/badge';
 import { Calendar, Pin } from 'lucide-react';
 import { cn } from '../ui/utils';
@@ -6,7 +6,6 @@ import { previewTexts, getPreviewText } from '../../lib/preview-translations';
 import { NewsItem, Language } from '../../types/content';
 import MarkdownIt from 'markdown-it';
 import markdownItAttrs from 'markdown-it-attrs';
-import { MarkdownFlowDebugger } from '@/components/debug/MarkdownFlowDebugger';
 
 interface NewsPreviewProps {
   item: NewsItem;
@@ -19,28 +18,16 @@ const languageBadgeLabels = {
   en: previewTexts.en.languageBadges.en,
 };
 
-// Initialize markdown-it with dynamic import
-let md: MarkdownIt | null = null;
-
-const initializeMarkdown = async () => {
-  if (!md) {
-    const { default: MarkdownIt } = await import('markdown-it');
-    const { default: markdownItAttrs } = await import('markdown-it-attrs');
-    
-    md = new MarkdownIt({
-      html: true,
-      linkify: true,
-      breaks: true,
-    }).use(markdownItAttrs);
-  }
-  return md;
-};
+// Initialize markdown-it
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  breaks: true,
+}).use(markdownItAttrs);
 
 // Render markdown content using markdown-it
-const renderContent = async (content: string): Promise<React.ReactNode> => {
+const renderContent = (content: string): React.ReactNode => {
   if (!content) return null;
-  
-  const markdownIt = await initializeMarkdown();
   
   // Enhanced Debug: Detailed content analysis
   console.log('=== PREVIEW RENDER DEBUG ===');
@@ -48,30 +35,20 @@ const renderContent = async (content: string): Promise<React.ReactNode> => {
   console.log('renderContent - Input content length:', content.length);
   console.log('renderContent - Input content type:', typeof content);
   
-  // Check if content is HTML or Markdown
-  const isHtmlContent = content.includes('<') && content.includes('>');
+  // Analyze input content structure
   const hasMarkdownHeadings = /^#+\s/m.test(content);
   const hasMarkdownLists = /^[-*+]\s/m.test(content) || /^\d+\.\s/m.test(content);
   const hasMarkdownFormatting = /\*\*.*?\*\*|\*.*?\*/.test(content);
-  const isLikelyMarkdown = hasMarkdownHeadings || hasMarkdownLists || hasMarkdownFormatting;
-  
-  console.log('Content Analysis - Is HTML content?', isHtmlContent);
   console.log('Content Analysis - Markdown Headings:', hasMarkdownHeadings);
   console.log('Content Analysis - Markdown Lists:', hasMarkdownLists);
   console.log('Content Analysis - Markdown Formatting:', hasMarkdownFormatting);
+  
+  // Check if content looks like markdown vs plain text
+  const isLikelyMarkdown = hasMarkdownHeadings || hasMarkdownLists || hasMarkdownFormatting;
   console.log('Content Analysis - Is likely markdown?', isLikelyMarkdown);
   
-  let htmlOutput: string;
-  
-  if (isHtmlContent && !isLikelyMarkdown) {
-    // HTML content: use directly
-    console.log('Processing as HTML content');
-    htmlOutput = content;
-  } else {
-    // Markdown content: convert to HTML
-    console.log('Processing as Markdown content');
-    htmlOutput = markdownIt.render(content);
-  }
+  // Use markdown-it to render the markdown text directly
+  const htmlOutput = md.render(content);
   
   // Debug: Log the HTML output
   console.log('renderContent - HTML output:', htmlOutput);
@@ -87,7 +64,7 @@ const renderContent = async (content: string): Promise<React.ReactNode> => {
   
   // Debug: Test with simple markdown
   const testMarkdown = '# Test Heading\n\nThis is **bold** text.';
-  const testHtml = markdownIt.render(testMarkdown);
+  const testHtml = md.render(testMarkdown);
   console.log('renderContent - Test markdown:', testMarkdown);
   console.log('renderContent - Test HTML:', testHtml);
   
@@ -110,8 +87,6 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   const previewCopy = getPreviewText(language);
   const languageLabel = previewCopy.newsLabel;
   const pinnedLabel = previewCopy.pinnedLabel;
-  const [debugContent, setDebugContent] = useState('');
-  const [renderedContent, setRenderedContent] = useState<React.ReactNode>(null);
   const emptyState = previewCopy.emptyState;
   const badgeClass = theme === 'light' ? 'bg-white text-slate-700 border-slate-300' : 'bg-slate-800 text-slate-100 border-slate-500';
 
@@ -129,20 +104,6 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   const getAltText = () => {
     return item.alt[language] || item.alt[language === 'ja' ? 'en' : 'ja'] || '';
   };
-
-  // Handle async content rendering
-  useEffect(() => {
-    const body = getContent('body');
-    if (!body) {
-      setRenderedContent(null);
-      return;
-    }
-
-    renderContent(body).then(setRenderedContent).catch((error) => {
-      console.error('Error rendering content:', error);
-      setRenderedContent(<div>Error rendering content</div>);
-    });
-  }, [item.body, language]);
 
   if (!getContent('title') && !getContent('summary')) {
     return (
@@ -201,13 +162,18 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
         )}
 
         {/* Content */}
-        {renderedContent && (
-          <div className="space-y-4">
-            <div className="prose prose-slate max-w-none dark:prose-invert">
-              {renderedContent}
+        {(() => {
+          const body = getContent('body');
+          if (!body) return null;
+          
+          return (
+            <div className="space-y-4">
+              <div className="prose prose-slate max-w-none dark:prose-invert">
+                {renderContent(body)}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {/* Footer */}
         <footer className="pt-6 border-t border-border">
@@ -222,13 +188,6 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
           </div>
         </footer>
       </article>
-      
-      {/* プレビュー側デバッガー */}
-      <MarkdownFlowDebugger 
-        editorContent=""
-        previewContent={item.body[language] || ''}
-        onContentChange={(content) => setDebugContent(content)}
-      />
     </div>
   );
 }

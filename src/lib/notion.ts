@@ -1,4 +1,4 @@
-import { Project, Paper, NewsItem, BlogPost, Locale, FilterParams, NotionBlock } from './types'
+import { Project, Paper, NewsItem, NewsPost, Locale, FilterParams, NotionBlock } from './types'
 
 // Mock data for development (used when Notion API is not configured)
 const mockProjects: Project[] = [
@@ -250,9 +250,9 @@ const mockNews: NewsItem[] = [
     language: 'en'
   }
 ]
-const mockBlogPosts: BlogPost[] = [
+const mockNewsPosts: NewsPost[] = [
   {
-    id: 'blog-1',
+    id: 'news-1',
     title: '医療AI研究の実験メモ',
     slug: 'medical-ai-lab-notes',
     date: '2024-08-20',
@@ -267,7 +267,7 @@ const mockBlogPosts: BlogPost[] = [
     ]
   },
   {
-    id: 'blog-2',
+    id: 'news-2',
     title: '国際学会での発表を振り返って',
     slug: 'conference-retrospective',
     date: '2024-07-05',
@@ -282,7 +282,7 @@ const mockBlogPosts: BlogPost[] = [
     ]
   },
   {
-    id: 'blog-3',
+    id: 'news-3',
     title: 'Behind the scenes of our tactile display prototype',
     slug: 'tactile-display-behind-the-scenes',
     date: '2024-06-12',
@@ -297,7 +297,7 @@ const mockBlogPosts: BlogPost[] = [
     ]
   },
   {
-    id: 'blog-4',
+    id: 'news-4',
     title: 'Notes from collaborating with clinicians',
     slug: 'collaborating-with-clinicians',
     date: '2024-05-18',
@@ -405,16 +405,16 @@ class NotionService {
     return mockPapers.filter(p => p.language === locale || p.language === 'both').sort((a, b) => b.year - a.year)
   }
 
-  async getLatestBlogPosts(locale: Locale, limit: number = 3): Promise<BlogPost[]> {
+  async getLatestNewsPosts(locale: Locale, limit: number = 3): Promise<NewsPost[]> {
     if (!this.isConfigured()) {
-      return mockBlogPosts
+      return mockNewsPosts
         .filter(post => post.language === locale)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .slice(0, limit)
     }
 
     // TODO: Implement actual Notion API call
-    return mockBlogPosts
+    return mockNewsPosts
       .filter(post => post.language === locale)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       .slice(0, limit)
@@ -460,18 +460,18 @@ class NotionService {
     }))
   }
 
-  async getBlogPostBySlug(locale: Locale, slug: string): Promise<BlogPost | null> {
+  async getNewsPostBySlug(locale: Locale, slug: string): Promise<NewsPost | null> {
     if (!this.isConfigured()) {
-      return mockBlogPosts.find((post) => post.slug === slug && post.language === locale) || null
+      return mockNewsPosts.find((post) => post.slug === slug && post.language === locale) || null
     }
 
     // TODO: Implement actual Notion API call
-    return mockBlogPosts.find((post) => post.slug === slug && post.language === locale) || null
+    return mockNewsPosts.find((post) => post.slug === slug && post.language === locale) || null
   }
 
-  async getBlogPosts(locale: Locale, filters: FilterParams = {}): Promise<BlogPost[]> {
+  async getNewsPosts(locale: Locale, filters: FilterParams = {}): Promise<NewsPost[]> {
     if (!this.isConfigured()) {
-      let posts = mockBlogPosts
+      let posts = mockNewsPosts
         .filter(post => post.language === locale)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
@@ -494,7 +494,7 @@ class NotionService {
     }
 
     // TODO: Implement actual Notion API call
-    let posts = mockBlogPosts
+    let posts = mockNewsPosts
       .filter(post => post.language === locale)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
@@ -523,11 +523,11 @@ export const notionService = new NotionService()
 // Export convenience functions
 export const getPinnedProjects = (locale: Locale) => notionService.getPinnedProjects(locale)
 export const getProjects = (locale: Locale, filters?: FilterParams) => notionService.getProjects(locale, filters)
-export const getBlogPosts = (locale: Locale, filters?: FilterParams) => notionService.getBlogPosts(locale, filters)
-export const getBlogPostBySlug = (locale: Locale, slug: string) => notionService.getBlogPostBySlug(locale, slug)
+export const getNewsPosts = (locale: Locale, filters?: FilterParams) => notionService.getNewsPosts(locale, filters)
+export const getNewsPostBySlug = (locale: Locale, slug: string) => notionService.getNewsPostBySlug(locale, slug)
 export const getProjectBySlug = (locale: Locale, slug: string) => notionService.getProjectBySlug(locale, slug)
 export const getPapers = (locale: Locale, filters?: FilterParams) => notionService.getPapers(locale, filters)
 export const getRecentPapers = (locale: Locale, limit?: number) => notionService.getRecentPapers(locale, limit)
 export const getLatestNews = (locale: Locale, limit?: number) => notionService.getLatestNews(locale, limit)
-export const getLatestBlogPosts = (locale: Locale, limit?: number) => notionService.getLatestBlogPosts(locale, limit)
+export const getLatestNewsPosts = (locale: Locale, limit?: number) => notionService.getLatestNewsPosts(locale, limit)
 

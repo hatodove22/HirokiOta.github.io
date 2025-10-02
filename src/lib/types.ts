@@ -21,7 +21,7 @@ export interface Project {
   isPinned?: boolean
 }
 
-export interface BlogPost {
+export interface NewsPost {
   id: string
   title: string
   slug: string

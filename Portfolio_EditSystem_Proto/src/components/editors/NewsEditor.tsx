@@ -295,9 +295,9 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
                   <div className="editor-container">
         <SimpleTemplateEditor
           initialContent={editingItem.body[lang] || ''}
-          onContentChange={(text) => {
-            console.log('Editor content changed:', text);
-            updateLocalizedField('body', lang, text);
+          onContentChange={(markdown) => {
+            console.log('Editor markdown content changed:', markdown);
+            updateLocalizedField('body', lang, markdown);
           }}
         />
                   </div>
