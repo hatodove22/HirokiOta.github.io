@@ -18,67 +18,62 @@ const languageBadgeLabels = {
   en: previewTexts.en.languageBadges.en,
 };
 
-// Initialize markdown-it
+// Initialize markdown-it with proper configuration based on official docs
 const md = new MarkdownIt({
-  html: true,
-  linkify: true,
-  breaks: true,
+  html: true,           // Enable HTML tags in source
+  linkify: true,        // Autoconvert URL-like text to links
+  breaks: false,        // Convert '\n' in paragraphs into <br> (CommonMark compliant)
+  typographer: true,    // Enable typographer features
+  quotes: '""\'\'',     // Double + single quotes replacement pairs
+  langPrefix: 'language-', // CSS language prefix for fenced blocks
 }).use(markdownItAttrs);
 
 // Render markdown content using markdown-it
 const renderContent = (content: string): React.ReactNode => {
   if (!content) return null;
   
-  // Enhanced Debug: Detailed content analysis
-  console.log('=== PREVIEW RENDER DEBUG ===');
-  console.log('renderContent - Input content:', content);
-  console.log('renderContent - Input content length:', content.length);
-  console.log('renderContent - Input content type:', typeof content);
+  // Enhanced Debug: markdown-it processing analysis
+  console.log('=== MARKDOWN-IT RENDER DEBUG ===');
+  console.log('Input content:', content);
+  console.log('Input length:', content.length);
   
-  // Analyze input content structure
-  const hasMarkdownHeadings = /^#+\s/m.test(content);
-  const hasMarkdownLists = /^[-*+]\s/m.test(content) || /^\d+\.\s/m.test(content);
-  const hasMarkdownFormatting = /\*\*.*?\*\*|\*.*?\*/.test(content);
-  console.log('Content Analysis - Markdown Headings:', hasMarkdownHeadings);
-  console.log('Content Analysis - Markdown Lists:', hasMarkdownLists);
-  console.log('Content Analysis - Markdown Formatting:', hasMarkdownFormatting);
+  // Analyze input markdown structure
+  const markdownAnalysis = {
+    hasHeadings: /^#+\s/m.test(content),
+    hasLists: /^[-*+]\s/m.test(content) || /^\d+\.\s/m.test(content),
+    hasBold: /\*\*.*?\*\*/.test(content),
+    hasItalic: /\*.*?\*/.test(content),
+    hasCodeBlocks: /```/.test(content),
+    hasTables: /\|.*\|/.test(content),
+    hasBlockquotes: /^>/.test(content)
+  };
+  console.log('Markdown Analysis:', markdownAnalysis);
   
-  // Check if content looks like markdown vs plain text
-  const isLikelyMarkdown = hasMarkdownHeadings || hasMarkdownLists || hasMarkdownFormatting;
-  console.log('Content Analysis - Is likely markdown?', isLikelyMarkdown);
-  
-  // Use markdown-it to render the markdown text directly
+  // Render with markdown-it
   const htmlOutput = md.render(content);
   
-  // Debug: Log the HTML output
-  console.log('renderContent - HTML output:', htmlOutput);
-  console.log('renderContent - HTML output length:', htmlOutput.length);
-  
-  // Analyze HTML output structure
-  const hasHtmlHeadings = /<h[1-6][^>]*>/i.test(htmlOutput);
-  const hasHtmlLists = /<(ul|ol)[^>]*>/i.test(htmlOutput);
-  const hasHtmlFormatting = /<(strong|b|em|i)[^>]*>/i.test(htmlOutput);
-  console.log('HTML Analysis - Headings:', hasHtmlHeadings);
-  console.log('HTML Analysis - Lists:', hasHtmlLists);
-  console.log('HTML Analysis - Formatting:', hasHtmlFormatting);
-  
-  // Debug: Test with simple markdown
-  const testMarkdown = '# Test Heading\n\nThis is **bold** text.';
-  const testHtml = md.render(testMarkdown);
-  console.log('renderContent - Test markdown:', testMarkdown);
-  console.log('renderContent - Test HTML:', testHtml);
-  
-  // Check if conversion was successful
-  const conversionSuccessful = hasMarkdownHeadings === hasHtmlHeadings && 
-                              hasMarkdownLists === hasHtmlLists && 
-                              hasMarkdownFormatting === hasHtmlFormatting;
-  console.log('Conversion Analysis - Successful?', conversionSuccessful);
-  console.log('=== END PREVIEW RENDER DEBUG ===');
+  // Analyze HTML output
+  const htmlAnalysis = {
+    hasH1toH6: /<h[1-6][^>]*>/i.test(htmlOutput),
+    hasLists: /<(ul|ol)[^>]*>/i.test(htmlOutput),
+    hasStrong: /<strong[^>]*>/i.test(htmlOutput),
+    hasEm: /<em[^>]*>/i.test(htmlOutput),
+    hasCode: /<(code|pre)[^>]*>/i.test(htmlOutput),
+    hasTables: /<table[^>]*>/i.test(htmlOutput),
+    hasBlockquotes: /<blockquote[^>]*>/i.test(htmlOutput)
+  };
+  console.log('HTML Analysis:', htmlAnalysis);
+  console.log('HTML Output:', htmlOutput);
+  console.log('=== END MARKDOWN-IT RENDER DEBUG ===');
   
   return (
     <div
-      className="space-y-2"
+      className="space-y-2 prose prose-slate max-w-none dark:prose-invert"
       dangerouslySetInnerHTML={{ __html: htmlOutput }}
+      style={{
+        lineHeight: '1.7',
+        color: 'inherit'
+      }}
     />
   );
 };
@@ -168,9 +163,7 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
           
           return (
             <div className="space-y-4">
-              <div className="prose prose-slate max-w-none dark:prose-invert">
-                {renderContent(body)}
-              </div>
+              {renderContent(body)}
             </div>
           );
         })()}

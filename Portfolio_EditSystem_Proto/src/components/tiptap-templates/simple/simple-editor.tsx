@@ -14,7 +14,6 @@ import { Highlight } from "@tiptap/extension-highlight"
 import { Subscript } from "@tiptap/extension-subscript"
 import { Superscript } from "@tiptap/extension-superscript"
 import { Selection } from "@tiptap/extensions"
-import { DataFlowVisualizer } from "../../debug/DataFlowVisualizer"
 
 // --- UI Primitives ---
 import { Button } from "../../tiptap-ui-primitive/button"
@@ -483,12 +482,6 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
         />
       </EditorContext.Provider>
       
-      {/* データフロー可視化システム */}
-      <DataFlowVisualizer 
-        editorContent={editor?.getHTML() || ''}
-        previewContent=""
-        onContentChange={onContentChange}
-      />
     </div>
   )
 }
