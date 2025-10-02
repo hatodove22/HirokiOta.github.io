@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ContentList } from '../ContentList';
 import { NewsEditor } from '../editors/NewsEditor';
 import { NewsItem } from '../../types/content';
@@ -59,42 +60,67 @@ const mockNewsData: NewsItem[] = [
 ];
 
 export function NewsSection() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  
   const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+
+  // URLパスに基づいて表示モードを判定
+  const isEditing = location.pathname.includes('/edit/') || location.pathname === '/news/new';
+  const isNew = location.pathname === '/news/new';
+  const isList = location.pathname === '/news';
+
+  // 編集モードの場合、アイテムを取得
+  React.useEffect(() => {
+    if (isEditing) {
+      if (isNew) {
+        // 新規作成の場合
+        const newItem: NewsItem = {
+          id: `news-${Date.now()}`,
+          slug: '',
+          date: new Date().toISOString().split('T')[0],
+          title: { ja: '', en: '' },
+          summary: { ja: '', en: '' },
+          body: { ja: '', en: '' },
+          alt: { ja: '', en: '' },
+          tags: [],
+          published: false,
+          publish: { ja: true, en: true },
+          pinned: false
+        };
+        setSelectedItem(newItem);
+      } else if (id) {
+        // 編集の場合、IDに基づいてアイテムを取得
+        const item = mockNewsData.find(item => item.id === id);
+        if (item) {
+          setSelectedItem(item);
+        } else {
+          // アイテムが見つからない場合は一覧に戻る
+          navigate('/news');
+        }
+      }
+    } else {
+      setSelectedItem(null);
+    }
+  }, [isEditing, isNew, id, navigate]);
 
   const handleEdit = (item: NewsItem) => {
-    setSelectedItem(item);
-    setIsEditing(true);
+    navigate(`/news/edit/${item.id}`);
   };
 
   const handleNew = () => {
-    const newItem: NewsItem = {
-      id: `news-${Date.now()}`,
-      slug: '',
-      date: new Date().toISOString().split('T')[0],
-      title: { ja: '', en: '' },
-      summary: { ja: '', en: '' },
-      body: { ja: '', en: '' },
-      alt: { ja: '', en: '' },
-      tags: [],
-      published: false,
-      publish: { ja: true, en: true },
-      pinned: false
-    };
-    setSelectedItem(newItem);
-    setIsEditing(true);
+    navigate('/news/new');
   };
 
   const handleSave = (item: NewsItem) => {
     // TODO: Implement save logic
     console.log('Saving news item:', item);
-    setIsEditing(false);
-    setSelectedItem(null);
+    navigate('/news');
   };
 
   const handleCancel = () => {
-    setIsEditing(false);
-    setSelectedItem(null);
+    navigate('/news');
   };
 
   if (isEditing && selectedItem) {

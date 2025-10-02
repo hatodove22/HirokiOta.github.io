@@ -245,75 +245,38 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
     ],
     content: initialContent || content,
     onUpdate: ({ editor }) => {
-      // Enhanced Debug: Detailed editor state analysis
-      console.log('=== EDITOR UPDATE DEBUG ===');
-      console.log('Editor storage:', editor.storage);
-      console.log('Editor storage.markdown:', (editor.storage as any)?.markdown);
-      console.log('Editor storage.markdown type:', typeof (editor.storage as any)?.markdown);
+      console.log('=== SIMPLEEDITOR UPDATE DEBUG ===');
       
-      // Get raw HTML for analysis
-      const rawHTML = editor.getHTML();
-      console.log('Raw HTML output:', rawHTML);
-      console.log('Raw HTML length:', rawHTML.length);
-      console.log('Raw HTML type:', typeof rawHTML);
-      
-      // Analyze HTML structure
-      const hasHeadings = /<h[1-6][^>]*>/i.test(rawHTML);
-      const hasLists = /<(ul|ol)[^>]*>/i.test(rawHTML);
-      const hasFormatting = /<(strong|b|em|i)[^>]*>/i.test(rawHTML);
-      console.log('HTML Analysis - Headings:', hasHeadings, 'Lists:', hasLists, 'Formatting:', hasFormatting);
-      
-      // Try to get markdown from the extension directly
+      // Try to get markdown from the tiptap-markdown extension
       let markdown: string | undefined;
       
-      // Method 1: Try to get from storage
-      markdown = getMarkdownFromStorage(editor.storage);
-      console.log('Method 1 - Storage markdown:', markdown);
-      console.log('Method 1 - Markdown type:', typeof markdown);
-      console.log('Method 1 - Markdown length:', markdown?.length);
-      
-      // Method 2: Try to access the extension directly
-      if (!markdown && (editor.storage as any)?.markdown) {
-        const markdownExt = (editor.storage as any).markdown;
-        console.log('Method 2 - Markdown extension found:', markdownExt);
-        console.log('Method 2 - getMarkdown function exists:', typeof markdownExt.getMarkdown === 'function');
-        if (typeof markdownExt.getMarkdown === 'function') {
-          markdown = markdownExt.getMarkdown();
-          console.log('Method 2 - Direct extension markdown:', markdown);
-          console.log('Method 2 - Markdown type:', typeof markdown);
-          console.log('Method 2 - Markdown length:', markdown?.length);
+      try {
+        // Method 1: Try to get from editor.storage.markdown.getMarkdown()
+        if ((editor.storage as any)?.markdown?.getMarkdown) {
+          markdown = (editor.storage as any).markdown.getMarkdown();
+          console.log('Method 1 - Markdown from storage:', markdown);
         }
+      } catch (error) {
+        console.log('Method 1 failed:', error);
       }
       
-      // Method 3: Try to get markdown from the editor's markdown extension
+      // Method 2: Try to get from extension manager
       if (!markdown) {
         try {
-          // Access the markdown extension from the editor's extensions
           const markdownExtension = editor.extensionManager.extensions.find(ext => ext.name === 'markdown');
-          console.log('Method 3 - Markdown extension found:', !!markdownExtension);
-          if (markdownExtension) {
-            console.log('Method 3 - Extension storage:', markdownExtension.storage);
-            console.log('Method 3 - getMarkdown exists:', !!(markdownExtension.storage as any)?.getMarkdown);
-          }
           if (markdownExtension && (markdownExtension.storage as any)?.getMarkdown) {
             markdown = (markdownExtension.storage as any).getMarkdown();
-            console.log('Method 3 - Extension storage markdown:', markdown);
-            console.log('Method 3 - Markdown type:', typeof markdown);
-            console.log('Method 3 - Markdown length:', markdown?.length);
+            console.log('Method 2 - Markdown from extension:', markdown);
           }
-        } catch (e) {
-          console.log('Method 3 failed:', e);
+        } catch (error) {
+          console.log('Method 2 failed:', error);
         }
       }
       
-      // Method 4: Convert HTML to markdown manually
-      // Check if markdown is empty, null, undefined, or whitespace-only
-      const isEmptyMarkdown = !markdown || markdown.trim().length === 0;
-      console.log('Method 4 - Is markdown empty?', isEmptyMarkdown);
-      
-      if (isEmptyMarkdown) {
+      // Fallback: Use existing complex conversion if markdown is not available
+      if (!markdown || markdown.trim().length === 0) {
+        console.log('Using fallback HTML to markdown conversion');
         const html = editor.getHTML();
-        console.log('Method 4 - Converting HTML to markdown:', html);
         
         // Enhanced HTML to markdown conversion with better regex patterns
         markdown = html

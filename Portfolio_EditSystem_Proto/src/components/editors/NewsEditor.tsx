@@ -296,8 +296,15 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
         <SimpleTemplateEditor
           initialContent={editingItem.body[lang] || ''}
           onContentChange={(markdown) => {
-            console.log('Editor markdown content changed:', markdown);
+            console.log('=== NEWSEDITOR DEBUG START ===');
+            console.log('1. Received markdown from SimpleEditor:', markdown);
+            console.log('2. Markdown type:', typeof markdown);
+            console.log('3. Markdown length:', markdown?.length);
+            console.log('4. Markdown preview:', markdown?.substring(0, 200));
+            
             updateLocalizedField('body', lang, markdown);
+            console.log('5. Updated localized field with markdown');
+            console.log('=== NEWSEDITOR DEBUG END ===');
           }}
         />
                   </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -194,19 +195,18 @@ function ContentTable({ title, icon: Icon, data, onNewClick }: ContentTableProps
 }
 
 export function HomeSection() {
+  const navigate = useNavigate();
+
   const handleNewNews = () => {
-    console.log('New news clicked');
-    // TODO: Navigate to news creation
+    navigate('/news/new');
   };
 
   const handleNewProject = () => {
-    console.log('New project clicked');
-    // TODO: Navigate to project creation
+    navigate('/projects/new');
   };
 
   const handleNewPaper = () => {
-    console.log('New paper clicked');
-    // TODO: Navigate to paper creation
+    navigate('/papers/new');
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ContentList } from '../ContentList';
 import { ProjectItem } from '../../types/content';
 
@@ -34,43 +35,68 @@ const mockProjectsData: ProjectItem[] = [
 ];
 
 export function ProjectsSection() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  
   const [selectedItem, setSelectedItem] = useState<ProjectItem | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+
+  // URLパスに基づいて表示モードを判定
+  const isEditing = location.pathname.includes('/edit/') || location.pathname === '/projects/new';
+  const isNew = location.pathname === '/projects/new';
+  const isList = location.pathname === '/projects';
+
+  // 編集モードの場合、アイテムを取得
+  React.useEffect(() => {
+    if (isEditing) {
+      if (isNew) {
+        // 新規作成の場合
+        const newItem: ProjectItem = {
+          id: `project-${Date.now()}`,
+          slug: '',
+          date: new Date().toISOString().split('T')[0],
+          title: { ja: '', en: '' },
+          summary: { ja: '', en: '' },
+          body: { ja: '', en: '' },
+          alt: { ja: '', en: '' },
+          tags: [],
+          published: false,
+          publish: { ja: false, en: false },
+          status: 'planning',
+          featured: false,
+          relatedPapers: []
+        };
+        setSelectedItem(newItem);
+      } else if (id) {
+        // 編集の場合、IDに基づいてアイテムを取得
+        const item = mockProjectsData.find(item => item.id === id);
+        if (item) {
+          setSelectedItem(item);
+        } else {
+          // アイテムが見つからない場合は一覧に戻る
+          navigate('/projects');
+        }
+      }
+    } else {
+      setSelectedItem(null);
+    }
+  }, [isEditing, isNew, id, navigate]);
 
   const handleEdit = (item: ProjectItem) => {
-    setSelectedItem(item);
-    setIsEditing(true);
+    navigate(`/projects/edit/${item.id}`);
   };
 
   const handleNew = () => {
-    const newItem: ProjectItem = {
-      id: `project-${Date.now()}`,
-      slug: '',
-      date: new Date().toISOString().split('T')[0],
-      title: { ja: '', en: '' },
-      summary: { ja: '', en: '' },
-      body: { ja: '', en: '' },
-      alt: { ja: '', en: '' },
-      tags: [],
-      published: false,
-      publish: { ja: false, en: false },
-      status: 'planning',
-      featured: false,
-      relatedPapers: []
-    };
-    setSelectedItem(newItem);
-    setIsEditing(true);
+    navigate('/projects/new');
   };
 
   const handleSave = (item: ProjectItem) => {
     console.log('Saving project item:', item);
-    setIsEditing(false);
-    setSelectedItem(null);
+    navigate('/projects');
   };
 
   const handleCancel = () => {
-    setIsEditing(false);
-    setSelectedItem(null);
+    navigate('/projects');
   };
 
   if (isEditing && selectedItem) {

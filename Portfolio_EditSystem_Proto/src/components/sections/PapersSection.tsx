@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ContentList } from '../ContentList';
 import { PaperItem } from '../../types/content';
 
@@ -39,43 +40,68 @@ const mockPapersData: PaperItem[] = [
 ];
 
 export function PapersSection() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<{ id: string }>();
+  
   const [selectedItem, setSelectedItem] = useState<PaperItem | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+
+  // URLパスに基づいて表示モードを判定
+  const isEditing = location.pathname.includes('/edit/') || location.pathname === '/papers/new';
+  const isNew = location.pathname === '/papers/new';
+  const isList = location.pathname === '/papers';
+
+  // 編集モードの場合、アイテムを取得
+  React.useEffect(() => {
+    if (isEditing) {
+      if (isNew) {
+        // 新規作成の場合
+        const newItem: PaperItem = {
+          id: `paper-${Date.now()}`,
+          slug: '',
+          date: new Date().toISOString().split('T')[0],
+          title: { ja: '', en: '' },
+          summary: { ja: '', en: '' },
+          body: { ja: '', en: '' },
+          alt: { ja: '', en: '' },
+          tags: [],
+          published: false,
+          publish: { ja: false, en: false },
+          authors: [],
+          abstract: { ja: '', en: '' },
+          relatedProjects: []
+        };
+        setSelectedItem(newItem);
+      } else if (id) {
+        // 編集の場合、IDに基づいてアイテムを取得
+        const item = mockPapersData.find(item => item.id === id);
+        if (item) {
+          setSelectedItem(item);
+        } else {
+          // アイテムが見つからない場合は一覧に戻る
+          navigate('/papers');
+        }
+      }
+    } else {
+      setSelectedItem(null);
+    }
+  }, [isEditing, isNew, id, navigate]);
 
   const handleEdit = (item: PaperItem) => {
-    setSelectedItem(item);
-    setIsEditing(true);
+    navigate(`/papers/edit/${item.id}`);
   };
 
   const handleNew = () => {
-    const newItem: PaperItem = {
-      id: `paper-${Date.now()}`,
-      slug: '',
-      date: new Date().toISOString().split('T')[0],
-      title: { ja: '', en: '' },
-      summary: { ja: '', en: '' },
-      body: { ja: '', en: '' },
-      alt: { ja: '', en: '' },
-      tags: [],
-      published: false,
-      publish: { ja: false, en: false },
-      authors: [],
-      abstract: { ja: '', en: '' },
-      relatedProjects: []
-    };
-    setSelectedItem(newItem);
-    setIsEditing(true);
+    navigate('/papers/new');
   };
 
   const handleSave = (item: PaperItem) => {
     console.log('Saving paper item:', item);
-    setIsEditing(false);
-    setSelectedItem(null);
+    navigate('/papers');
   };
 
   const handleCancel = () => {
-    setIsEditing(false);
-    setSelectedItem(null);
+    navigate('/papers');
   };
 
   if (isEditing && selectedItem) {
