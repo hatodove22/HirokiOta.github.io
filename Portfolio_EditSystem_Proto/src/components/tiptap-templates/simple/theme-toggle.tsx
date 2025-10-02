@@ -8,21 +8,24 @@ import { MoonStarIcon } from "@/components/tiptap-icons/moon-star-icon"
 import { SunIcon } from "@/components/tiptap-icons/sun-icon"
 
 export function ThemeToggle() {
-  const [isDarkMode, setIsDarkMode] = React.useState<boolean>(false)
+  // 初期状態をダークモードに設定
+  const [isDarkMode, setIsDarkMode] = React.useState<boolean>(true)
 
-  React.useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
-    const handleChange = () => setIsDarkMode(mediaQuery.matches)
-    mediaQuery.addEventListener("change", handleChange)
-    return () => mediaQuery.removeEventListener("change", handleChange)
-  }, [])
+  // システム設定の変更を監視するuseEffectを削除
+  // React.useEffect(() => {
+  //   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+  //   const handleChange = () => setIsDarkMode(mediaQuery.matches)
+  //   mediaQuery.addEventListener("change", handleChange)
+  //   return () => mediaQuery.removeEventListener("change", handleChange)
+  // }, [])
 
-  React.useEffect(() => {
-    const initialDarkMode =
-      !!document.querySelector('meta[name="color-scheme"][content="dark"]') ||
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    setIsDarkMode(initialDarkMode)
-  }, [])
+  // システム設定に基づく初期化を削除し、常にダークモードで開始
+  // React.useEffect(() => {
+  //   const initialDarkMode =
+  //     !!document.querySelector('meta[name="color-scheme"][content="dark"]') ||
+  //     window.matchMedia("(prefers-color-scheme: dark)").matches
+  //   setIsDarkMode(initialDarkMode)
+  // }, [])
 
   React.useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode)

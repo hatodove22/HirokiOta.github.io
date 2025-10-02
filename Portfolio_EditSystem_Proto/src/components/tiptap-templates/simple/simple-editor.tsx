@@ -183,7 +183,12 @@ const MobileToolbarContent = ({
   </>
 )
 
-export function SimpleEditor() {
+interface SimpleEditorProps {
+  initialContent?: string;
+  onContentChange?: (html: string) => void;
+}
+
+export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorProps = {}) {
   const isMobile = useIsMobile()
   const { height } = useWindowSize()
   const [mobileView, setMobileView] = React.useState<
@@ -229,7 +234,13 @@ export function SimpleEditor() {
         onError: (error) => console.error("Upload failed:", error),
       }),
     ],
-    content,
+    content: initialContent || content,
+    onUpdate: ({ editor }) => {
+      // Get the plain text content from the editor
+      const text = editor.getText();
+      console.log('Tiptap text output:', text);
+      onContentChange?.(text);
+    },
   })
 
   const rect = useCursorVisibility({
@@ -242,6 +253,13 @@ export function SimpleEditor() {
       setMobileView("main")
     }
   }, [isMobile, mobileView])
+
+  // Update editor content when initialContent changes
+  React.useEffect(() => {
+    if (editor && initialContent !== undefined && editor.getText() !== initialContent) {
+      editor.commands.setContent(initialContent, false);
+    }
+  }, [editor, initialContent])
 
   return (
     <div className="simple-editor-wrapper">

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Badge } from '../ui/badge';
 import { Calendar, Pin } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { previewTexts, getPreviewText } from '../../lib/preview-translations';
 import { NewsItem, Language } from '../../types/content';
+import MarkdownIt from 'markdown-it';
+import markdownItAttrs from 'markdown-it-attrs';
+import { MarkdownFlowDebugger } from '@/components/debug/MarkdownFlowDebugger';
 
 interface NewsPreviewProps {
   item: NewsItem;
@@ -16,146 +19,99 @@ const languageBadgeLabels = {
   en: previewTexts.en.languageBadges.en,
 };
 
+// Initialize markdown-it with dynamic import
+let md: MarkdownIt | null = null;
 
-// Simple markdown renderer for basic formatting
-const renderMarkdown = (text: string): React.ReactNode => {
-  if (!text) return null;
-
-  const lines = text.split('\n');
-  const elements: React.ReactNode[] = [];
-  let currentParagraph: string[] = [];
-  let key = 0;
-
-  const flushParagraph = () => {
-    if (currentParagraph.length > 0) {
-      const paragraphText = currentParagraph.join('\n');
-      if (paragraphText.trim()) {
-        elements.push(
-          <p key={key++} className="mb-4 leading-relaxed">
-            {renderInlineMarkdown(paragraphText)}
-          </p>
-        );
-      }
-      currentParagraph = [];
-    }
-  };
-
-  const renderInlineMarkdown = (text: string): React.ReactNode => {
-    const parts = text.split(/(\*\*.*?\*\*|\*.*?\*|`.*?`|\[.*?\]\(.*?\))/);
-    return parts.map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={index}>{part.slice(2, -2)}</strong>;
-      }
-      if (part.startsWith('*') && part.endsWith('*') && !part.startsWith('**')) {
-        return <em key={index}>{part.slice(1, -1)}</em>;
-      }
-      if (part.startsWith('`') && part.endsWith('`')) {
-        return <code key={index} className="bg-muted px-1 rounded text-sm">{part.slice(1, -1)}</code>;
-      }
-      const linkMatch = part.match(/\[(.*?)\]\((.*?)\)/);
-      if (linkMatch) {
-        return <a key={index} href={linkMatch[2]} className="text-primary underline" target="_blank" rel="noopener noreferrer">{linkMatch[1]}</a>;
-      }
-      return part;
-    });
-  };
-
-  for (const line of lines) {
-    const trimmedLine = line.trim();
+const initializeMarkdown = async () => {
+  if (!md) {
+    const { default: MarkdownIt } = await import('markdown-it');
+    const { default: markdownItAttrs } = await import('markdown-it-attrs');
     
-    if (trimmedLine.startsWith('# ')) {
-      flushParagraph();
-      elements.push(
-        <h1 key={key++} className="text-3xl font-bold mb-6 mt-8 first:mt-0">
-          {renderInlineMarkdown(trimmedLine.slice(2))}
-        </h1>
-      );
-    } else if (trimmedLine.startsWith('## ')) {
-      flushParagraph();
-      elements.push(
-        <h2 key={key++} className="text-2xl font-bold mb-4 mt-6 first:mt-0">
-          {renderInlineMarkdown(trimmedLine.slice(3))}
-        </h2>
-      );
-    } else if (trimmedLine.startsWith('### ')) {
-      flushParagraph();
-      elements.push(
-        <h3 key={key++} className="text-xl font-bold mb-3 mt-5 first:mt-0">
-          {renderInlineMarkdown(trimmedLine.slice(4))}
-        </h3>
-      );
-    } else if (trimmedLine.startsWith('- ') || trimmedLine.startsWith('* ')) {
-      flushParagraph();
-      const nextLines = lines.slice(lines.indexOf(line));
-      const listItems: string[] = [];
-      let i = 0;
-      
-      while (i < nextLines.length && (nextLines[i].trim().startsWith('- ') || nextLines[i].trim().startsWith('* '))) {
-        listItems.push(nextLines[i].trim().slice(2));
-        i++;
-      }
-      
-      elements.push(
-        <ul key={key++} className="list-disc pl-6 mb-4">
-          {listItems.map((item, itemIndex) => (
-            <li key={itemIndex} className="mb-1">
-              {renderInlineMarkdown(item)}
-            </li>
-          ))}
-        </ul>
-      );
-      
-      // Skip processed lines
-      for (let j = 1; j < i; j++) {
-        lines.splice(lines.indexOf(line) + 1, 1);
-      }
-    } else if (trimmedLine.match(/^\d+\. /)) {
-      flushParagraph();
-      const nextLines = lines.slice(lines.indexOf(line));
-      const listItems: string[] = [];
-      let i = 0;
-      
-      while (i < nextLines.length && nextLines[i].trim().match(/^\d+\. /)) {
-        listItems.push(nextLines[i].trim().replace(/^\d+\. /, ''));
-        i++;
-      }
-      
-      elements.push(
-        <ol key={key++} className="list-decimal pl-6 mb-4">
-          {listItems.map((item, itemIndex) => (
-            <li key={itemIndex} className="mb-1">
-              {renderInlineMarkdown(item)}
-            </li>
-          ))}
-        </ol>
-      );
-      
-      // Skip processed lines
-      for (let j = 1; j < i; j++) {
-        lines.splice(lines.indexOf(line) + 1, 1);
-      }
-    } else if (trimmedLine.startsWith('> ')) {
-      flushParagraph();
-      elements.push(
-        <blockquote key={key++} className="border-l-4 border-muted-foreground pl-4 italic mb-4 text-muted-foreground">
-          {renderInlineMarkdown(trimmedLine.slice(2))}
-        </blockquote>
-      );
-    } else if (trimmedLine === '') {
-      flushParagraph();
-    } else {
-      currentParagraph.push(line);
-    }
+    md = new MarkdownIt({
+      html: true,
+      linkify: true,
+      breaks: true,
+    }).use(markdownItAttrs);
+  }
+  return md;
+};
+
+// Render markdown content using markdown-it
+const renderContent = async (content: string): Promise<React.ReactNode> => {
+  if (!content) return null;
+  
+  const markdownIt = await initializeMarkdown();
+  
+  // Enhanced Debug: Detailed content analysis
+  console.log('=== PREVIEW RENDER DEBUG ===');
+  console.log('renderContent - Input content:', content);
+  console.log('renderContent - Input content length:', content.length);
+  console.log('renderContent - Input content type:', typeof content);
+  
+  // Check if content is HTML or Markdown
+  const isHtmlContent = content.includes('<') && content.includes('>');
+  const hasMarkdownHeadings = /^#+\s/m.test(content);
+  const hasMarkdownLists = /^[-*+]\s/m.test(content) || /^\d+\.\s/m.test(content);
+  const hasMarkdownFormatting = /\*\*.*?\*\*|\*.*?\*/.test(content);
+  const isLikelyMarkdown = hasMarkdownHeadings || hasMarkdownLists || hasMarkdownFormatting;
+  
+  console.log('Content Analysis - Is HTML content?', isHtmlContent);
+  console.log('Content Analysis - Markdown Headings:', hasMarkdownHeadings);
+  console.log('Content Analysis - Markdown Lists:', hasMarkdownLists);
+  console.log('Content Analysis - Markdown Formatting:', hasMarkdownFormatting);
+  console.log('Content Analysis - Is likely markdown?', isLikelyMarkdown);
+  
+  let htmlOutput: string;
+  
+  if (isHtmlContent && !isLikelyMarkdown) {
+    // HTML content: use directly
+    console.log('Processing as HTML content');
+    htmlOutput = content;
+  } else {
+    // Markdown content: convert to HTML
+    console.log('Processing as Markdown content');
+    htmlOutput = markdownIt.render(content);
   }
   
-  flushParagraph();
-  return <div className="space-y-2">{elements}</div>;
+  // Debug: Log the HTML output
+  console.log('renderContent - HTML output:', htmlOutput);
+  console.log('renderContent - HTML output length:', htmlOutput.length);
+  
+  // Analyze HTML output structure
+  const hasHtmlHeadings = /<h[1-6][^>]*>/i.test(htmlOutput);
+  const hasHtmlLists = /<(ul|ol)[^>]*>/i.test(htmlOutput);
+  const hasHtmlFormatting = /<(strong|b|em|i)[^>]*>/i.test(htmlOutput);
+  console.log('HTML Analysis - Headings:', hasHtmlHeadings);
+  console.log('HTML Analysis - Lists:', hasHtmlLists);
+  console.log('HTML Analysis - Formatting:', hasHtmlFormatting);
+  
+  // Debug: Test with simple markdown
+  const testMarkdown = '# Test Heading\n\nThis is **bold** text.';
+  const testHtml = markdownIt.render(testMarkdown);
+  console.log('renderContent - Test markdown:', testMarkdown);
+  console.log('renderContent - Test HTML:', testHtml);
+  
+  // Check if conversion was successful
+  const conversionSuccessful = hasMarkdownHeadings === hasHtmlHeadings && 
+                              hasMarkdownLists === hasHtmlLists && 
+                              hasMarkdownFormatting === hasHtmlFormatting;
+  console.log('Conversion Analysis - Successful?', conversionSuccessful);
+  console.log('=== END PREVIEW RENDER DEBUG ===');
+  
+  return (
+    <div
+      className="space-y-2"
+      dangerouslySetInnerHTML={{ __html: htmlOutput }}
+    />
+  );
 };
 
 export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   const previewCopy = getPreviewText(language);
   const languageLabel = previewCopy.newsLabel;
   const pinnedLabel = previewCopy.pinnedLabel;
+  const [debugContent, setDebugContent] = useState('');
+  const [renderedContent, setRenderedContent] = useState<React.ReactNode>(null);
   const emptyState = previewCopy.emptyState;
   const badgeClass = theme === 'light' ? 'bg-white text-slate-700 border-slate-300' : 'bg-slate-800 text-slate-100 border-slate-500';
 
@@ -173,6 +129,20 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   const getAltText = () => {
     return item.alt[language] || item.alt[language === 'ja' ? 'en' : 'ja'] || '';
   };
+
+  // Handle async content rendering
+  useEffect(() => {
+    const body = getContent('body');
+    if (!body) {
+      setRenderedContent(null);
+      return;
+    }
+
+    renderContent(body).then(setRenderedContent).catch((error) => {
+      console.error('Error rendering content:', error);
+      setRenderedContent(<div>Error rendering content</div>);
+    });
+  }, [item.body, language]);
 
   if (!getContent('title') && !getContent('summary')) {
     return (
@@ -231,22 +201,13 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
         )}
 
         {/* Content */}
-        {(() => {
-          const body = getContent('body');
-          if (!body) return null;
-          const looksHtml = /<\w+[\s\S]*>/i.test(body);
-          return (
-            <div className="space-y-4">
-              <div className="prose prose-slate max-w-none dark:prose-invert">
-                {looksHtml ? (
-                  <div dangerouslySetInnerHTML={{ __html: body }} />
-                ) : (
-                  renderMarkdown(body)
-                )}
-              </div>
+        {renderedContent && (
+          <div className="space-y-4">
+            <div className="prose prose-slate max-w-none dark:prose-invert">
+              {renderedContent}
             </div>
-          );
-        })()}
+          </div>
+        )}
 
         {/* Footer */}
         <footer className="pt-6 border-t border-border">
@@ -261,6 +222,13 @@ export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
           </div>
         </footer>
       </article>
+      
+      {/* プレビュー側デバッガー */}
+      <MarkdownFlowDebugger 
+        editorContent=""
+        previewContent={item.body[language] || ''}
+        onContentChange={(content) => setDebugContent(content)}
+      />
     </div>
   );
 }
