@@ -4,17 +4,8 @@ import { Calendar, Pin } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { previewTexts, getPreviewText } from '../../lib/preview-translations';
 import { NewsItem, Language } from '../../types/content';
-import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string';
-import { StarterKit } from '@tiptap/starter-kit';
-import { Image } from '@tiptap/extension-image';
-import { TaskItem, TaskList } from '@tiptap/extension-list';
-import { TextAlign } from '@tiptap/extension-text-align';
-import { Typography } from '@tiptap/extension-typography';
-import { Highlight } from '@tiptap/extension-highlight';
-import { Subscript } from '@tiptap/extension-subscript';
-import { Superscript } from '@tiptap/extension-superscript';
-import MarkdownIt from 'markdown-it';
-import markdownItAttrs from 'markdown-it-attrs';
+import { tiptapJSONToSanitizedHTML, markdownToTiptapJSON, TiptapDocument } from '../../utils/convert';
+import '../../styles/prose.css';
 
 interface NewsPreviewProps {
   item: NewsItem;
@@ -27,119 +18,45 @@ const languageBadgeLabels = {
   en: previewTexts.en.languageBadges.en,
 };
 
-// Define the same extensions used in the editor
-const extensions = [
-  StarterKit.configure({
-    horizontalRule: false,
-    link: {
-      openOnClick: false,
-      enableClickSelection: true,
-    },
-  }),
-  TextAlign.configure({ types: ["heading", "paragraph"] }),
-  TaskList,
-  TaskItem.configure({ nested: true }),
-  Highlight.configure({ multicolor: true }),
-  Image,
-  Typography,
-  Superscript,
-  Subscript,
-];
+// Extensions are now handled in the convert utility
 
-// Initialize markdown-it as fallback
-const md = new MarkdownIt({
-  html: true,           // Enable HTML tags in source
-  linkify: true,        // Autoconvert URL-like text to links
-  breaks: false,        // Convert '\n' in paragraphs into <br> (CommonMark compliant)
-  typographer: true,    // Enable typographer features
-  quotes: '""\'\'',     // Double + single quotes replacement pairs
-  langPrefix: 'language-', // CSS language prefix for fenced blocks
-}).use(markdownItAttrs);
-
-// Render content using Static Renderer or markdown-it fallback
+// Render content using the new conversion utility
 const renderContent = (content: string): React.ReactNode => {
-  if (!content) return null;
-  
-  console.log('=== NEWSPREVIEW DEBUG START ===');
-  console.log('1. Input content:', content);
-  console.log('2. Input type:', typeof content);
-  console.log('3. Input length:', content.length);
-  console.log('4. Input content preview:', content.substring(0, 200));
-  
+  if (!content) {
+    return null;
+  }
+
+  let doc: TiptapDocument | null = null;
+
   try {
-    console.log('5. Attempting to parse as JSON...');
-    // Try to parse as JSON first (Static Renderer format)
-    const jsonContent = JSON.parse(content);
-    console.log('6. Successfully parsed as JSON:', jsonContent);
-    console.log('7. JSON content type:', typeof jsonContent);
-    console.log('8. JSON content structure:', JSON.stringify(jsonContent, null, 2));
-    
-    // Check if it's a valid Tiptap JSON structure
-    if (jsonContent && (jsonContent.type === 'doc' || jsonContent.content)) {
-      console.log('9. Valid Tiptap JSON structure detected');
-      console.log('10. Using Static Renderer for JSON content');
-      
-      try {
-        // Render using Static Renderer
-        const htmlOutput = renderToHTMLString({
-          extensions,
-          content: jsonContent,
-        });
-        
-        console.log('11. Static Renderer HTML output:', htmlOutput);
-        console.log('12. HTML output length:', htmlOutput.length);
-        console.log('=== NEWSPREVIEW DEBUG END (STATIC RENDERER SUCCESS) ===');
-        
-        return (
-          <div
-            className="space-y-2 prose prose-slate max-w-none dark:prose-invert"
-            dangerouslySetInnerHTML={{ __html: htmlOutput }}
-            style={{
-              lineHeight: '1.7',
-              color: 'inherit'
-            }}
-          />
-        );
-      } catch (renderError) {
-        console.error('13. Static Renderer failed:', renderError);
-        console.error('14. Static Renderer error stack:', renderError.stack);
-        console.log('15. Falling back to markdown-it');
-      }
-    } else {
-      console.log('9. Invalid Tiptap JSON structure, falling back to markdown-it');
+    const parsed = JSON.parse(content) as TiptapDocument;
+    if (parsed && typeof parsed === 'object' && (parsed.type === 'doc' || parsed.content)) {
+      doc = parsed;
     }
   } catch (error) {
-    console.log('5. Not JSON format, trying markdown-it');
-    console.log('6. JSON parse error:', error.message);
+    // Treat as markdown below
   }
-  
-  // Fallback to markdown-it for markdown content
-  console.log('7. Using markdown-it for markdown content');
-  
+
+  if (!doc) {
+    doc = markdownToTiptapJSON(content);
+  }
+
   try {
-    // Render with markdown-it
-    const htmlOutput = md.render(content);
-    
-    console.log('8. Markdown-it HTML output:', htmlOutput);
-    console.log('9. HTML output length:', htmlOutput.length);
-    console.log('=== NEWSPREVIEW DEBUG END (MARKDOWN-IT SUCCESS) ===');
-    
+    const htmlOutput = tiptapJSONToSanitizedHTML(doc);
+    if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+      ;(window as any).__previewDebug = { doc, htmlOutput }
+    }
+
     return (
       <div
         className="space-y-2 prose prose-slate max-w-none dark:prose-invert"
         dangerouslySetInnerHTML={{ __html: htmlOutput }}
-        style={{
-          lineHeight: '1.7',
-          color: 'inherit'
-        }}
+        style={{ lineHeight: '1.7', color: 'inherit' }}
       />
     );
-  } catch (markdownError) {
-    console.error('8. Markdown-it failed:', markdownError);
-    console.error('9. Markdown-it error stack:', markdownError.stack);
-    console.log('=== NEWSPREVIEW DEBUG END (BOTH FAILED) ===');
-    
-    // Ultimate fallback: display as plain text
+  } catch (error) {
+    console.error('Failed to render preview content', error);
+
     return (
       <div className="space-y-2 prose prose-slate max-w-none dark:prose-invert">
         <pre className="whitespace-pre-wrap text-sm text-muted-foreground">

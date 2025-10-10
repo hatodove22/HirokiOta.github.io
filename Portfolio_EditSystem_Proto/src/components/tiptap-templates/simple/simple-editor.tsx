@@ -2,7 +2,8 @@
 
 import * as React from "react"
 import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
-import { Markdown } from "tiptap-markdown"
+import { markdownToTiptapJSON, TiptapDocument } from "../../../utils/convert"
+import "../../../utils/pipeline-debug"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"
@@ -70,12 +71,30 @@ import { ThemeToggle } from "./theme-toggle"
 
 // --- Lib ---
 import { handleImageUpload, MAX_FILE_SIZE } from "../../../lib/tiptap-utils"
-import { getMarkdownFromStorage } from "../../../types/editor";
 
 // --- Styles ---
 import "./simple-editor.scss"
 
 import content from "./data/content.json"
+
+const fallbackDoc = content as unknown as TiptapDocument;
+
+const resolveInitialDoc = (value?: string): TiptapDocument => {
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    return fallbackDoc;
+  }
+
+  try {
+    const parsed = JSON.parse(value) as TiptapDocument;
+    if (parsed && typeof parsed === 'object' && parsed.type === 'doc') {
+      return parsed;
+    }
+  } catch (error) {
+    // Treat as markdown below
+  }
+
+  return markdownToTiptapJSON(value);
+};
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -187,12 +206,13 @@ const MobileToolbarContent = ({
 
 interface SimpleEditorProps {
   initialContent?: string;
-  onContentChange?: (html: string) => void;
+  onContentChange?: (markdown: string) => void;
 }
 
 export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorProps = {}) {
   const isMobile = useIsMobile()
   const { height } = useWindowSize()
+  const initialDoc = React.useMemo(() => resolveInitialDoc(initialContent), [initialContent])
   const [mobileView, setMobileView] = React.useState<
     "main" | "highlighter" | "link"
   >("main")
@@ -218,13 +238,7 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
           enableClickSelection: true,
         },
       }),
-      Markdown.configure({
-        html: false,
-        transformPastedText: true,
-        transformCopiedText: true,
-        linkify: true,
-        breaks: true,
-      }),
+      // Markdown extension removed - using custom conversion flow
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -243,143 +257,16 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
         onError: (error) => console.error("Upload failed:", error),
       }),
     ],
-    content: initialContent || content,
+    content: initialDoc,
     onUpdate: ({ editor }) => {
-      console.log('=== SIMPLEEDITOR UPDATE DEBUG ===');
-      
-      // Try to get markdown from the tiptap-markdown extension
-      let markdown: string | undefined;
-      
-      try {
-        // Method 1: Try to get from editor.storage.markdown.getMarkdown()
-        if ((editor.storage as any)?.markdown?.getMarkdown) {
-          markdown = (editor.storage as any).markdown.getMarkdown();
-          console.log('Method 1 - Markdown from storage:', markdown);
-        }
-      } catch (error) {
-        console.log('Method 1 failed:', error);
-      }
-      
-      // Method 2: Try to get from extension manager
-      if (!markdown) {
-        try {
-          const markdownExtension = editor.extensionManager.extensions.find(ext => ext.name === 'markdown');
-          if (markdownExtension && (markdownExtension.storage as any)?.getMarkdown) {
-            markdown = (markdownExtension.storage as any).getMarkdown();
-            console.log('Method 2 - Markdown from extension:', markdown);
-          }
-        } catch (error) {
-          console.log('Method 2 failed:', error);
+      const json = editor.getJSON();
+      if (typeof window !== 'undefined' && import.meta.env.DEV) {
+        ;(window as any).__tiptapDebug = {
+          json,
+          html: editor.getHTML(),
         }
       }
-      
-      // Fallback: Use existing complex conversion if markdown is not available
-      if (!markdown || markdown.trim().length === 0) {
-        console.log('Using fallback HTML to markdown conversion');
-        const html = editor.getHTML();
-        
-        // Enhanced HTML to markdown conversion with better regex patterns
-        markdown = html
-          // Convert headings with nested content support
-          .replace(/<h1[^>]*>([\s\S]*?)<\/h1>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `# ${cleanContent}\n\n` : '';
-          })
-          .replace(/<h2[^>]*>([\s\S]*?)<\/h2>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `## ${cleanContent}\n\n` : '';
-          })
-          .replace(/<h3[^>]*>([\s\S]*?)<\/h3>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `### ${cleanContent}\n\n` : '';
-          })
-          .replace(/<h4[^>]*>([\s\S]*?)<\/h4>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `#### ${cleanContent}\n\n` : '';
-          })
-          .replace(/<h5[^>]*>([\s\S]*?)<\/h5>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `##### ${cleanContent}\n\n` : '';
-          })
-          .replace(/<h6[^>]*>([\s\S]*?)<\/h6>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `###### ${cleanContent}\n\n` : '';
-          })
-          // Convert lists with nested content support
-          .replace(/<ul[^>]*>([\s\S]*?)<\/ul>/gi, (match, content) => {
-            const items = content.match(/<li[^>]*>([\s\S]*?)<\/li>/gi);
-            if (items && items.length > 0) {
-              const listItems = items.map(item => {
-                const itemContent = item.replace(/<li[^>]*>([\s\S]*?)<\/li>/i, '$1');
-                const cleanContent = itemContent.replace(/<[^>]*>/g, '').trim();
-                return cleanContent ? `- ${cleanContent}` : '';
-              }).filter(item => item.length > 0);
-              return listItems.length > 0 ? listItems.join('\n') + '\n\n' : '';
-            }
-            return '';
-          })
-          .replace(/<ol[^>]*>([\s\S]*?)<\/ol>/gi, (match, content) => {
-            const items = content.match(/<li[^>]*>([\s\S]*?)<\/li>/gi);
-            if (items && items.length > 0) {
-              const listItems = items.map((item, index) => {
-                const itemContent = item.replace(/<li[^>]*>([\s\S]*?)<\/li>/i, '$1');
-                const cleanContent = itemContent.replace(/<[^>]*>/g, '').trim();
-                return cleanContent ? `${index + 1}. ${cleanContent}` : '';
-              }).filter(item => item.length > 0);
-              return listItems.length > 0 ? listItems.join('\n') + '\n\n' : '';
-            }
-            return '';
-          })
-          // Convert text formatting with nested content support
-          .replace(/<strong[^>]*>([\s\S]*?)<\/strong>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `**${cleanContent}**` : '';
-          })
-          .replace(/<b[^>]*>([\s\S]*?)<\/b>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `**${cleanContent}**` : '';
-          })
-          .replace(/<em[^>]*>([\s\S]*?)<\/em>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `*${cleanContent}*` : '';
-          })
-          .replace(/<i[^>]*>([\s\S]*?)<\/i>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `*${cleanContent}*` : '';
-          })
-          // Convert paragraphs (after headings and lists)
-          .replace(/<p[^>]*>([\s\S]*?)<\/p>/gi, (match, content) => {
-            const cleanContent = content.replace(/<[^>]*>/g, '').trim();
-            return cleanContent ? `${cleanContent}\n\n` : '';
-          })
-          // Convert line breaks
-          .replace(/<br[^>]*>/gi, '\n')
-          // Remove any remaining HTML tags
-          .replace(/<[^>]*>/g, '')
-          // Clean up multiple newlines
-          .replace(/\n\s*\n\s*\n/g, '\n\n')
-          .trim();
-        
-        console.log('Method 4 - Converted markdown:', markdown);
-        console.log('Method 4 - Converted markdown length:', markdown.length);
-      }
-      
-      // Enhanced fallback logic with better empty detection
-      const fallbackText = editor.getText();
-      const isFallbackEmpty = !fallbackText || fallbackText.trim().length === 0;
-      console.log('Fallback text:', fallbackText);
-      console.log('Is fallback empty?', isFallbackEmpty);
-      
-      // Use markdown if it's not empty, otherwise use fallback
-      const output = (markdown && markdown.trim().length > 0) ? markdown : fallbackText;
-      
-      console.log('Tiptap markdown output:', markdown);
-      console.log('Tiptap fallback text:', fallbackText);
-      console.log('Final output:', output);
-      console.log('Final output length:', output.length);
-      console.log('=== END EDITOR UPDATE DEBUG ===');
-      
-      onContentChange?.(output);
+      onContentChange?.(JSON.stringify(json));
     },
   })
 
@@ -396,19 +283,22 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
 
   // Update editor content when initialContent changes
   React.useEffect(() => {
-    if (editor && initialContent !== undefined) {
-      console.log('Editor initialized, checking storage:', editor.storage);
-      console.log('Editor storage.markdown:', (editor.storage as any)?.markdown);
-      
-      const currentMarkdown = getMarkdownFromStorage(editor.storage);
-      console.log('Current markdown from storage:', currentMarkdown);
-      console.log('Initial content:', initialContent);
-      
-      if (currentMarkdown !== initialContent) {
-        console.log('Setting content with initialContent:', initialContent);
-        editor.commands.setContent(initialContent, { emitUpdate: false });
-      }
+    if (!editor) {
+      return;
     }
+
+    if (initialContent === undefined) {
+      return;
+    }
+
+    const nextDoc = resolveInitialDoc(initialContent);
+    const currentDoc = editor.getJSON();
+
+    if (JSON.stringify(currentDoc) === JSON.stringify(nextDoc)) {
+      return;
+    }
+
+    editor.commands.setContent(nextDoc, { emitUpdate: false });
   }, [editor, initialContent])
 
   return (
