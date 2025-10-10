@@ -4,7 +4,9 @@ Target: Edit Mode uses Portfolio_EditSystem_Proto (2025-09-29)
 - I18n: JA/EN fields validated via shared utils; preview language toggle in Proto.
 - Storage: Proto saves to JSON compatible with public/api/{news,projects,papers}.json.
 - Build: Vite build runs JSON generation step (no Decap dependency).
-- CI: Generate JSON → build → type/lint → Lighthouse smoke.
+- CI: Generate JSON ↁEbuild ↁEtype/lint ↁELighthouse smoke.
 - Admin: `/admin` (Decap) optional for auth/media library only.
 - Preview: Proto editor keeps preview reopen button visible, internationalized JA labels render correctly, light theme badges are legible, and the panel stays sticky while editing scrolls.
+- Issue19: News editor markdown converts via markdown-it -> @tiptap/html generateJSON before preview; preview renders generateHTML output (DOMPurify sanitized) with headings/lists preserved.
+
 
