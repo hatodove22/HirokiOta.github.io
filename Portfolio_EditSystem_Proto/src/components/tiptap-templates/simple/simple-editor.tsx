@@ -6,15 +6,7 @@ import { markdownToTiptapJSON, TiptapDocument } from "../../../utils/convert"
 import "../../../utils/pipeline-debug"
 
 // --- Tiptap Core Extensions ---
-import { StarterKit } from "@tiptap/starter-kit"
-import { Image } from "@tiptap/extension-image"
-import { TaskItem, TaskList } from "@tiptap/extension-list"
-import { TextAlign } from "@tiptap/extension-text-align"
-import { Typography } from "@tiptap/extension-typography"
-import { Highlight } from "@tiptap/extension-highlight"
-import { Subscript } from "@tiptap/extension-subscript"
-import { Superscript } from "@tiptap/extension-superscript"
-import { Selection } from "@tiptap/extensions"
+import { getExtensions } from "../../../lib/tiptap-extensions"
 
 // --- UI Primitives ---
 import { Button } from "../../tiptap-ui-primitive/button"
@@ -26,8 +18,7 @@ import {
 } from "../../tiptap-ui-primitive/toolbar"
 
 // --- Tiptap Node ---
-import { ImageUploadNode } from "../../tiptap-node/image-upload-node/image-upload-node-extension"
-import { HorizontalRule } from "../../tiptap-node/horizontal-rule-node/horizontal-rule-node-extension"
+// (Node extensions are pulled via getExtensions)
 import "../../tiptap-node/blockquote-node/blockquote-node.scss"
 import "../../tiptap-node/code-block-node/code-block-node.scss"
 import "../../tiptap-node/horizontal-rule-node/horizontal-rule-node.scss"
@@ -230,33 +221,12 @@ export function SimpleEditor({ initialContent, onContentChange }: SimpleEditorPr
         class: "simple-editor",
       },
     },
-    extensions: [
-      StarterKit.configure({
-        horizontalRule: false,
-        link: {
-          openOnClick: false,
-          enableClickSelection: true,
-        },
-      }),
-      // Markdown extension removed - using custom conversion flow
-      HorizontalRule,
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
-      TaskList,
-      TaskItem.configure({ nested: true }),
-      Highlight.configure({ multicolor: true }),
-      Image,
-      Typography,
-      Superscript,
-      Subscript,
-      Selection,
-      ImageUploadNode.configure({
-        accept: "image/*",
-        maxSize: MAX_FILE_SIZE,
-        limit: 3,
+    extensions: getExtensions({
+      imageUpload: {
         upload: handleImageUpload,
-        onError: (error) => console.error("Upload failed:", error),
-      }),
-    ],
+        maxSize: MAX_FILE_SIZE,
+      },
+    }),
     content: initialDoc,
     onUpdate: ({ editor }) => {
       const json = editor.getJSON();

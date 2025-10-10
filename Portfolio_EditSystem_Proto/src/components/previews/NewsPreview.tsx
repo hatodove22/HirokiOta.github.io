@@ -4,8 +4,8 @@ import { Calendar, Pin } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { previewTexts, getPreviewText } from '../../lib/preview-translations';
 import { NewsItem, Language } from '../../types/content';
-import { tiptapJSONToSanitizedHTML, markdownToTiptapJSON, TiptapDocument } from '../../utils/convert';
-import '../../styles/prose.css';
+import { markdownToTiptapJSON, TiptapDocument } from '../../utils/convert';
+import { TiptapPreview } from './TiptapPreview';
 
 interface NewsPreviewProps {
   item: NewsItem;
@@ -20,52 +20,22 @@ const languageBadgeLabels = {
 
 // Extensions are now handled in the convert utility
 
-// Render content using the new conversion utility
+// Render content using a read-only Tiptap instance for perfect parity
 const renderContent = (content: string): React.ReactNode => {
-  if (!content) {
-    return null;
-  }
-
-  let doc: TiptapDocument | null = null;
-
+  if (!content) return null
+  let doc: TiptapDocument | null = null
   try {
-    const parsed = JSON.parse(content) as TiptapDocument;
+    const parsed = JSON.parse(content) as TiptapDocument
     if (parsed && typeof parsed === 'object' && (parsed.type === 'doc' || parsed.content)) {
-      doc = parsed;
+      doc = parsed
     }
-  } catch (error) {
-    // Treat as markdown below
+  } catch (_) {}
+  if (!doc) doc = markdownToTiptapJSON(content)
+  if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+    ;(window as any).__previewDebug = { doc }
   }
-
-  if (!doc) {
-    doc = markdownToTiptapJSON(content);
-  }
-
-  try {
-    const htmlOutput = tiptapJSONToSanitizedHTML(doc);
-    if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
-      ;(window as any).__previewDebug = { doc, htmlOutput }
-    }
-
-    return (
-      <div
-        className="space-y-2 prose prose-slate max-w-none dark:prose-invert"
-        dangerouslySetInnerHTML={{ __html: htmlOutput }}
-        style={{ lineHeight: '1.7', color: 'inherit' }}
-      />
-    );
-  } catch (error) {
-    console.error('Failed to render preview content', error);
-
-    return (
-      <div className="space-y-2 prose prose-slate max-w-none dark:prose-invert">
-        <pre className="whitespace-pre-wrap text-sm text-muted-foreground">
-          {content}
-        </pre>
-      </div>
-    );
-  }
-};
+  return <TiptapPreview doc={doc} className="max-w-none" />
+}
 
 export function NewsPreview({ item, language, theme }: NewsPreviewProps) {
   const previewCopy = getPreviewText(language);
