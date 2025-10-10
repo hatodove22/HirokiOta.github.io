@@ -1,0 +1,87 @@
+{
+  "timestamp": "2025-10-03T12:40:33.130Z",
+  "pageInfo": {
+    "title": "Portfolio Editing Screen",
+    "url": "http://localhost:5174/home",
+    "hasReactRoot": true,
+    "bodyText": "\n      PPortfolio Editorホームニュースプロジェクト論文設定Toggle Sidebarダッシュボードコンテンツの概要と最近の活動を確認できますニュース新規作成TitleDateTagsStatus新しい研究成果を発表2024/03/15研究AI公開中国際会議での発表2024/03/10会議発表下書き新しいプロジェクトの開始2024/03/08プロジェクト公開中プロジェクト新"
+  },
+  "sidebarInfo": {
+    "found": true,
+    "linkCount": 9,
+    "links": [
+      {
+        "text": "ホーム",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "ニュース",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "プロジェクト",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "論文",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "設定",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "Toggle Sidebar",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "新規作成",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "新規作成",
+        "href": null,
+        "tagName": "BUTTON"
+      },
+      {
+        "text": "新規作成",
+        "href": null,
+        "tagName": "BUTTON"
+      }
+    ]
+  },
+  "editorInfo": [],
+  "previewInfo": [],
+  "markdownInfo": {
+    "h1": 1,
+    "h2": 0,
+    "h3": 0,
+    "h4": 3,
+    "h5": 0,
+    "h6": 0,
+    "p": 7,
+    "ul": 1,
+    "ol": 0,
+    "li": 5,
+    "blockquote": 0,
+    "code": 0,
+    "pre": 0,
+    "strong": 0,
+    "em": 0
+  },
+  "testResults": {
+    "pageAccess": true,
+    "sidebarFound": true,
+    "editorFound": false,
+    "previewFound": false,
+    "hasContent": true
+  },
+  "successRate": "60.0"
+}
