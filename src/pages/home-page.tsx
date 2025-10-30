@@ -209,43 +209,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
         </div>
       </section>
 
-      {/* Latest News */}
-      <section className="container mx-auto px-4 max-w-4xl">
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-3xl font-bold">{t.home.sections.news}</h2>
-            <Button variant="ghost" onClick={() => onNavigate('news')} className="cursor-pointer">
-              {t.common.readMore}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-
-          {loading ? (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {[...Array(3)].map((_, i) => (
-                <Card key={i} className="h-64">
-                  <CardContent className="h-full animate-pulse space-y-4 p-4">
-                    <div className="bg-muted h-32 w-full rounded"></div>
-                    <div className="bg-muted h-4 w-3/4 rounded"></div>
-                    <div className="bg-muted h-3 w-1/2 rounded"></div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {latestNews.map((post) => (
-                <NewsCard
-                  key={post.id}
-                  post={post}
-                  locale={locale}
-                  onClick={() => onNavigate('news-detail', post.slug)}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* Latest News moved to bottom; placeholder only */}
 
 
       {/* Recent Papers */}
@@ -287,6 +251,23 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
         </div>
       </section>
 
+      {/* Latest News (above contact) */}
+      <section className="container mx-auto px-4 max-w-4xl">
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-3xl font-bold">{t.home.sections.news}</h2>
+            <Button variant="ghost" onClick={() => onNavigate('news')} className="cursor-pointer">
+              {t.common.readMore}
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+          <div className="py-12 text-center text-muted-foreground">
+            <div className="text-6xl mb-4">🚧</div>
+            <p className="text-lg">{locale === 'ja' ? '現在工事中です' : 'Under construction'}</p>
+          </div>
+        </div>
+      </section>
+
       {/* Contact Section */}
       <section className="container mx-auto px-4 max-w-4xl">
         <div className="text-center space-y-6">
@@ -303,89 +284,14 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
             
-            <Button variant="outline" size="lg" asChild>
-              <a href="mailto:taro.yamada@example.edu" className="cursor-pointer">
-                <Mail className="mr-2 h-4 w-4" />
-                {locale === 'ja' ? '直接メール' : 'Direct Email'}
-              </a>
-            </Button>
+            {/* Press kit button removed as requested; keep only contact button */}
           </div>
         </div>
       </section>
 
-      {/* Press Kit */}
-      <section className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center">
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">
-                {t.home.sections.pressKit}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle>{t.home.sections.pressKit}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center">
-                    <span className="text-2xl">👨‍🎓</span>
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold">{t.about.profile.name}</h3>
-                    <p className="text-muted-foreground">{t.about.profile.title}</p>
-                    <p className="text-sm text-muted-foreground">{t.about.profile.affiliation}</p>
-                  </div>
-                </div>
+      {/* Press Kit removed as requested */}
 
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Bio (50 words)</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {locale === 'ja' 
-                        ? '機械学習とコンピュータビジョンを専門とする博士課程学生。医療画像解析や自然言語処理の研究で成果を上げ、実世界の課題解決に向けた応用研究に取り組んでいる。'
-                        : 'PhD student specializing in machine learning and computer vision. Award-winning researcher in medical image analysis and NLP at international conferences. Focused on practical applications for real-world problem solving.'
-                      }
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium mb-2">Bio (150 words)</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {locale === 'ja'
-                        ? '太田裕紀は奈良先端科学技術大学院大学の博士課程学生で、機械学習とコンピュータビジョンを専門としています。特に医療画像解析と自然言語処理の分野で研究を進め、国際会議での発表や受賞歴があります。これまでにトップカンファレンスで多数の論文を発表し、実世界の課題解決に資する応用研究にも積極的に取り組んでいます。研究と並行してオープンソースへの貢献やコミュニティ活動も行っています。'
-                        : 'Taro Yamada is a PhD student at the Graduate School of Engineering, XX University, specializing in machine learning and computer vision. He conducts innovative research particularly in medical image analysis and natural language processing, receiving international recognition including the Best Paper Award at MICCAI 2024. He has published over 10 papers at top-tier conferences and actively engages in applied research for real-world problem solving. Alongside his research, he contributes to open-source projects and is active in the technical community.'
-                      }
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t">
-                    <h4 className="font-medium mb-2">Links</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <Button variant="outline" size="sm" asChild>
-                        <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-                          <Download className="mr-2 h-4 w-4" />
-                          CV
-                        </a>
-                      </Button>
-                      <Button variant="outline" size="sm" asChild>
-                        <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer">
-                          Google Scholar
-                        </a>
-                      </Button>
-                      <Button variant="outline" size="sm" asChild>
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                          GitHub
-                        </a>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-      </section>
+      
     </div>
   )
 }

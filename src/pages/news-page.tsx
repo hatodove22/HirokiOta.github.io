@@ -14,7 +14,7 @@ interface NewsPageProps {
 
 export function NewsPage({ locale, onNavigate }: NewsPageProps) {
   const [posts, setPosts] = useState<NewsPost[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [filters, setFilters] = useState({
     tag: '',
@@ -26,24 +26,9 @@ export function NewsPage({ locale, onNavigate }: NewsPageProps) {
   const itemsPerPage = 6
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true)
-      try {
-        const allPosts = await getNewsPosts(locale, {
-          tag: filters.tag || undefined,
-          year: filters.year ? parseInt(filters.year, 10) : undefined,
-          q: filters.q || undefined
-        })
-        setPosts(allPosts)
-        setCurrentPage(1)
-      } catch (error) {
-        console.error('Failed to fetch news posts:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchPosts()
+    // News fetching disabled during construction
+    setPosts([])
+    setCurrentPage(1)
   }, [locale, filters])
 
   const totalPages = Math.max(1, Math.ceil(posts.length / itemsPerPage))
@@ -79,60 +64,22 @@ export function NewsPage({ locale, onNavigate }: NewsPageProps) {
           </p>
         </div>
 
-        <div className="mx-auto max-w-4xl">
-          <NewsFilters
-            locale={locale}
-            availableTags={availableTags}
-            availableYears={availableYears}
-            filters={filters}
-            onFiltersChange={setFilters}
-          />
-        </div>
+        {/* Filters hidden during construction */}
 
-        {!loading && (
-          <div className="text-center text-muted-foreground">
-            {locale === 'ja'
-              ? `${posts.length}件の記事が見つかりました`
-              : `Found ${posts.length} article${posts.length !== 1 ? 's' : ''}`}
-          </div>
-        )}
+        {/* Count hidden */}
 
         <div className="mx-auto max-w-7xl">
-          {loading ? (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(6)].map((_, index) => (
-                <NewsSkeleton key={index} />
-              ))}
+          <div className="py-16 text-center">
+            <div className="space-y-4">
+              <div className="text-6xl">🚧</div>
+              <h3 className="text-xl font-semibold">
+                {locale === 'ja' ? '現在工事中です' : 'Under construction'}
+              </h3>
             </div>
-          ) : currentPosts.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {currentPosts.map((post) => (
-                <NewsCard
-                  key={post.id}
-                  post={post}
-                  locale={locale}
-                  onClick={() => onNavigate('news-detail', post.slug)}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="py-16 text-center">
-              <div className="space-y-4">
-                <div className="text-6xl opacity-50">📝</div>
-                <h3 className="text-xl font-semibold">
-                  {locale === 'ja' ? '記事が見つかりません' : 'No articles found'}
-                </h3>
-                <p className="text-muted-foreground">
-                  {locale === 'ja'
-                    ? '検索条件を変更してお試しください。'
-                    : 'Try adjusting your search filters.'}
-                </p>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
 
-        {totalPages > 1 && (
+        {false && totalPages > 1 && (
           <div className="flex justify-center space-x-2">
             <Button
               variant="outline"

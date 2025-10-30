@@ -1,4 +1,4 @@
-import { Download, Calendar, Award, Code, Brain, Compass, Target } from 'lucide-react'
+import { Download, Calendar, Award, Code, Brain, Compass, Target, Trophy, Coins, GraduationCap } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -309,7 +309,7 @@ export function AboutPage({ locale }: AboutPageProps) {
         {/* Extracurriculars */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
-            <Award className="mr-3 h-6 w-6" />
+            <Trophy className="mr-3 h-6 w-6" />
             {locale === 'ja' ? '課外活動' : 'Extracurricular Activities'}
           </h3>
           <div className="space-y-3">
@@ -325,7 +325,7 @@ export function AboutPage({ locale }: AboutPageProps) {
         {/* Funding */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
-            <Award className="mr-3 h-6 w-6" />
+            <Coins className="mr-3 h-6 w-6" />
             {locale === 'ja' ? '獲得資金' : 'Funding'}
           </h3>
           <Card>
@@ -346,7 +346,7 @@ export function AboutPage({ locale }: AboutPageProps) {
         {/* Academic contributions */}
         <section className="space-y-6">
           <h3 className="text-2xl font-semibold flex items-center">
-            <Award className="mr-3 h-6 w-6" />
+            <GraduationCap className="mr-3 h-6 w-6" />
             {locale === 'ja' ? '学術貢献' : 'Academic Contributions'}
           </h3>
           <Card>

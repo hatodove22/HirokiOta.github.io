@@ -1,89 +1,34 @@
-import { useState } from 'react'
-import { Send, Mail, MapPin, Clock } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Mail, MapPin, Clock, Copy } from 'lucide-react'
 import { Button } from '../components/ui/button'
-import { Input } from '../components/ui/input'
-import { Textarea } from '../components/ui/textarea'
-import { Label } from '../components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
-import { toast } from 'sonner@2.0.3'
-import { Locale, ContactFormData } from '../lib/types'
+import { Locale } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
-import { isValidEmail } from '../lib/utils'
+ 
 
 interface ContactPageProps {
   locale: Locale
 }
 
 export function ContactPage({ locale }: ContactPageProps) {
-  const [formData, setFormData] = useState<ContactFormData>({
-    name: '',
-    affiliation: '',
-    email: '',
-    purpose: '',
-    message: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const t = getTranslations(locale)
 
-  const handleInputChange = (field: keyof ContactFormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
-  }
+  useEffect(() => {
+    if (!copied) return
+    const timer = setTimeout(() => setCopied(false), 2000)
+    return () => clearTimeout(timer)
+  }, [copied])
 
-  const validateForm = (): boolean => {
-    if (!formData.name.trim()) {
-      toast.error(locale === 'ja' ? 'お名前を入力してください' : 'Please enter your name')
-      return false
-    }
-    
-    if (!formData.email.trim() || !isValidEmail(formData.email)) {
-      toast.error(locale === 'ja' ? '有効なメールアドレスを入力してください' : 'Please enter a valid email address')
-      return false
-    }
-    
-    if (!formData.purpose) {
-      toast.error(locale === 'ja' ? 'お問い合わせの目的を選択してください' : 'Please select the purpose of your inquiry')
-      return false
-    }
-    
-    if (!formData.message.trim()) {
-      toast.error(locale === 'ja' ? 'メッセージを入力してください' : 'Please enter your message')
-      return false
-    }
+  const emailAddress = 'ota.hioki.oc6@is.naist.jp'
 
-    return true
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) return
-
-    setIsSubmitting(true)
-
+  const copyEmail = async () => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500))
-      
-      // In a real application, you would send this to your API
-      console.log('Form submitted:', formData)
-      
-      toast.success(t.contact.success)
-      
-      // Reset form
-      setFormData({
-        name: '',
-        affiliation: '',
-        email: '',
-        purpose: '',
-        message: ''
-      })
-    } catch (error) {
-      console.error('Failed to submit form:', error)
-      toast.error(t.contact.error)
-    } finally {
-      setIsSubmitting(false)
+      await navigator.clipboard.writeText(emailAddress)
+      setCopied(true)
+    } catch {
+      setCopied(false)
     }
   }
 
@@ -112,7 +57,15 @@ export function ContactPage({ locale }: ContactPageProps) {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <p className="text-sm text-muted-foreground">Email</p>
-                    <p>taro.yamada@example.edu</p>
+                    <div className="flex items-center gap-2">
+                      <p>{emailAddress}</p>
+                      <Button variant="outline" size="icon" onClick={copyEmail} aria-label={locale === 'ja' ? 'メールアドレスをコピー' : 'Copy email address'}>
+                        <Copy className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    {copied && (
+                      <p className="text-xs text-muted-foreground">{locale === 'ja' ? 'コピーしました' : 'Copied!'}</p>
+                    )}
                   </div>
                   
                   <div className="space-y-2">
@@ -122,8 +75,8 @@ export function ContactPage({ locale }: ContactPageProps) {
                     </p>
                     <p>
                       {locale === 'ja' 
-                        ? '〒100-0001 東京都千代田区'
-                        : 'Tokyo, Japan'
+                        ? '〒630-0192\n奈良県生駒市高山町8916番地-5 情報科学棟 B315\n近鉄けいはんな線 学研北生駒駅から徒歩20分、バス5分'
+                        : '8916-5 Takayama-cho, Ikoma, Nara 630-0192, Information Science Bldg. B315'
                       }
                     </p>
                   </div>
@@ -181,104 +134,7 @@ export function ContactPage({ locale }: ContactPageProps) {
               </Card>
             </div>
 
-            {/* Contact Form */}
-            <div className="lg:col-span-2">
-              <Card>
-                <CardHeader>
-                  <CardTitle>
-                    {locale === 'ja' ? 'お問い合わせフォーム' : 'Contact Form'}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">{t.contact.form.name} *</Label>
-                        <Input
-                          id="name"
-                          type="text"
-                          value={formData.name}
-                          onChange={(e) => handleInputChange('name', e.target.value)}
-                          required
-                        />
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="affiliation">{t.contact.form.affiliation}</Label>
-                        <Input
-                          id="affiliation"
-                          type="text"
-                          value={formData.affiliation}
-                          onChange={(e) => handleInputChange('affiliation', e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="email">{t.contact.form.email} *</Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        required
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="purpose">{t.contact.form.purpose} *</Label>
-                      <Select value={formData.purpose} onValueChange={(value) => handleInputChange('purpose', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder={t.contact.form.purpose} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="research">{t.contact.form.purposes.research}</SelectItem>
-                          <SelectItem value="hiring">{t.contact.form.purposes.hiring}</SelectItem>
-                          <SelectItem value="media">{t.contact.form.purposes.media}</SelectItem>
-                          <SelectItem value="other">{t.contact.form.purposes.other}</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="message">{t.contact.form.message} *</Label>
-                      <Textarea
-                        id="message"
-                        rows={6}
-                        value={formData.message}
-                        onChange={(e) => handleInputChange('message', e.target.value)}
-                        placeholder={locale === 'ja' 
-                          ? 'お問い合わせ内容をご記入ください...'
-                          : 'Please describe your inquiry...'
-                        }
-                        required
-                      />
-                    </div>
-
-                    <Button type="submit" disabled={isSubmitting} className="w-full">
-                      {isSubmitting ? (
-                        <>
-                          <div className="animate-spin mr-2 h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
-                          {locale === 'ja' ? '送信中...' : 'Sending...'}
-                        </>
-                      ) : (
-                        <>
-                          <Send className="mr-2 h-4 w-4" />
-                          {t.contact.form.submit}
-                        </>
-                      )}
-                    </Button>
-
-                    <p className="text-xs text-muted-foreground">
-                      {locale === 'ja'
-                        ? '* は必須項目です。送信いただいた情報は適切に管理し、お問い合わせへの回答にのみ使用いたします。'
-                        : '* Required fields. The information you provide will be handled appropriately and used only to respond to your inquiry.'
-                      }
-                    </p>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
+            {/* Contact Form removed as requested */}
           </div>
 
           {/* Additional Resources */}

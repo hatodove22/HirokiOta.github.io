@@ -14,7 +14,7 @@
   "doi": "https://doi.org/10.48550/arXiv.2505.09393",
   "arxiv": "",
   "slidesUrl": "",
-  "award": "",
+  "award": "CVPR 2025 Highlight",
   "abstract": {
     "ja": "慣性センサーとUltra-widebandユニットからの不確実性駆動型人間動作推定手法を提案する。",
     "en": "We propose an uncertainty-driven human motion estimation approach from inertial and ultra-wideband units."

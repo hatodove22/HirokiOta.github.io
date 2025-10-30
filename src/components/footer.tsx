@@ -10,7 +10,7 @@ interface FooterProps {
 const socialLinks = [
   {
     name: 'Email',
-    href: 'mailto:taro.yamada@example.edu',
+    href: 'mailto:ota.hioki.oc6@is.naist.jp',
     icon: Mail,
   },
   {
