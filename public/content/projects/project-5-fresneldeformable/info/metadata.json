@@ -6,7 +6,7 @@
   },
   "slug": "fresneldeformable",
   "status": "Published",
-  "date": "2023-10-15",
+  "date": "2025-04-01",
   "tags": ["Haptics", "Softness", "Tilt"],
   "summary": {
     "ja": "指先接平面の傾き操作と擬似剛性を組み合わせた柔らかさ提示手法。",

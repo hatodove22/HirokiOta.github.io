@@ -6,7 +6,7 @@
   },
   "slug": "fresnelshape",
   "status": "Published",
-  "date": "2024-03-15",
+  "date": "2025-03-01",
   "tags": ["Shape Display", "Haptics"],
   "summary": {
     "ja": "フレネルレンズを用いた形状可変ディスプレイ『FresnelShape』の設計と実装。",

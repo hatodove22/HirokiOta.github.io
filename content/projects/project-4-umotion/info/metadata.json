@@ -6,7 +6,7 @@
   },
   "slug": "umotion",
   "status": "Published",
-  "date": "2023-12-05",
+  "date": "2025-03-01",
   "tags": ["HCI", "Inertial", "UWB"],
   "summary": {
     "ja": "ウェアラブルセンサのみで頑強な姿勢推定を行う研究",

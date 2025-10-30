@@ -161,12 +161,6 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
 
-              <Button variant="outline" size="lg" asChild>
-                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-                  <Download className="mr-2 h-4 w-4" />
-                  {t.home.cta.cv}
-                </a>
-              </Button>
             </div>
           </div>
         </div>
