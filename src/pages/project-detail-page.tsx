@@ -24,6 +24,11 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
   
   const t = getTranslations(locale)
 
+  const renderInlineBold = (text: string) => {
+    const parts = String(text).split('**')
+    return parts.map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : <React.Fragment key={i}>{part}</React.Fragment>))
+  }
+
   useEffect(() => {
     const fetchProject = async () => {
       setLoading(true)
@@ -226,7 +231,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                     {
                       const elements: React.ReactNode[] = [
                         <p key={`p-${index}`} className="mb-4 leading-relaxed text-muted-foreground">
-                          {block.content}
+                          {renderInlineBold(block.content as string)}
                         </p>
                       ]
                       if (project.slug === 'tape-tics' && insertAfterNextParagraph) {
@@ -259,7 +264,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                   if ((block as any).level === 1) {
                     return (
                       <h1 key={index} className="text-3xl font-bold mt-8 mb-4">
-                        {(block as any).content}
+                        {renderInlineBold((block as any).content as string)}
                       </h1>
                     )
                   } else if ((block as any).level === 2) {
@@ -273,13 +278,13 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                       }
                     return (
                       <h2 key={index} className="text-2xl font-semibold mt-8 mb-4">
-                        {(block as any).content}
+                        {renderInlineBold((block as any).content as string)}
                       </h2>
                     )
                   }
                   return (
                     <h3 key={index} className="text-xl font-semibold mt-8 mb-4">
-                      {(block as any).content}
+                      {renderInlineBold((block as any).content as string)}
                     </h3>
                   )
                 case 'list':

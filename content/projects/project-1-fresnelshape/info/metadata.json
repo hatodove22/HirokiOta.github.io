@@ -20,7 +20,7 @@
   "demoUrl": "",
   "slidesUrl": "",
   "relatedPapers": ["paper7", "paper12"],
-  "heroImage": "",
+  "heroImage": "/content/projects/project-1-fresnelshape/images/HeroImage.png",
   "language": "ja",
   "isPinned": true,
   "status": "completed",

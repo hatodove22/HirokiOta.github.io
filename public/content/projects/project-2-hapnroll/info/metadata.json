@@ -17,10 +17,10 @@
     "en": "Synchronized roll motion and internal mechanism provide continuous haptic sensations."
   },
   "repoUrl": "",
-  "demoUrl": "",
+  "demoUrl": "https://www.youtube.com/watch?v=unmhCatTyHw",
   "slidesUrl": "",
   "relatedPapers": ["paper10"],
-  "heroImage": "",
+  "heroImage": "/content/projects/project-2-hapnroll/images/HeroImage.png",
   "language": "ja",
   "isPinned": true,
   "status": "completed",
