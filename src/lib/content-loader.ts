@@ -41,6 +41,13 @@ export async function loadProjects(): Promise<Project[]> {
     const metadata = await loadMetadata<any>(`/projects/${folder}/info/metadata.json`)
     if (metadata) {
       console.log(`Successfully loaded metadata for ${folder}`)
+      // 言語をメタデータから推定
+      const hasJa = !!(metadata.title && metadata.title.ja)
+      const hasEn = !!(metadata.title && metadata.title.en)
+      const inferredLanguage: Locale | 'both' = metadata.language
+        ? metadata.language
+        : (hasJa && hasEn) ? 'both' : hasJa ? 'ja' : 'en'
+
       // メタデータをProject型に変換
       const project: Project = {
         id: metadata.id,
@@ -56,7 +63,7 @@ export async function loadProjects(): Promise<Project[]> {
         slidesUrl: metadata.slidesUrl || '',
         relatedPapers: metadata.relatedPapers || [],
         heroImage: metadata.heroImage || '',
-        language: metadata.language || 'both',
+        language: inferredLanguage,
         isPinned: metadata.isPinned || false
       }
       projects.push(project)
