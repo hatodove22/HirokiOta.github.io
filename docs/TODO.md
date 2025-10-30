@@ -13,6 +13,8 @@
   - 2025-09-28 17:00 build OK。/admin で iframe 表示を確認済み。
 - [x] Edit Mode: 公開ボタン→GitHub PR フロー（既存トークン再利用）
   - 2025-10-10 chrome-devtools: 未実行（dev server 未起動のため要フォローアップ）
+ - [x] Papers: 国内/国際の既存業績を10件追加（metadata.json）
+   - 2025-10-30 追加完了（VR/VRW/CHI EA/AHs/IEICE/VR学会）。
 ## Next（次にやる）
 - [ ] 認証設計に沿った編集可否の制御（docs/AuthDesign.md）を各ページに適用。
 - [ ] コンテンツスキーマの最小合意（Projects/Papers/News）を src/lib/types.ts と Decap 設定（public/admin/config.yml）で揃える。

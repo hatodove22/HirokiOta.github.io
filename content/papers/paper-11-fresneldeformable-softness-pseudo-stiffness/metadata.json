@@ -1,0 +1,37 @@
+{
+  "id": "paper11",
+  "title": "FresnelDeformable: A Softness Presentation Technique Combining Fingertip Plane Tilt Manipulation and Pseudo-Stiffness",
+  "venue": "CHI Conference on Human Factors in Computing Systems (CHI EA)",
+  "year": 2025,
+  "authors": "**Hiroki Ota**, Yutaro Hirao, Monica Perusquía-Hernández, Hideaki Uchiyama, Kiyoshi Kiyokawa, Maud Marchal",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国際",
+    "type": "会議",
+    "peerReview": "査読付き"
+  },
+  "doi": "https://dl.acm.org/doi/10.1145/3706599.3719778",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "指先接平面の傾き操作と擬似剛性を組み合わせた柔らかさ提示手法を提案する。",
+    "en": "We propose a softness presentation technique combining fingertip plane tilt manipulation and pseudo-stiffness."
+  },
+  "keywords": ["Haptics", "Softness", "Tilt"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "Late-Breaking Works, Poster"
+}
+
+

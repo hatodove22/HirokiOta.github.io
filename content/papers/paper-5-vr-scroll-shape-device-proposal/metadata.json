@@ -1,0 +1,38 @@
+{
+  "id": "paper5",
+  "title": "VR 空間における多様な物体把持のための巻物式形状提示装置の提案",
+  "venue": "電子情報通信学会",
+  "year": 2023,
+  "authors": "**太田裕紀**, 萩森大貴, ペルスキアエルナンデスモニカ, 磯山直也, 内山英昭, 清川清",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読なし"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "VR 空間における多様な物体把持に対応する巻物式の形状触覚提示装置を提案する。",
+    "en": "We propose a scroll-inspired shape presentation device for diverse object grasping in VR."
+  },
+  "keywords": ["Haptics", "VR", "Shape Presentation", "Device"],
+  "status": "presented",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "口頭発表（沖縄）",
+  "url": "https://ken.ieice.org/ken/paper/20230317RCSu/"
+}
+
+

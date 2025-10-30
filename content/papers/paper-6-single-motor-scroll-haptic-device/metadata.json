@@ -1,0 +1,38 @@
+{
+  "id": "paper6",
+  "title": "単一モータで動作する巻物型触覚提示装置",
+  "venue": "第28回バーチャルリアリティ学会",
+  "year": 2023,
+  "authors": "**太田裕紀**, 平尾悠太朗, ペルスキアエルナンデスモニカ, 磯山直也, 内山英昭, 清川清",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読なし"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "単一モータ駆動で多様な触覚提示を行う巻物型装置を提案する。",
+    "en": "We propose a scroll-type haptic device driven by a single motor."
+  },
+  "keywords": ["Haptics", "Device", "Vibrotactile"],
+  "status": "presented",
+  "pdfUrl": "https://conference.vrsj.org/ac2023/program/doc/3A2-04.pdf",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "口頭発表・ポスター発表・デモ展示（東京）",
+  "url": "https://jglobal.jst.go.jp/detail?JGLOBAL_ID=202402212195191936"
+}
+
+

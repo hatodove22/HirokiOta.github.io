@@ -196,7 +196,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {pinnedProjects.map((project) => (
+              {pinnedProjects.filter(p => p.language === locale).map((project) => (
                 <ProjectCard 
                   key={project.id} 
                   project={project} 

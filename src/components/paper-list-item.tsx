@@ -55,6 +55,22 @@ export function PaperListItem({ paper, locale, onCategoryClick }: PaperListItemP
 
           {/* Links */}
           <div className="flex flex-wrap gap-2">
+            {paper.url && (
+              <Button asChild variant="outline" size="sm">
+                <a href={paper.url} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="mr-2 h-4 w-4" />
+                  URL
+                </a>
+              </Button>
+            )}
+            {paper.pdfUrl && (
+              <Button asChild variant="outline" size="sm">
+                <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer">
+                  <FileText className="mr-2 h-4 w-4" />
+                  PDF
+                </a>
+              </Button>
+            )}
             {paper.doi && (
               <Button asChild variant="outline" size="sm">
                 <a href={paper.doi} target="_blank" rel="noopener noreferrer">

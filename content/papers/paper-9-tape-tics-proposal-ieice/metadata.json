@@ -1,0 +1,38 @@
+{
+  "id": "paper9",
+  "title": "Tape-tics：小型振動子を並べた切断可能なテープ型触覚デバイスの提案",
+  "venue": "電子情報通信学会",
+  "year": 2024,
+  "authors": "カルロスパニアグア, **太田裕紀**, 平尾悠太朗, ペルスキアエルナンデスモニカ, 内山英昭, 清川清",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読なし"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "研究奨励賞",
+  "abstract": {
+    "ja": "切断可能なテープ状の小型振動子列により柔軟な触覚提示を実現するデバイスを提案。",
+    "en": "We propose a cuttable tape-type haptic device with small vibrotactile actuators."
+  },
+  "keywords": ["Vibrotactile", "Haptics", "Tape-type"],
+  "status": "presented",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "口頭発表（沖縄）",
+  "url": "https://ken.ieice.org/ken/paper/20240315DcCd/"
+}
+
+

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ProjectCard } from '../components/project-card'
 import { ProjectFilters } from '../components/project-filters'
 import { Button } from '../components/ui/button'
@@ -46,15 +46,18 @@ export function ProjectsPage({ locale, onNavigate }: ProjectsPageProps) {
     fetchProjects()
   }, [locale, filters])
 
-  // Calculate pagination
-  const totalPages = Math.ceil(projects.length / itemsPerPage)
+  // 言語での除外は行わない（日本語UIでも英語データを含めて全件表示）
+  const localeProjects = projects
+  const totalPages = Math.ceil(localeProjects.length / itemsPerPage)
   const startIndex = (currentPage - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
-  const currentProjects = projects.slice(startIndex, endIndex)
+  const currentProjects = localeProjects.slice(startIndex, endIndex)
 
   // Get unique tags and years for filters
-  const availableTags = [...new Set(projects.flatMap(p => p.tags))].sort()
-  const availableYears = [...new Set(projects.map(p => new Date(p.date).getFullYear()))].sort((a, b) => b - a)
+  const availableTags = Array.from(new Set(projects.flatMap(p => p.tags))) as string[]
+  availableTags.sort()
+  const availableYears = Array.from(new Set(projects.map(p => new Date(p.date).getFullYear()))) as number[]
+  availableYears.sort((a, b) => b - a)
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -104,8 +107,8 @@ export function ProjectsPage({ locale, onNavigate }: ProjectsPageProps) {
         {!loading && (
           <div className="text-center text-muted-foreground">
             {locale === 'ja' 
-              ? `${projects.length}件のプロジェクトが見つかりました`
-              : `Found ${projects.length} project${projects.length !== 1 ? 's' : ''}`
+              ? `${localeProjects.length}件のプロジェクトが見つかりました`
+              : `Found ${localeProjects.length} project${localeProjects.length !== 1 ? 's' : ''}`
             }
           </div>
         )}

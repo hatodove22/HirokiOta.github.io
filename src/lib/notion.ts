@@ -171,69 +171,7 @@ const mockProjects: Project[] = [
   }
 ]
 
-const mockPapers: Paper[] = [
-  {
-    id: 'paper1',
-    title: 'UMotion: Uncertainty-driven Human Motion Estimation from Inertial and Ultra-wideband Units',
-    venue: 'CVPR',
-    year: 2025,
-    authors: '**Huakun Liu**, Hiroki Ota, Xin Wei, Yutaro Hirao, Monica Perusquia-Hernandez, Hideaki Uchiyama, Kiyoshi Kiyokawa',
-    relatedProjects: [],
-    language: 'ja',
-    categories: {
-      scope: '国際',
-      type: '会議',
-      peerReview: '査読付き'
-    }
-  },
-  {
-    id: 'paper2',
-    title: 'A Flexible Vibrotactile Feedback System for Rapid Prototyping',
-    venue: 'IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)',
-    year: 2025,
-    authors: 'Carlos Paniagua, Hiroki Ota, Yutaro Hirao, **Monica Perusquía-Hernández**, Hideaki Uchiyama, Kiyoshi Kiyokawa',
-    relatedProjects: [],
-    language: 'ja',
-    categories: {
-      scope: '国際',
-      type: 'ワークショップ',
-      peerReview: '査読付き'
-    }
-  },
-  {
-    id: 'paper3',
-    title: 'Advanced Deep Learning Techniques for Medical Image Segmentation',
-    venue: 'MICCAI',
-    year: 2024,
-    authors: '**Ota Hiroki**, Jane Smith, John Doe',
-    doi: 'https://doi.org/10.1000/example',
-    arxiv: 'https://arxiv.org/abs/2024.example',
-    slidesUrl: 'https://slides.example.com/miccai2024',
-    award: 'Best Paper Award',
-    relatedProjects: ['1'],
-    language: 'ja',
-    categories: {
-      scope: '国際',
-      type: '会議',
-      peerReview: '査読付き'
-    }
-  },
-  {
-    id: 'paper4',
-    title: 'Transformerを用いた日本語文書分類の高精度化手法',
-    venue: '人工知能学会全国大会',
-    year: 2024,
-    authors: '**太田裕紀**, 田中花子',
-    slidesUrl: 'https://slides.example.com/jsai2024',
-    relatedProjects: ['2'],
-    language: 'ja',
-    categories: {
-      scope: '国内',
-      type: '会議',
-      peerReview: '査読付き'
-    }
-  }
-]
+const mockPapers: Paper[] = []
 
 const mockNews: NewsItem[] = [
   {
@@ -334,12 +272,14 @@ class NotionService {
   }
 
   async getPinnedProjects(locale: Locale): Promise<Project[]> {
-    const projects = await loadProjects()
-    return projects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
+    const projects = await loadProjects(locale)
+    // 言語に依存せず全件からピン留めを抽出（表示は各ページ側でローカライズ）
+    return projects.filter(p => p.isPinned).slice(0, 4)
   }
 
   async getProjects(locale: Locale, filters: FilterParams = {}): Promise<Project[]> {
-    let projects = (await loadProjects()).filter(p => p.status === 'Published' && p.language === locale)
+    // 言語は除外せず、表示文字列は preferredLocale を優先して生成
+    let projects = await loadProjects(locale)
     
     if (filters.tag) {
       projects = projects.filter(p => p.tags.includes(filters.tag!))
@@ -352,15 +292,16 @@ class NotionService {
   }
 
   async getProjectBySlug(locale: Locale, slug: string): Promise<Project | null> {
-    const project = await loadProjectDetail(slug)
-    return project && project.language === locale ? project : null
+    // 詳細は言語に依存せず取得し、タイトル/概要のみ locale 優先で整形済み
+    const project = await loadProjectDetail(slug, locale)
+    return project
   }
 
   async getPapers(locale: Locale, filters: FilterParams = {}): Promise<Paper[]> {
     try {
       // 新しいコンテンツローダーを使用
       let papers = await loadPapers()
-      papers = papers.filter(p => p.language === locale || p.language === 'both')
+      // 言語による除外は行わず、全件を表示（UI側の文言のみロケールに従う）
       
       if (filters.year) {
         papers = papers.filter(p => p.year === filters.year)
@@ -378,7 +319,7 @@ class NotionService {
       return papers.sort((a, b) => b.year - a.year)
     } catch (error) {
       console.warn('Failed to load papers from content files, falling back to mock data:', error)
-      let papers = mockPapers.filter(p => p.language === locale || p.language === 'both')
+      let papers = mockPapers
       
       if (filters.year) {
         papers = papers.filter(p => p.year === filters.year)
@@ -456,13 +397,11 @@ class NotionService {
       // 新しいコンテンツローダーを使用
       const papers = await loadPapers()
       return papers
-        .filter(p => p.language === locale || p.language === 'both')
         .sort((a, b) => b.year - a.year)
         .slice(0, limit)
     } catch (error) {
       console.warn('Failed to load papers from content files, falling back to mock data:', error)
       return mockPapers
-        .filter(p => p.language === locale || p.language === 'both')
         .sort((a, b) => b.year - a.year)
         .slice(0, limit)
     }

@@ -43,6 +43,8 @@ export interface Paper {
   venue: string
   year: number
   authors: string
+  url?: string
+  pdfUrl?: string
   doi?: string
   arxiv?: string
   slidesUrl?: string

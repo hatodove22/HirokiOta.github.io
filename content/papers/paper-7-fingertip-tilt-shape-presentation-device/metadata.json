@@ -1,0 +1,37 @@
+{
+  "id": "paper7",
+  "title": "フレネルシェイプ：各指先接平面の傾きを操作する形状提示装置",
+  "venue": "第29回バーチャルリアリティ学会",
+  "year": 2024,
+  "authors": "**太田裕紀**, 平尾悠太朗, ペルスキアエルナンデスモニカ, 内山英昭, 清川清",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読なし"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "指先接平面の傾き操作により形状提示を行う装置を提案する。",
+    "en": "We propose a device that presents shape by controlling the tilt of fingertip contact planes."
+  },
+  "keywords": ["Haptics", "Tilt", "Shape Presentation"],
+  "status": "presented",
+  "pdfUrl": "https://conference.vrsj.org/ac2024/program/doc/3G-19.pdf",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "口頭発表・ポスター発表・デモ展示（名古屋）"
+}
+
+

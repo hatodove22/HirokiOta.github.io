@@ -11,7 +11,7 @@
     "type": "会議",
     "peerReview": "査読付き"
   },
-  "doi": "",
+  "doi": "https://doi.org/10.48550/arXiv.2505.09393",
   "arxiv": "",
   "slidesUrl": "",
   "award": "",
@@ -20,5 +20,7 @@
     "en": "We propose an uncertainty-driven human motion estimation approach from inertial and ultra-wideband units."
   },
   "keywords": ["Human Motion", "Inertial Sensors", "Ultra-wideband", "Uncertainty Estimation"],
-  "status": "published"
+  "status": "published",
+  "url": "https://arxiv.org/abs/2505.09393"
 }
+

@@ -1,0 +1,37 @@
+{
+  "id": "paper12",
+  "title": "Enhancing Visuo-Haptic Coherency by Manipulating Fingertip Contact Tilt",
+  "venue": "IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)",
+  "year": 2025,
+  "authors": "**Hiroki Ota**, Yutaro Hirao, Monica Perusquía-Hernández, Hideaki Uchiyama, Kiyoshi Kiyokawa, Maud Marchal",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国際",
+    "type": "ワークショップ",
+    "peerReview": "査読付き"
+  },
+  "doi": "https://ieeexplore.ieee.org/document/10972462",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "指先接触面の傾き操作による視触覚の一貫性向上を検討する。",
+    "en": "We investigate improving visuo-haptic coherency by manipulating fingertip contact tilt."
+  },
+  "keywords": ["Haptics", "Visuo-Haptic", "Tilt"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "Extended Abstract, Poster"
+}
+
+

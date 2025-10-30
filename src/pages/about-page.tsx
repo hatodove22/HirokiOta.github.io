@@ -62,22 +62,22 @@ export function AboutPage({ locale }: AboutPageProps) {
 
   const goals = [
     {
-      title: locale === 'ja' ? '触覚技術の革新を推進する' : 'Advance haptic technology innovation',
+      title: locale === 'ja' ? '深部感覚に基づく形状・剛性・重量提示の確立' : 'Establish depth-sensation-based shape/rigidity/weight rendering',
       description: locale === 'ja'
-        ? 'FresnelShapeをはじめとする新しい触覚デバイスの開発を通じて、VR環境での触覚体験を根本的に改善します。'
-        : 'Fundamentally improve tactile experiences in VR environments through the development of novel haptic devices like FresnelShape.'
+        ? '指先接平面の傾き操作を核とした提示設計を洗練し、形状・剛性・重量といった深部感覚プロパティを単一デバイスで高効率に提示できる方式を確立します。'
+        : 'Refine fingertip contact tilt manipulation to efficiently render shape, rigidity, and weight with a single handheld device leveraging depth sensation.'
     },
     {
-      title: locale === 'ja' ? '人間の触覚認知の理解を深める' : 'Deepen understanding of human tactile perception',
+      title: locale === 'ja' ? '期待推定×スイッチングで視触覚の整合を最大化' : 'Maximize visuo-haptic coherency via expectation-aware switching',
       description: locale === 'ja'
-        ? '人間の触覚的形状認知特性の研究を通じて、より自然で直感的な触覚インターフェースの設計指針を確立します。'
-        : 'Establish design guidelines for more natural and intuitive haptic interfaces through research on human tactile shape perception characteristics.'
+        ? '手先位置・姿勢・力入力からユーザの触探索意図を機械学習で推定し、提示刺激を動的に切替えて没入感を損なうミスマッチを解消します。'
+        : 'Infer user exploratory intent from position, orientation, and force to dynamically switch stimuli, eliminating expectation-stimulus mismatch.'
     },
     {
-      title: locale === 'ja' ? 'VR・ロボティクス分野での社会実装を目指す' : 'Aim for social implementation in VR and robotics',
+      title: locale === 'ja' ? '触錯覚の活用による装置の簡素化・小型化' : 'Simplify and miniaturize devices using haptic illusions',
       description: locale === 'ja'
-        ? '研究成果を教育、医療、エンターテインメントなどの実用分野に応用し、社会に貢献できる技術の実現を目指します。'
-        : 'Apply research findings to practical fields such as education, healthcare, and entertainment to realize technologies that contribute to society.'
+        ? 'Grain-Based Compliance/Tilt などの触錯覚を応用し、機構依存を減らしながら知覚強度を担保する省アクチュエータ設計を推進します。'
+        : 'Leverage illusions like Grain-Based Compliance/Tilt to reduce mechanical complexity while maintaining perceived intensity.'
     }
   ]
 
@@ -331,6 +331,58 @@ export function AboutPage({ locale }: AboutPageProps) {
               </Card>
             ))}
           </div>
+        </section>
+
+        {/* Extracurriculars */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-semibold flex items-center">
+            <Award className="mr-3 h-6 w-6" />
+            {locale === 'ja' ? '課外活動' : 'Extracurricular Activities'}
+          </h3>
+          <div className="space-y-3">
+            <Card><CardContent className="p-6"><ul className="list-disc pl-6 space-y-1">
+              <li>{locale === 'ja' ? '缶サット甲子園 全国大会準優勝（通算2回）' : 'Cansat Koshien: National runner-up (twice)'}</li>
+              <li>{locale === 'ja' ? 'Google Science Jam 2015 JAXA審査員賞' : 'Google Science Jam 2015: JAXA Jury Prize'}</li>
+              <li>{locale === 'ja' ? 'IVRC 2022 SEED STAGE 選出' : 'IVRC 2022: Selected for SEED STAGE'}</li>
+              <li>{locale === 'ja' ? '関西テック・クリエイティブ人材共創事業 採択' : 'Kansai Tech Creative Talent Co-creation: Selected'}</li>
+            </ul></CardContent></Card>
+          </div>
+        </section>
+
+        {/* Funding */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-semibold flex items-center">
+            <Award className="mr-3 h-6 w-6" />
+            {locale === 'ja' ? '獲得資金' : 'Funding'}
+          </h3>
+          <Card>
+            <CardContent className="p-6">
+              <ul className="list-disc pl-6 space-y-1">
+                <li>{locale === 'ja' ? '関西テッククリエイターチャレンジ：165万円' : 'Kansai Tech Creator Challenge: 1.65M JPY'}</li>
+                <li>{locale === 'ja' ? 'JASSO 海外留学支援制度（協定派遣）：66万円' : 'JASSO Study Abroad Support (Exchange): 0.66M JPY'}</li>
+                <li>{locale === 'ja' ? 'NAIST 長期留学支援制度：70万円' : 'NAIST Long-term Study Abroad Support: 0.7M JPY'}</li>
+                <li>{locale === 'ja' ? 'JST 次世代研究者挑戦的研究プログラム（NAIST Granite）：総額約800万円' : 'JST Next-Gen Researcher Program (NAIST Granite): ~8.0M JPY total'}</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Academic contributions */}
+        <section className="space-y-6">
+          <h3 className="text-2xl font-semibold flex items-center">
+            <Award className="mr-3 h-6 w-6" />
+            {locale === 'ja' ? '学術貢献' : 'Academic Contributions'}
+          </h3>
+          <Card>
+            <CardContent className="p-6">
+              <ul className="list-disc pl-6 space-y-1">
+                <li>{locale === 'ja' ? '触覚若手の会 疑似査読者会議・デモ交流会（ベスプレ）' : 'Young Haptics community: mock reviewer meeting; demo exchange (Best Presentation)'}</li>
+                <li>{locale === 'ja' ? '触覚講習会 2024（デモ展示）' : 'Haptics Tutorial 2024 (demo exhibit)'}</li>
+                <li>{locale === 'ja' ? 'ICRA 2024 / IEEE VR 2025 Student Volunteer' : 'ICRA 2024 / IEEE VR 2025: Student Volunteer'}</li>
+                <li>{locale === 'ja' ? 'AHs / WHC 2025 査読協力' : 'AHs / WHC 2025: Reviewer'}</li>
+              </ul>
+            </CardContent>
+          </Card>
         </section>
 
       </div>

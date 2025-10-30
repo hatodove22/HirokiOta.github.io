@@ -6,6 +6,9 @@
 - 受入: 主要ページ（Home/Projects/Papers/Blogs/Contact）がビルド通過しナビゲーション可能。
 - 受入: i18n の土台が稼働（言語トグルで主要文言が切替）。
 
+### 進捗メモ（2025-10-30）
+- Papers カタログ拡充：国内/国際の実績10件を `content/papers/*/metadata.json` として追加。
+
 ## M2: Edit Mode プロトの安定化
 - 2025-10-10: Codex refactoring audit will produce risk/impact matrix for repo cleanup options.
 - 受入: 編集用プレビュー（ニュース一覧/詳細）が UI と整合。

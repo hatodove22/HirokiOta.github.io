@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
-import { ArrowLeft, Calendar, ExternalLink, Github, FileText, Users, Tag } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { ArrowLeft, Calendar, Tag } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
-import { Separator } from '../components/ui/separator'
+// import { Separator } from '../components/ui/separator'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../components/ui/breadcrumb'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
 import { Locale, Project, Paper } from '../lib/types'
@@ -154,35 +154,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
               )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-3">
-              {project.demoUrl && (
-                <Button asChild>
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="mr-2 h-4 w-4" />
-                    {t.projects.card.demo}
-                  </a>
-                </Button>
-              )}
-              
-              {project.repoUrl && (
-                <Button variant="outline" asChild>
-                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="mr-2 h-4 w-4" />
-                    {t.projects.card.repo}
-                  </a>
-                </Button>
-              )}
-              
-              {project.slidesUrl && (
-                <Button variant="outline" asChild>
-                  <a href={project.slidesUrl} target="_blank" rel="noopener noreferrer">
-                    <FileText className="mr-2 h-4 w-4" />
-                    Slides
-                  </a>
-                </Button>
-              )}
-            </div>
+            {/* Action buttons removed by request */}
           </div>
         </div>
 
@@ -240,57 +212,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
             })}
           </div>
 
-          {/* Sample content for demonstration */}
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-xl font-semibold mb-4">
-                {locale === 'ja' ? '問題設定' : 'Problem Statement'}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {locale === 'ja'
-                  ? 'このプロジェクトでは、従来の手法では解決が困難だった課題に取り組みました。特に、大規模なデータセットにおける処理速度と精度の両立が求められていました。'
-                  : 'This project addressed challenges that were difficult to solve with conventional methods. In particular, we needed to achieve both processing speed and accuracy on large-scale datasets.'
-                }
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold mb-4">
-                {locale === 'ja' ? 'アプローチ' : 'Approach'}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {locale === 'ja'
-                  ? '深層学習を基盤とした新しいアーキテクチャを提案し、効率的な学習アルゴリズムを開発しました。また、実装においては最新のGPU技術を活用し、大幅な処理速度向上を実現しました。'
-                  : 'We proposed a new architecture based on deep learning and developed efficient learning algorithms. In implementation, we leveraged the latest GPU technology to achieve significant improvements in processing speed.'
-                }
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold mb-4">
-                {locale === 'ja' ? '成果・インパクト' : 'Results & Impact'}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {locale === 'ja'
-                  ? '従来手法と比較して20%の精度向上と3倍の処理速度向上を実現しました。この成果は国際会議で発表され、複数の企業から実用化に向けた問い合わせをいただいています。'
-                  : 'We achieved 20% improvement in accuracy and 3x faster processing speed compared to conventional methods. These results were presented at international conferences and have received inquiries from multiple companies for practical implementation.'
-                }
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-semibold mb-4">
-                {locale === 'ja' ? '技術スタック' : 'Tech Stack'}
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {['Python', 'PyTorch', 'Docker', 'AWS', 'React', 'TypeScript'].map((tech) => (
-                  <Badge key={tech} variant="outline">
-                    {tech}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
+          {/* extra sample content removed; description.md is the single source of truth */}
         </div>
 
         {/* Related Papers */}

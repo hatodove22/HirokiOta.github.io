@@ -11,7 +11,7 @@
     "type": "ワークショップ",
     "peerReview": "査読付き"
   },
-  "doi": "",
+  "doi": "https://doi.org/10.1109/VRW66409.2025.00303",
   "arxiv": "",
   "slidesUrl": "",
   "award": "",
@@ -31,5 +31,7 @@
   "pageCount": 0,
   "citationCount": 0,
   "impactFactor": 0,
-  "notes": ""
+  "notes": "",
+  "url": "https://ieeexplore.ieee.org/document/10972870"
 }
+

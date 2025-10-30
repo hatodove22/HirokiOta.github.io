@@ -1,0 +1,38 @@
+{
+  "id": "paper8",
+  "title": "バーチャルキースイッチの精緻な押下感提示を目的とした電気刺激パラメタの検討",
+  "venue": "電子情報通信学会",
+  "year": 2024,
+  "authors": "多賀康太, **太田裕紀**, 平尾悠太朗, ペルスキアエルナンデスモニカ, 内山英昭, 清川清",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読なし"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "電気刺激パラメタの最適化によりバーチャルキースイッチの押下感提示を高精度化する検討。",
+    "en": "A study on electrical stimulation parameters for precise virtual key press sensation."
+  },
+  "keywords": ["Haptics", "Electrical Stimulation", "Virtual Key"],
+  "status": "presented",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "口頭発表（沖縄）",
+  "url": "https://ken.ieice.org/ken/paper/20240926dc4K/"
+}
+
+

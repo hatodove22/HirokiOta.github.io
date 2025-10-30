@@ -23,7 +23,7 @@ async function loadMetadata<T>(path: string): Promise<T | null> {
 }
 
 // プロジェクトデータを読み込む関数
-export async function loadProjects(): Promise<Project[]> {
+export async function loadProjects(preferredLocale?: Locale): Promise<Project[]> {
   console.log('Loading projects from content files...')
   const projects: Project[] = []
   
@@ -51,12 +51,16 @@ export async function loadProjects(): Promise<Project[]> {
       // メタデータをProject型に変換
       const project: Project = {
         id: metadata.id,
-        title: metadata.title.en || metadata.title.ja || metadata.title,
+        title: preferredLocale && metadata.title && metadata.title[preferredLocale]
+          ? metadata.title[preferredLocale]
+          : (metadata.title.ja || metadata.title.en || metadata.title),
         slug: metadata.slug,
         status: metadata.status,
         date: metadata.date,
         tags: metadata.tags || [],
-        summary: metadata.summary.en || metadata.summary.ja || metadata.summary,
+        summary: preferredLocale && metadata.summary && metadata.summary[preferredLocale]
+          ? metadata.summary[preferredLocale]
+          : (metadata.summary.ja || metadata.summary.en || metadata.summary),
         body: metadata.body || [],
         repoUrl: metadata.repoUrl || '',
         demoUrl: metadata.demoUrl || '',
@@ -84,13 +88,26 @@ export async function loadPapers(): Promise<Paper[]> {
   const paperFolders = [
     'paper-1-umotion',
     'paper-2-vibrotactile-feedback',
-    'paper-3-medical-image-segmentation',
-    'paper-4-transformer-document-classification'
+    'paper-5-vr-scroll-shape-device-proposal',
+    'paper-6-single-motor-scroll-haptic-device',
+    'paper-7-fingertip-tilt-shape-presentation-device',
+    'paper-8-virtual-key-electrical-stimulation-params',
+    'paper-9-tape-tics-proposal-ieice',
+    'paper-10-hap-n-roll-scroll-inspired-device',
+    'paper-11-fresneldeformable-softness-pseudo-stiffness',
+    'paper-12-enhancing-visuo-haptic-coherency-tilt',
+    'paper-13-tape-type-vibrotactile-feedback-system-design',
+    'paper-14-tape-tics-education-rapid-prototyping'
   ]
 
   for (const folder of paperFolders) {
-    const metadata = await loadMetadata<any>(`/papers/${folder}/metadata.json`)
+    // まず info/metadata.json を試し、なければ 直下の metadata.json を読む
+    let metadata = await loadMetadata<any>(`/papers/${folder}/info/metadata.json`)
+    if (!metadata) {
+      metadata = await loadMetadata<any>(`/papers/${folder}/metadata.json`)
+    }
     if (metadata) {
+      const normalizedArxiv = metadata.arxiv || metadata.arXiv || metadata.arxivURL || metadata.arXivUrl || metadata.arxivUrl || ''
       // メタデータをPaper型に変換
       const paper: Paper = {
         id: metadata.id,
@@ -98,6 +115,8 @@ export async function loadPapers(): Promise<Paper[]> {
         venue: metadata.venue,
         year: metadata.year,
         authors: metadata.authors,
+        url: metadata.url || '',
+        pdfUrl: metadata.pdfUrl || '',
         relatedProjects: metadata.relatedProjects || [],
         language: metadata.language,
         categories: metadata.categories || {
@@ -106,8 +125,9 @@ export async function loadPapers(): Promise<Paper[]> {
           peerReview: '査読付き'
         },
         doi: metadata.doi || '',
-        arxiv: metadata.arxiv || '',
+        arxiv: normalizedArxiv,
         slidesUrl: metadata.slidesUrl || '',
+        posterUrl: metadata.posterUrl || '',
         award: metadata.award || ''
       }
       papers.push(paper)
@@ -150,7 +170,7 @@ export async function loadNews(): Promise<NewsItem[]> {
 }
 
 // 特定のプロジェクトの詳細データを読み込む関数
-export async function loadProjectDetail(slug: string): Promise<Project | null> {
+export async function loadProjectDetail(slug: string, preferredLocale?: Locale): Promise<Project | null> {
   const projectFolders = [
     'project-1-deep-learning-medical-image',
     'project-2-nlp-document-classification',
@@ -162,15 +182,39 @@ export async function loadProjectDetail(slug: string): Promise<Project | null> {
   for (const folder of projectFolders) {
     const metadata = await loadMetadata<any>(`/projects/${folder}/info/metadata.json`)
     if (metadata && metadata.slug === slug) {
+      // 説明本文（Markdown）を読み込み、簡易ブロックへ変換
+      let bodyBlocks: { type: string; content: string; children?: any[] }[] = []
+      try {
+        const mdRes = await fetch(`${CONTENT_BASE_PATH}/projects/${folder}/content/description.md`)
+        if (mdRes.ok) {
+          const md = await mdRes.text()
+          bodyBlocks = md
+            .split(/\r?\n\r?\n/) // 段落分割
+            .map((chunk) => chunk.trim())
+            .filter(Boolean)
+            .map((chunk) => {
+              if (/^#\s+/.test(chunk) || /^##\s+/.test(chunk) || /^###\s+/.test(chunk)) {
+                return { type: 'heading', content: chunk.replace(/^#+\s+/, '') }
+              }
+              return { type: 'paragraph', content: chunk }
+            })
+        }
+      } catch (e) {
+        console.warn('Failed to load project description markdown:', e)
+      }
       return {
         id: metadata.id,
-        title: metadata.title.en || metadata.title.ja || metadata.title,
+        title: preferredLocale && metadata.title && metadata.title[preferredLocale]
+          ? metadata.title[preferredLocale]
+          : (metadata.title.ja || metadata.title.en || metadata.title),
         slug: metadata.slug,
         status: metadata.status,
         date: metadata.date,
         tags: metadata.tags || [],
-        summary: metadata.summary.en || metadata.summary.ja || metadata.summary,
-        body: metadata.body || [],
+        summary: preferredLocale && metadata.summary && metadata.summary[preferredLocale]
+          ? metadata.summary[preferredLocale]
+          : (metadata.summary.ja || metadata.summary.en || metadata.summary),
+        body: bodyBlocks,
         repoUrl: metadata.repoUrl || '',
         demoUrl: metadata.demoUrl || '',
         slidesUrl: metadata.slidesUrl || '',
@@ -190,19 +234,23 @@ export async function loadPaperDetail(id: string): Promise<Paper | null> {
   const paperFolders = [
     'paper-1-umotion',
     'paper-2-vibrotactile-feedback',
-    'paper-3-medical-image-segmentation',
-    'paper-4-transformer-document-classification'
   ]
 
   for (const folder of paperFolders) {
-    const metadata = await loadMetadata<any>(`/papers/${folder}/metadata.json`)
+    let metadata = await loadMetadata<any>(`/papers/${folder}/info/metadata.json`)
+    if (!metadata) {
+      metadata = await loadMetadata<any>(`/papers/${folder}/metadata.json`)
+    }
     if (metadata && metadata.id === id) {
+      const normalizedArxiv = metadata.arxiv || metadata.arXiv || metadata.arxivURL || metadata.arXivUrl || metadata.arxivUrl || ''
       return {
         id: metadata.id,
         title: metadata.title,
         venue: metadata.venue,
         year: metadata.year,
         authors: metadata.authors,
+        url: metadata.url || '',
+        pdfUrl: metadata.pdfUrl || '',
         relatedProjects: metadata.relatedProjects || [],
         language: metadata.language,
         categories: metadata.categories || {
@@ -211,8 +259,9 @@ export async function loadPaperDetail(id: string): Promise<Paper | null> {
           peerReview: '査読付き'
         },
         doi: metadata.doi || '',
-        arxiv: metadata.arxiv || '',
+        arxiv: normalizedArxiv,
         slidesUrl: metadata.slidesUrl || '',
+        posterUrl: metadata.posterUrl || '',
         award: metadata.award || ''
       }
     }
@@ -265,10 +314,10 @@ export async function loadNewsDetail(slug: string): Promise<NewsPost | null> {
 // フォールバック用のモックデータ読み込み関数
 export async function loadMockData() {
   // 既存のnotion.tsからモックデータをインポート
-  const { mockProjects, mockPapers, mockNews } = await import('./notion')
+  const mod: any = await import('./notion')
   return {
-    projects: mockProjects,
-    papers: mockPapers,
-    news: mockNews
+    projects: mod.mockProjects ?? [],
+    papers: mod.mockPapers ?? [],
+    news: mod.mockNews ?? []
   }
 }

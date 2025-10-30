@@ -1,6 +1,57 @@
 ﻿import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
+import fs from 'fs';
+
+function serveContentMiddleware() {
+  return (req, res, next) => {
+    if (!req.url) return next();
+    // directory listing endpoint
+    if (req.url.startsWith('/__content/list/')) {
+      try {
+        const type = req.url.replace('/__content/list/', '').split('?')[0];
+        const base = type === 'papers' ? './content/papers' : type === 'projects' ? './content/projects' : type === 'news' ? './content/news' : null;
+        if (!base) return next();
+        const abs = path.resolve(__dirname, base);
+        const items = fs
+          .readdirSync(abs, { withFileTypes: true })
+          .filter((d) => d.isDirectory())
+          .map((d) => d.name)
+          .sort();
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ items }));
+        return;
+      } catch {
+        return next();
+      }
+    }
+    if (!req.url.startsWith('/content/')) return next();
+    const localPath = path.resolve(__dirname, `.${req.url}`);
+    try {
+      const stat = fs.statSync(localPath);
+      if (!stat.isFile()) return next();
+      const ext = path.extname(localPath).toLowerCase();
+      const type = ext === '.json'
+        ? 'application/json; charset=utf-8'
+        : ext === '.md'
+        ? 'text/markdown; charset=utf-8'
+        : ext === '.txt'
+        ? 'text/plain; charset=utf-8'
+        : ext === '.png'
+        ? 'image/png'
+        : ext === '.jpg' || ext === '.jpeg'
+        ? 'image/jpeg'
+        : ext === '.webp'
+        ? 'image/webp'
+        : 'application/octet-stream';
+      res.setHeader('Content-Type', type);
+      fs.createReadStream(localPath).pipe(res);
+      return;
+    } catch {
+      return next();
+    }
+  };
+}
 
 const adminRewritePlugin = {
   name: 'admin-rewrite',
@@ -12,6 +63,7 @@ const adminRewritePlugin = {
       }
       next();
     });
+    server.middlewares.use(serveContentMiddleware());
   },
   configurePreviewServer(server) {
     server.middlewares.use((req, _res, next) => {
@@ -21,6 +73,7 @@ const adminRewritePlugin = {
       }
       next();
     });
+    server.middlewares.use(serveContentMiddleware());
   },
 };
 

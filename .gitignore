@@ -102,6 +102,9 @@ AppData/
 # OneDrive specific
 ersyamaoOneDrive太田ポートフォリオ整備博士課程学生ポートフォリオ V1Portfolio_EditSystem_Proto
 
+# Private documents (sensitive materials)
+private_docs/
+
 # Exclude everything except project files
 /*
 !/AGENTS.md

@@ -61,3 +61,4 @@
 - [GitHub リポジトリ](https://github.com/example/blockchain-identity)
 - [デモサイト](https://identity-demo.example.com)
 - [プレゼンテーション](https://slides.example.com/blockchain2023)
+
