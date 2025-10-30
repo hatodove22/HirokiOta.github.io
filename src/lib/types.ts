@@ -17,7 +17,7 @@ export interface Project {
   slidesUrl?: string
   relatedPapers: string[]
   heroImage?: string
-  language: Locale
+  language: Locale | 'both'
   isPinned?: boolean
 }
 
@@ -26,12 +26,15 @@ export interface NewsPost {
   title: string
   slug: string
   date: string
-  tags: string[]
-  summary: string
+  tags?: string[]
+  summary?: string
+  content?: string
   heroImage?: string
   readTime?: string
-  body: { heading: string; content: string }[]
-  language: Locale
+  body?: { heading: string; content: string }[]
+  language: Locale | 'both'
+  author?: string
+  category?: string
 }
 
 export interface Paper {
@@ -59,7 +62,9 @@ export interface NewsItem {
   title: string
   date: string
   link?: string
-  language: Locale
+  language: Locale | 'both'
+  readTime?: string
+  category?: string
 }
 
 // Edit Mode (Proto) — News schema baseline

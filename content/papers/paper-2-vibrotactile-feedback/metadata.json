@@ -1,0 +1,35 @@
+{
+  "id": "paper2",
+  "title": "A Flexible Vibrotactile Feedback System for Rapid Prototyping",
+  "venue": "IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)",
+  "year": 2025,
+  "authors": "Carlos Paniagua, Hiroki Ota, Yutaro Hirao, **Monica Perusquía-Hernández**, Hideaki Uchiyama, Kiyoshi Kiyokawa",
+  "relatedProjects": [],
+  "language": "both",
+  "categories": {
+    "scope": "国際",
+    "type": "ワークショップ",
+    "peerReview": "査読付き"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "迅速なプロトタイピングのための柔軟な振動触覚フィードバックシステムを提案する。",
+    "en": "We propose a flexible vibrotactile feedback system for rapid prototyping."
+  },
+  "keywords": ["Vibrotactile", "Haptic Feedback", "Rapid Prototyping", "Virtual Reality"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": ""
+}

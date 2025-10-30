@@ -1,4 +1,4 @@
-# SDD Design - 2025-10-10 (Preview markdown pipeline)
+Ôªø# SDD Design - 2025-10-10 (News publish flow)\n\n## Context\n- The News editor publish button previously relied on opening the Vercel Functions popup to obtain an installation token, but authentication is now completed before entering Edit Mode (via ota_portfolio_auth).\n- The editor still needs to produce the same JSON payload (content/news/YYYY-MM-DD-slug.json) and create a PR automatically.\n- Installation tokens can reside in a global object, storage, or an authenticated endpoint; the UI must reuse them without asking the user to log in again.\n\n## Approach\n- Replace the popup/token exchange with a helper that resolves the installation token from the current session (global path, storage key, or optional fetch endpoint).\n- Keep slug generation (YYYY-MM-DD-<slug>) and the JSON payload identical, reusing the existing Tiptap -> Markdown conversion utilities.\n- Surface clear errors when the token is missing or expired so users can re-authenticate, instead of silently failing.\n- Expose configuration via Vite env vars (token global path, storage key, optional endpoint) to adapt to different deployments.\n\n## Acceptance\n- Pressing the publish button reuses the existing installation token, no popup opens, and a PR is created successfully.\n- Missing/expired tokens raise a descriptive error message; the UI remains interactive.\n- The generated file content/news/YYYY-MM-DD-slug.json contains the same schema and the toast still links to the PR.\n- Draft save behaviour remains a TODO while the publish flow works with the reused token.\n\n# SDD Design - 2025-10-10 (Preview markdown pipeline)
 
 ## Context
 - Issue #19: Tiptap headings and lists do not appear in preview because markdown fallback bypasses generateJSON/generateHTML and MarkdownIt instance is unavailable during SSR/tests.
@@ -28,7 +28,10 @@
 - Override resizable panel overflow via `style={{ overflow: 'visible' }}` and wrap sticky block with `max-h` container to keep preview anchored.
 
 ## Acceptance
-- All visible strings in news editor match Japanese copy (ÉXÉeÅ[É^ÉX/É^ÉO/ï€ë∂Ç»Ç«).
-- Required badge reads `ïKê{`; image controls and buttons localized.
+- All visible strings in news editor match Japanese copy („Çπ„ÉÜ„Éº„Çø„Çπ/„Çø„Ç∞/‰øùÂ≠ò„Å™„Å©).
+- Required badge reads `ÂøÖÈ†à`; image controls and buttons localized.
 - Preview column stays pinned while scrolling editor content.
+
+
+
 

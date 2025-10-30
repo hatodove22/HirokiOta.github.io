@@ -1,0 +1,1 @@
+﻿2025-10-10: Edit Mode publish now reuses the GitHub App installation token issued by ota_portfolio_auth (no popup). The helper reads from session/global storage, commits content/news JSON to a feature branch, and opens a PR.

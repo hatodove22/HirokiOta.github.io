@@ -1,0 +1,35 @@
+{
+  "id": "paper1",
+  "title": "UMotion: Uncertainty-driven Human Motion Estimation from Inertial and Ultra-wideband Units",
+  "venue": "CVPR",
+  "year": 2025,
+  "authors": "**Huakun Liu**, Hiroki Ota, Xin Wei, Yutaro Hirao, Monica Perusquia-Hernandez, Hideaki Uchiyama, Kiyoshi Kiyokawa",
+  "relatedProjects": [],
+  "language": "both",
+  "categories": {
+    "scope": "国際",
+    "type": "会議",
+    "peerReview": "査読付き"
+  },
+  "doi": "",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "慣性センサーとUltra-widebandユニットからの不確実性駆動型人間動作推定手法を提案する。",
+    "en": "We propose an uncertainty-driven human motion estimation approach from inertial and ultra-wideband units."
+  },
+  "keywords": ["Human Motion", "Inertial Sensors", "Ultra-wideband", "Uncertainty Estimation"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": ""
+}

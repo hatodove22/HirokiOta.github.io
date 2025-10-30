@@ -1,0 +1,37 @@
+{
+  "id": "3",
+  "title": {
+    "ja": "自律ロボティクスのためのコンピュータビジョン",
+    "en": "Computer Vision for Autonomous Robotics"
+  },
+  "slug": "computer-vision-robotics",
+  "status": "Published",
+  "date": "2024-01-20",
+  "tags": ["Computer Vision", "Robotics", "ROS", "C++", "OpenCV"],
+  "summary": {
+    "ja": "自律移動ロボットのためのリアルタイム物体認識・追跡システムを開発し、複雑な環境でのナビゲーションを実現。",
+    "en": "Developed a real-time object recognition and tracking system for autonomous mobile robots, enabling navigation in complex environments."
+  },
+  "body": {
+    "ja": "このプロジェクトでは、ROS（Robot Operating System）を使用して、ロボットの視覚システムを構築しました。",
+    "en": "This project built a robot vision system using ROS (Robot Operating System)."
+  },
+  "repoUrl": "https://github.com/example/robot-vision",
+  "demoUrl": "https://demo-robot.example.com",
+  "slidesUrl": "https://slides.example.com/robotics2024",
+  "relatedPapers": ["paper3"],
+  "heroImage": "robot-vision.jpg",
+  "language": "en",
+  "isPinned": false,
+  "status": "completed",
+  "featured": false,
+  "technologies": ["C++", "ROS", "OpenCV", "PCL", "Gazebo"],
+  "duration": "8 months",
+  "teamSize": 4,
+  "role": "Computer Vision Engineer",
+  "achievements": [
+    "Real-time processing at 30 FPS",
+    "95% object detection accuracy",
+    "Successfully deployed on physical robot"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "paper3",
+  "title": "Advanced Deep Learning Techniques for Medical Image Segmentation",
+  "venue": "MICCAI",
+  "year": 2024,
+  "authors": "**Ota Hiroki**, Jane Smith, John Doe",
+  "doi": "https://doi.org/10.1000/example",
+  "arxiv": "https://arxiv.org/abs/2024.example",
+  "slidesUrl": "https://slides.example.com/miccai2024",
+  "award": "Best Paper Award",
+  "relatedProjects": ["1"],
+  "language": "en",
+  "categories": {
+    "scope": "国際",
+    "type": "会議",
+    "peerReview": "査読付き"
+  },
+  "abstract": {
+    "ja": "医療画像セグメンテーションのための先進的な深層学習技術を提案する。",
+    "en": "We propose advanced deep learning techniques for medical image segmentation."
+  },
+  "keywords": ["Medical Image", "Segmentation", "Deep Learning", "Computer Vision"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "Best Paper Award受賞論文"
+}

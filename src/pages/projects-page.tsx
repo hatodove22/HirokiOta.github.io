@@ -34,6 +34,7 @@ export function ProjectsPage({ locale, onNavigate }: ProjectsPageProps) {
           year: filters.year ? parseInt(filters.year) : undefined,
           q: filters.q || undefined
         })
+        console.log('Fetched projects:', allProjects.length, allProjects.map(p => ({ id: p.id, title: p.title, language: p.language })))
         setProjects(allProjects)
       } catch (error) {
         console.error('Failed to fetch projects:', error)

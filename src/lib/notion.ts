@@ -1,19 +1,20 @@
 import { Project, Paper, NewsItem, NewsPost, Locale, FilterParams, NotionBlock } from './types'
+import { loadProjects, loadPapers, loadNews, loadProjectDetail, loadPaperDetail, loadNewsDetail, loadMockData } from './content-loader'
 
 // Mock data for development (used when Notion API is not configured)
 const mockProjects: Project[] = [
   {
     id: '1',
-    title: 'Deep Learning for Medical Image Analysis',
+    title: '医療画像解析のための深層学習',
     slug: 'deep-learning-medical-image',
     status: 'Published',
     date: '2024-03-15',
-    tags: ['Deep Learning', 'Medical AI', 'Computer Vision'],
-    summary: 'Developed a novel deep learning approach for automated medical image analysis, achieving 95% accuracy in disease detection.',
+    tags: ['深層学習', '医療AI', 'コンピュータビジョン'],
+    summary: '自動医療画像解析のための新しい深層学習アプローチを開発し、疾患検出において95%の精度を達成しました。',
     body: [
       {
         type: 'paragraph',
-        content: 'This project focuses on developing advanced deep learning models for medical image analysis...'
+        content: 'このプロジェクトでは、医療画像解析のための先進的な深層学習モデルの開発に焦点を当てています...'
       }
     ],
     repoUrl: 'https://github.com/example/medical-ai',
@@ -21,7 +22,7 @@ const mockProjects: Project[] = [
     slidesUrl: 'https://slides.example.com',
     relatedPapers: ['paper1'],
     heroImage: 'https://images.unsplash.com/photo-1758202292826-c40e172eed1c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtZWRpY2FsJTIwQUklMjB0ZWNobm9sb2d5fGVufDF8fHx8MTc1ODU5NjY5M3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
-    language: 'en',
+    language: 'ja',
     isPinned: true
   },
   {
@@ -62,7 +63,7 @@ const mockProjects: Project[] = [
     demoUrl: 'https://demo.robotics.example.com',
     heroImage: 'https://images.unsplash.com/photo-1657165235722-e50bbac41584?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb21wdXRlciUyMHZpc2lvbiUyMHJvYm90aWNzfGVufDF8fHx8MTc1ODU5NzUwNXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     relatedPapers: [],
-    language: 'en',
+    language: 'ja',
     isPinned: true
   },
   {
@@ -83,7 +84,7 @@ const mockProjects: Project[] = [
     demoUrl: 'https://dataviz.example.com',
     heroImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXRhJTIwdmlzdWFsaXphdGlvbiUyMGRhc2hib2FyZHxlbnwxfHx8fDE3NTg1MTQ4OTl8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     relatedPapers: [],
-    language: 'en',
+    language: 'ja',
     isPinned: true
   },
   {
@@ -103,7 +104,7 @@ const mockProjects: Project[] = [
     repoUrl: 'https://github.com/example/blockchain-identity',
     heroImage: 'https://images.unsplash.com/photo-1590286162167-70fb467846ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibG9ja2NoYWluJTIwY3J5cHRvY3VycmVuY3l8ZW58MXx8fHwxNzU4NTQ1NzkyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral',
     relatedPapers: [],
-    language: 'en',
+    language: 'ja',
     isPinned: true
   },
   {
@@ -178,7 +179,7 @@ const mockPapers: Paper[] = [
     year: 2025,
     authors: '**Huakun Liu**, Hiroki Ota, Xin Wei, Yutaro Hirao, Monica Perusquia-Hernandez, Hideaki Uchiyama, Kiyoshi Kiyokawa',
     relatedProjects: [],
-    language: 'both',
+    language: 'ja',
     categories: {
       scope: '国際',
       type: '会議',
@@ -192,7 +193,7 @@ const mockPapers: Paper[] = [
     year: 2025,
     authors: 'Carlos Paniagua, Hiroki Ota, Yutaro Hirao, **Monica Perusquía-Hernández**, Hideaki Uchiyama, Kiyoshi Kiyokawa',
     relatedProjects: [],
-    language: 'both',
+    language: 'ja',
     categories: {
       scope: '国際',
       type: 'ワークショップ',
@@ -210,7 +211,7 @@ const mockPapers: Paper[] = [
     slidesUrl: 'https://slides.example.com/miccai2024',
     award: 'Best Paper Award',
     relatedProjects: ['1'],
-    language: 'en',
+    language: 'ja',
     categories: {
       scope: '国際',
       type: '会議',
@@ -290,7 +291,7 @@ const mockNewsPosts: NewsPost[] = [
     summary: 'A look at the design decisions and iterations that shaped our latest tactile display prototype.',
     heroImage: 'https://images.unsplash.com/photo-1582719478250-0901a3da57a7?auto=format&fit=crop&w=1080&q=80',
     readTime: '6 min',
-    language: 'en',
+    language: 'ja',
     body: [
       { heading: 'Iteration Diary', content: 'We share the iterations, failures, and breakthroughs that occurred while designing the latest tactile display prototype.' },
       { heading: 'Technical Notes', content: 'The article also covers material choices, control firmware, and what we plan to explore next.' },
@@ -305,7 +306,7 @@ const mockNewsPosts: NewsPost[] = [
     summary: 'Key lessons from co-design workshops and pilot studies conducted with partner hospitals.',
     heroImage: 'https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=1080&q=80',
     readTime: '7 min',
-    language: 'en',
+    language: 'ja',
     body: [
       { heading: 'Clinic Partnerships', content: 'Collaborating with clinicians taught us how to align research metrics with practical needs and constraints.' },
       { heading: 'What Comes Next', content: 'We summarise workshop outcomes, pilot study feedback, and the roadmap for integrating their requests.' },
@@ -333,56 +334,73 @@ class NotionService {
   }
 
   async getPinnedProjects(locale: Locale): Promise<Project[]> {
-    if (!this.isConfigured()) {
-      return mockProjects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
-    }
+    // 一時的にコンテンツローダーを無効にして、モックデータを使用
+    console.log('Using mock data for getPinnedProjects')
+    return mockProjects.filter(p => 
+      p.isPinned && 
+      p.language === locale
+    ).slice(0, 4)
     
-    // TODO: Implement actual Notion API call
-    // const response = await notion.databases.query({
-    //   database_id: this.projectsDbId!,
-    //   filter: {
-    //     and: [
-    //       { property: 'Status', select: { equals: 'Published' } },
-    //       { property: 'Language', select: { equals: locale } },
-    //       { property: 'Pinned', checkbox: { equals: true } }
-    //     ]
-    //   },
-    //   sorts: [{ property: 'Date', direction: 'descending' }],
-    //   page_size: 3
-    // })
-    
-    return mockProjects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
+    // try {
+    //   // 新しいコンテンツローダーを使用
+    //   const projects = await loadProjects()
+    //   return projects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
+    // } catch (error) {
+    //   console.warn('Failed to load projects from content files, falling back to mock data:', error)
+    //   return mockProjects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
+    // }
   }
 
   async getProjects(locale: Locale, filters: FilterParams = {}): Promise<Project[]> {
-    if (!this.isConfigured()) {
-      let projects = mockProjects.filter(p => p.language === locale && p.status === 'Published')
-      
-      if (filters.tag) {
-        projects = projects.filter(p => p.tags.includes(filters.tag!))
-      }
-      if (filters.year) {
-        projects = projects.filter(p => new Date(p.date).getFullYear() === filters.year)
-      }
-      
-      return projects
+    // 一時的にコンテンツローダーを無効にして、モックデータを使用
+    console.log('Using mock data for getProjects')
+    // 言語フィルタリング：現在の言語のみを表示
+    let projects = mockProjects.filter(p => 
+      p.status === 'Published' && 
+      p.language === locale
+    )
+    
+    if (filters.tag) {
+      projects = projects.filter(p => p.tags.includes(filters.tag!))
+    }
+    if (filters.year) {
+      projects = projects.filter(p => new Date(p.date).getFullYear() === filters.year)
     }
     
-    // TODO: Implement actual Notion API call with filters
-    return mockProjects.filter(p => p.language === locale && p.status === 'Published')
+    return projects
   }
 
   async getProjectBySlug(locale: Locale, slug: string): Promise<Project | null> {
-    if (!this.isConfigured()) {
-      return mockProjects.find(p => p.slug === slug && p.language === locale) || null
-    }
-    
-    // TODO: Implement actual Notion API call
-    return mockProjects.find(p => p.slug === slug && p.language === locale) || null
+    // 一時的にコンテンツローダーを無効にして、モックデータを使用
+    console.log('Using mock data for getProjectBySlug')
+    return mockProjects.find(p => 
+      p.slug === slug && 
+      p.language === locale
+    ) || null
   }
 
   async getPapers(locale: Locale, filters: FilterParams = {}): Promise<Paper[]> {
-    if (!this.isConfigured()) {
+    try {
+      // 新しいコンテンツローダーを使用
+      let papers = await loadPapers()
+      papers = papers.filter(p => p.language === locale || p.language === 'both')
+      
+      if (filters.year) {
+        papers = papers.filter(p => p.year === filters.year)
+      }
+      if (filters.venue) {
+        papers = papers.filter(p => p.venue.toLowerCase().includes(filters.venue!.toLowerCase()))
+      }
+      if (filters.q) {
+        papers = papers.filter(p => 
+          p.title.toLowerCase().includes(filters.q!.toLowerCase()) ||
+          p.authors.toLowerCase().includes(filters.q!.toLowerCase())
+        )
+      }
+      
+      return papers.sort((a, b) => b.year - a.year)
+    } catch (error) {
+      console.warn('Failed to load papers from content files, falling back to mock data:', error)
       let papers = mockPapers.filter(p => p.language === locale || p.language === 'both')
       
       if (filters.year) {
@@ -400,54 +418,77 @@ class NotionService {
       
       return papers.sort((a, b) => b.year - a.year)
     }
-    
-    // TODO: Implement actual Notion API call with filters
-    return mockPapers.filter(p => p.language === locale || p.language === 'both').sort((a, b) => b.year - a.year)
   }
 
   async getLatestNewsPosts(locale: Locale, limit: number = 3): Promise<NewsPost[]> {
-    if (!this.isConfigured()) {
+    try {
+      // 新しいコンテンツローダーを使用
+      const news = await loadNews()
+      const newsPosts = await Promise.all(
+        news.map(async (newsItem) => {
+          const newsPost = await loadNewsDetail(newsItem.link?.split('/').pop() || '')
+          return newsPost || {
+            id: newsItem.id,
+            title: newsItem.title,
+            slug: newsItem.link?.split('/').pop() || '',
+            date: newsItem.date,
+            content: '',
+            heroImage: '',
+            readTime: newsItem.readTime || '5 min',
+            language: newsItem.language,
+            author: '太田裕紀',
+            category: newsItem.category || 'general',
+            tags: [],
+            summary: ''
+          }
+        })
+      )
+      
+      return newsPosts
+        .filter(post => post.language === locale)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, limit)
+    } catch (error) {
+      console.warn('Failed to load news from content files, falling back to mock data:', error)
       return mockNewsPosts
         .filter(post => post.language === locale)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .slice(0, limit)
     }
-
-    // TODO: Implement actual Notion API call
-    return mockNewsPosts
-      .filter(post => post.language === locale)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, limit)
   }
 
   async getLatestNews(locale: Locale, limit: number = 3): Promise<NewsItem[]> {
-    if (!this.isConfigured()) {
+    try {
+      // 新しいコンテンツローダーを使用
+      const news = await loadNews()
+      return news
+        .filter(n => n.language === locale)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, limit)
+    } catch (error) {
+      console.warn('Failed to load news from content files, falling back to mock data:', error)
       return mockNews
         .filter(n => n.language === locale)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .slice(0, limit)
     }
-    
-    // TODO: Implement actual Notion API call
-    return mockNews
-      .filter(n => n.language === locale)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      .slice(0, limit)
   }
 
   async getRecentPapers(locale: Locale, limit: number = 3): Promise<Paper[]> {
-    if (!this.isConfigured()) {
+    try {
+      // 新しいコンテンツローダーを使用
+      const papers = await loadPapers()
+      return papers
+        .filter(p => p.language === locale || p.language === 'both')
+        .sort((a, b) => b.year - a.year)
+        .slice(0, limit)
+    } catch (error) {
+      console.warn('Failed to load papers from content files, falling back to mock data:', error)
       return mockPapers
         .filter(p => p.language === locale || p.language === 'both')
         .sort((a, b) => b.year - a.year)
         .slice(0, limit)
     }
-    
-    // TODO: Implement actual Notion API call
-    return mockPapers
-      .filter(p => p.language === locale || p.language === 'both')
-      .sort((a, b) => b.year - a.year)
-      .slice(0, limit)
   }
 
   // Utility method to convert Notion blocks to our internal format
@@ -461,22 +502,46 @@ class NotionService {
   }
 
   async getNewsPostBySlug(locale: Locale, slug: string): Promise<NewsPost | null> {
-    if (!this.isConfigured()) {
+    try {
+      // 新しいコンテンツローダーを使用
+      const newsPost = await loadNewsDetail(slug)
+      return newsPost && newsPost.language === locale ? newsPost : null
+    } catch (error) {
+      console.warn('Failed to load news post from content files, falling back to mock data:', error)
       return mockNewsPosts.find((post) => post.slug === slug && post.language === locale) || null
     }
-
-    // TODO: Implement actual Notion API call
-    return mockNewsPosts.find((post) => post.slug === slug && post.language === locale) || null
   }
 
   async getNewsPosts(locale: Locale, filters: FilterParams = {}): Promise<NewsPost[]> {
-    if (!this.isConfigured()) {
-      let posts = mockNewsPosts
+    try {
+      // 新しいコンテンツローダーを使用
+      const news = await loadNews()
+      const newsPosts = await Promise.all(
+        news.map(async (newsItem) => {
+          const newsPost = await loadNewsDetail(newsItem.link?.split('/').pop() || '')
+          return newsPost || {
+            id: newsItem.id,
+            title: newsItem.title,
+            slug: newsItem.link?.split('/').pop() || '',
+            date: newsItem.date,
+            content: '',
+            heroImage: '',
+            readTime: newsItem.readTime || '5 min',
+            language: newsItem.language,
+            author: '太田裕紀',
+            category: newsItem.category || 'general',
+            tags: [],
+            summary: ''
+          }
+        })
+      )
+      
+      let posts = newsPosts
         .filter(post => post.language === locale)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
       if (filters.tag) {
-        posts = posts.filter(post => post.tags.includes(filters.tag!))
+        posts = posts.filter(post => post.tags?.includes(filters.tag!))
       }
       if (filters.year) {
         posts = posts.filter(post => new Date(post.date).getFullYear() === filters.year)
@@ -485,35 +550,35 @@ class NotionService {
         const query = filters.q!.toLowerCase()
         posts = posts.filter(post =>
           post.title.toLowerCase().includes(query) ||
-          post.summary.toLowerCase().includes(query) ||
-          post.tags.some(tag => tag.toLowerCase().includes(query))
+          (post.content && post.content.toLowerCase().includes(query)) ||
+          (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+        )
+      }
+
+      return posts
+    } catch (error) {
+      console.warn('Failed to load news posts from content files, falling back to mock data:', error)
+      let posts = mockNewsPosts
+        .filter(post => post.language === locale)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+      if (filters.tag) {
+        posts = posts.filter(post => post.tags?.includes(filters.tag!))
+      }
+      if (filters.year) {
+        posts = posts.filter(post => new Date(post.date).getFullYear() === filters.year)
+      }
+      if (filters.q) {
+        const query = filters.q!.toLowerCase()
+        posts = posts.filter(post =>
+          post.title.toLowerCase().includes(query) ||
+          (post.summary && post.summary.toLowerCase().includes(query)) ||
+          (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
         )
       }
 
       return posts
     }
-
-    // TODO: Implement actual Notion API call
-    let posts = mockNewsPosts
-      .filter(post => post.language === locale)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-
-    if (filters.tag) {
-      posts = posts.filter(post => post.tags.includes(filters.tag!))
-    }
-    if (filters.year) {
-      posts = posts.filter(post => new Date(post.date).getFullYear() === filters.year)
-    }
-    if (filters.q) {
-      const query = filters.q!.toLowerCase()
-      posts = posts.filter(post =>
-        post.title.toLowerCase().includes(query) ||
-        post.summary.toLowerCase().includes(query) ||
-        post.tags.some(tag => tag.toLowerCase().includes(query))
-      )
-    }
-
-    return posts
   }
 
 }

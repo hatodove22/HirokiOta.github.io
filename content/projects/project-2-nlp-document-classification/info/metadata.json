@@ -1,0 +1,37 @@
+{
+  "id": "2",
+  "title": {
+    "ja": "自然言語処理による文書分類システム",
+    "en": "NLP Document Classification System"
+  },
+  "slug": "nlp-document-classification",
+  "status": "Published",
+  "date": "2024-02-10",
+  "tags": ["NLP", "機械学習", "Python", "Transformer", "文書分類"],
+  "summary": {
+    "ja": "大規模な文書データセットを対象とした高精度な分類システムを開発し、従来手法を20%上回る性能を実現。",
+    "en": "Developed a high-accuracy classification system for large-scale document datasets, achieving 20% better performance than conventional methods."
+  },
+  "body": {
+    "ja": "本研究では、Transformerベースのモデルを使用して、日本語文書の自動分類システムを構築しました。",
+    "en": "This research built an automatic classification system for Japanese documents using Transformer-based models."
+  },
+  "repoUrl": "https://github.com/example/nlp-classification",
+  "demoUrl": "https://demo-nlp.example.com",
+  "slidesUrl": "https://slides.example.com/nlp2024",
+  "relatedPapers": ["paper2"],
+  "heroImage": "nlp-hero.jpg",
+  "language": "ja",
+  "isPinned": true,
+  "status": "completed",
+  "featured": true,
+  "technologies": ["Python", "Transformers", "scikit-learn", "FastAPI"],
+  "duration": "4 months",
+  "teamSize": 2,
+  "role": "Full-stack Developer",
+  "achievements": [
+    "20% improvement over baseline",
+    "Handles 1M+ documents",
+    "Real-time classification API"
+  ]
+}

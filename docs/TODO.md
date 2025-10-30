@@ -1,45 +1,47 @@
-# TODO - ”ŽŽm‰Û’öŠw¶ƒ|[ƒgƒtƒHƒŠƒI V1
+ï»¿# TODO - åšå£«èª²ç¨‹å­¦ç”Ÿãƒãƒ¼ãƒˆãƒ•ã‚©ãƒªã‚ª V1
 
-’ZŠú‚ÌŽÀsƒ^ƒXƒN‚ðW–ñ‚µ‚Ü‚·BƒZƒbƒVƒ‡ƒ“‚ð‚Ü‚½‚¢‚Å‚à‚±‚±‚ðŒ©‚ê‚Î‘±‚«‚ª•ª‚©‚éó‘Ô‚ðˆÛŽ‚µ‚Ü‚·B
+çŸ­æœŸã®å®Ÿè¡Œã‚¿ã‚¹ã‚¯ã‚’é›†ç´„ã—ã¾ã™ã€‚ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’ã¾ãŸã„ã§ã‚‚ã“ã“ã‚’è¦‹ã‚Œã°ç¶šããŒåˆ†ã‹ã‚‹çŠ¶æ…‹ã‚’ç¶­æŒã—ã¾ã™ã€‚
 
-## Nowi’…Žè’†j
-- [x] 2025-09-30 Edit Mode: ƒŒƒCƒAƒEƒg‚ð sm ƒuƒŒ[ƒNƒ|ƒCƒ“ƒg‚Ö•ÏX‚µA‰EƒvƒŒƒrƒ…[‚Ì‰¡•À‚Ñ•d•¡”rœ‚ð“K—p
-- [x] Edit Mode: ƒjƒ…[ƒX•ÒWUI‚Ì“ú–{Œê‰»‚ÆƒvƒŒƒrƒ…[ŒÅ’è‚ÌÄ’²®
-  - 2025-09-30 Vite build ‚Íˆø‚«‘±‚« exit code 1iƒƒOo—Í‚È‚µj¨Œ´ˆö’²¸Œp‘±
-- [x] Edit Mode: ƒvƒŒƒrƒ…[Ä•\Ž¦ƒ{ƒ^ƒ“‚ÆƒvƒŒƒrƒ…[UI‰ü‘PiÄ•\Ž¦§ŒäE•\Ž¦•ö‚êEŒÅ’è‰»j
-  - 2025-09-30 Vite build ŽÀsŽž‚É exit code 1iƒƒO‚È‚µj¨Žè“®—vŠm”F
-- [ ] Edit Mode: ‘½Œ¾ŒêƒvƒŒƒrƒ…[‚ÌŒ¾ŒêƒgƒOƒ‹‚ðŒÅ’è‚µAURL/ó‘Ô“¯Šúi/docs/issues/EditMode/issue-15-preview-language-toggle.mdjB
-- [ ] Edit Mode: ƒvƒŒƒrƒ…[‚ÌMarkdownƒŒƒ“ƒ_ƒŠƒ“ƒO‚ðMarkdowno—ÍŠî”Õ
-  - 2025-10-10 Plan B: markdown-it -> generateJSON -> generateHTML -> DOMPurify ƒpƒCƒvƒ‰ƒCƒ“‚ÅNewsƒvƒŒƒrƒ…[‚ðÄ”zü‚µAH1/H2/ƒŠƒXƒg”½‰f‚ÆJSONƒ‰ƒEƒ“ƒhƒgƒŠƒbƒv®‡‚ðŠm”FB
-  - 2025-10-10 ƒvƒŒƒrƒ…[•\Ž¦: Tailwind Typography ”ñ“±“ü‚Ì‚½‚ßA“ÆŽ© `.prose` ƒXƒ^ƒCƒ‹‚ð’Ç‰Á‚µŒ©o‚µ/ƒŠƒXƒg/ˆø—p‚Ì‘ÌÙ‚ð•œŒ³Bitiptap-markdown + markdown-itj‚ÅÄŽÀ‘•‚µAƒGƒfƒBƒ^‚Æ‚Ì‹““®·ˆÙ‚ð‰ðÁB
-  - 2025-10-10 Plan B: markdown-it -> generateJSON -> generateHTML -> DOMPurify ƒpƒCƒvƒ‰ƒCƒ“‚ÅNewsƒvƒŒƒrƒ…[‚ðÄ”zü‚µAH1/H2/ƒŠƒXƒg”½‰f‚ÆJSONƒ‰ƒEƒ“ƒhƒgƒŠƒbƒv®‡‚ðŠm”FB
-- [ ] Decap CMS: ƒvƒŒƒrƒ…[—pƒeƒ“ƒvƒŒ[ƒg‚Ì·•ª‹zŽûipublic/admin/preview.js ‚Æ UI ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì Props ®‡jB
-  - 2025-09-28 17:00 build OKB/admin ‚ÌGitHubƒƒOƒCƒ“ƒ{ƒ^ƒ“¨/edit ‚ÖƒoƒCƒpƒXA/edit ‚Í Proto UI ‚ð iframe •\Ž¦B
+## Nowï¼ˆç¾åœ¨ï¼‰
+- [x] MCP: GitHub ã‚µãƒ¼ãƒãƒ¼å°Žå…¥ï¼ˆ@missionsquad/mcp-github + .codex è¨­å®šï¼‰
+  - 2025-10-10 PAT: env GITHUB_PAT è¨­å®šæ¸ˆã¿ï¼ˆcodex MCP çµŒç”±ï¼‰
+- [ ] Refactor audit: risk/impact matrix (2025-10-10 Codexèª¿æŸ»é–‹å§‹)
+- [ ] Edit Mode: ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¨€èªžãƒˆã‚°ãƒ«ã®è¡¨ç¤ºç¢ºèªï¼ˆdocs/issues/EditMode/issue-15-preview-language-toggle.mdï¼‰
+- [ ] Edit Mode: Markdown ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼æ•´å‚™ï¼ˆmarkdown-it -> generateJSON -> generateHTML -> DOMPurify Plan Bï¼‰
+  - 2025-10-10: Tailwind Typography / .prose ã®å°Žå…¥æ¤œè¨Žï¼ˆtiptap-markdown + markdown-itï¼‰
+- [ ] Decap CMS: ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ç”¨ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ props æ•´ç†ï¼ˆpublic/admin/preview.jsï¼‰
+  - 2025-09-28 17:00 build OKã€‚/admin ã§ iframe è¡¨ç¤ºã‚’ç¢ºèªæ¸ˆã¿ã€‚
+- [x] Edit Mode: å…¬é–‹ãƒœã‚¿ãƒ³â†’GitHub PR ãƒ•ãƒ­ãƒ¼ï¼ˆæ—¢å­˜ãƒˆãƒ¼ã‚¯ãƒ³å†åˆ©ç”¨ï¼‰
+  - 2025-10-10 chrome-devtools: æœªå®Ÿè¡Œï¼ˆdev server æœªèµ·å‹•ã®ãŸã‚è¦ãƒ•ã‚©ãƒ­ãƒ¼ã‚¢ãƒƒãƒ—ï¼‰
+## Nextï¼ˆæ¬¡ã«ã‚„ã‚‹ï¼‰
+- [ ] èªè¨¼è¨­è¨ˆã«æ²¿ã£ãŸç·¨é›†å¯å¦ã®åˆ¶å¾¡ï¼ˆdocs/AuthDesign.mdï¼‰ã‚’å„ãƒšãƒ¼ã‚¸ã«é©ç”¨ã€‚
+- [ ] ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚¹ã‚­ãƒ¼ãƒžã®æœ€å°åˆæ„ï¼ˆProjects/Papers/Newsï¼‰ã‚’ src/lib/types.ts ã¨ Decap è¨­å®šï¼ˆpublic/admin/config.ymlï¼‰ã§æƒãˆã‚‹ã€‚
+- [ ] i18n æ–‡è¨€ã®ç›´æ›¸ãæ’²æ»…ï¼ˆsrc/lib/i18n.ts çµŒç”±ã«çµ±ä¸€ï¼‰ã€‚
 
-## NextiŽŸ‚É‚â‚éj
-- [ ] ”FØÝŒv‚É‰ˆ‚Á‚½•ÒW‰Â”Û‚Ì§Œäidocs/AuthDesign.mdj‚ðŠeƒy[ƒW‚É“K—pB
-- [ ] ƒRƒ“ƒeƒ“ƒcƒXƒL[ƒ}‚ÌÅ¬‡ˆÓiProjects/Papers/Newsj‚ð src/lib/types.ts ‚Æ Decap Ý’èipublic/admin/config.ymlj‚Å‘µ‚¦‚éB
-- [ ] i18n •¶Œ¾‚Ì’¼‘‚«–o–Åisrc/lib/i18n.ts Œo—R‚É“ˆêjB
+## Backlogï¼ˆå¾Œã§ã‚„ã‚‹ï¼‰
+- [ ] Notion é€£æºã®ã‚ªãƒ³/ã‚ªãƒ•ã‚’ãƒ“ãƒ«ãƒ‰æ™‚ãƒ•ãƒ©ã‚°åŒ–ï¼ˆsrc/lib/notion.ts ã®ãƒ¢ãƒƒã‚¯/æœ¬ç•ªåˆ‡æ›¿ï¼‰ã€‚
+- [ ] CI: åž‹ãƒã‚§ãƒƒã‚¯ã¨ãƒ“ãƒ«ãƒ‰æ¤œè¨¼ã‚’ GitHub Actions ã§è‡ªå‹•åŒ–ã€‚
+- [ ] Lighthouse ãƒ™ãƒ¼ã‚¹ãƒ©ã‚¤ãƒ³ã®å–å¾—ã¨ä¸»è¦å›žå¸°ã®ç›£è¦–ã€‚
 
-## BacklogiŒã‚Å‚â‚éj
-- [ ] Notion ˜AŒg‚ÌƒIƒ“/ƒIƒt‚ðƒrƒ‹ƒhŽžƒtƒ‰ƒO‰»isrc/lib/notion.ts ‚Ìƒ‚ƒbƒN/–{”ÔØ‘ÖjB
-- [ ] CI: Œ^ƒ`ƒFƒbƒN‚Æƒrƒ‹ƒhŒŸØ‚ð GitHub Actions ‚ÅŽ©“®‰»B
-- [ ] Lighthouse ƒx[ƒXƒ‰ƒCƒ“‚ÌŽæ“¾‚ÆŽå—v‰ñ‹A‚ÌŠÄŽ‹B
+## Doneï¼ˆå®Œäº†ï¼‰
+- [ ] ï¼ˆã“ã“ã«å®Œäº†ã—ãŸã‚¿ã‚¹ã‚¯ã‚’ç§»å‹•ï¼‰
 
-## DoneiŠ®—¹j
-- [ ] i‚±‚±‚ÉŠ®—¹‚µ‚½ƒ^ƒXƒN‚ðˆÚ“®j
+## ãƒ¡ãƒ¢
+- [x] 2025-09-28 MCP smoke: chrome-devtools-mcp èµ·å‹•ãƒ»æŽ¥ç¶šãƒ­ã‚°ç¢ºèªï¼ˆheadless/isolatedï¼‰ã€‚GitHub MCP ã‚¨ãƒ³ãƒ‰ãƒã‚¤ãƒ³ãƒˆç–Žé€šOKï¼ˆ401ï¼ãƒˆãƒ¼ã‚¯ãƒ³æœªä»˜ä¸Žã‚’ç¢ºèªï¼‰ã€‚
+- [ ] 2025-09-28 MCP èªè¨¼ãƒˆãƒ¼ã‚¯ãƒ³ã®å¤–éƒ¨åŒ–: .codex/config.toml ã® GitHub ãƒˆãƒ¼ã‚¯ãƒ³ã‚’ç’°å¢ƒå¤‰æ•°ã¸ç§»è¡Œï¼ˆã‚»ã‚­ãƒ¥ãƒªãƒ†ã‚£ï¼‰ã€‚
+- ã‚¿ã‚¹ã‚¯ã‚’è¿½åŠ /å®Œäº†ã—ãŸã‚‰ã€æœ¬ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›´æ–°ã—ã€å¿…è¦ã«å¿œã˜ã¦ docs/PLAN.md ã®ãƒžã‚¤ãƒ«ã‚¹ãƒˆãƒ¼ãƒ³ã‚‚æ›´æ–°ã—ã¦ãã ã•ã„ã€‚
 
-## ƒƒ‚
-- [x] 2025-09-28 MCP smoke: chrome-devtools-mcp ‹N“®EÚ‘±ƒƒOŠm”Fiheadless/isolatedjBGitHub MCP ƒGƒ“ƒhƒ|ƒCƒ“ƒg‘a’ÊOKi401ƒg[ƒNƒ“–¢•t—^‚ðŠm”FjB
-- [ ] 2025-09-28 MCP ”FØƒg[ƒNƒ“‚ÌŠO•”‰»: .codex/config.toml ‚Ì GitHub ƒg[ƒNƒ“‚ðŠÂ‹«•Ï”‚ÖˆÚsiƒZƒLƒ…ƒŠƒeƒBjB
-- ƒ^ƒXƒN‚ð’Ç‰Á/Š®—¹‚µ‚½‚çA–{ƒtƒ@ƒCƒ‹‚ðXV‚µA•K—v‚É‰ž‚¶‚Ä docs/PLAN.md ‚Ìƒ}ƒCƒ‹ƒXƒg[ƒ“‚àXV‚µ‚Ä‚­‚¾‚³‚¢B
+- [x] 2025-09-28 chrome-devtoolsä»£æ›¿(Puppeteer) smoke: /adminâ†’/edit ãƒã‚¤ãƒ‘ã‚¹OKã€Proto iframeæç”»OKã€console fatalãªã—(â€»favicon 404é™¤å¤–)
+- [x] 2025-09-28 sdd-steering å®Ÿæ–½: /admin ãƒ­ã‚°ã‚¤ãƒ³UIã®æš«å®šä»•æ§˜ç¢ºå®šã€æ¬¡ã‚¢ã‚¯ã‚·ãƒ§ãƒ³(M4/M3/M5/CI)æ•´ç†
+## æ–¹é‡ãƒ¡ãƒ¢ï¼ˆ2025-09-29 / Protoç§»è¡Œï¼‰
+- ç·¨é›†UIã‚’ Portfolio_EditSystem_Proto ã«çµ±ä¸€ã€‚Decapãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼é€£æºã¯å»ƒæ­¢ï¼ˆ/admin ã¯ä»»æ„é‹ç”¨ï¼‰ã€‚
+- åž‹ã®ä¸€æ¬¡æƒ…å ±ã‚’ src/lib/types.ts ã«çµ±ä¸€ã—ã€Protoã®ãƒ•ã‚©ãƒ¼ãƒ /ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼ã¨åŒæœŸã€‚
+- JSONç”Ÿæˆï¼ˆIssue 11ï¼‰ã¨ãƒ“ãƒ«ãƒ‰çµ±åˆï¼ˆIssue 12ï¼‰ã‚’ Proto ç”±æ¥ã«å·®ã—æ›¿ãˆã€‚
+## é€²æ—ï¼ˆ2025-09-29ï¼‰
+- [x] Issue05: NewsDraft åž‹ãƒ»å…±é€šã‚¹ã‚­ãƒ¼ãƒžã‚’ src/lib/types.ts ã«è¿½åŠ ã€‚
+- [x] Issue06: ç·¨é›†ç”»é¢ã«å…±é€šãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é©ç”¨ã—ã€ãƒ©ã‚¤ãƒ–ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼é€£æºã‚’ç¢ºèªã€‚
 
-- [x] 2025-09-28 chrome-devtools‘ã‘Ö(Puppeteer) smoke: /admin¨/edit ƒoƒCƒpƒXOKAProto iframe•`‰æOKAconsole fatal‚È‚µ(¦favicon 404œŠO)
-- [x] 2025-09-28 sdd-steering ŽÀŽ{: /admin ƒƒOƒCƒ“UI‚ÌŽb’èŽd—lŠm’èAŽŸƒAƒNƒVƒ‡ƒ“(M4/M3/M5/CI)®—
-## •ûjƒƒ‚i2025-09-29 / ProtoˆÚsj
-- •ÒWUI‚ð Portfolio_EditSystem_Proto ‚É“ˆêBDecapƒvƒŒƒrƒ…[˜AŒg‚Í”pŽ~i/admin ‚Í”CˆÓ‰^—pjB
-- Œ^‚ÌˆêŽŸî•ñ‚ð src/lib/types.ts ‚É“ˆê‚µAProto‚ÌƒtƒH[ƒ€/ƒvƒŒƒrƒ…[‚Æ“¯ŠúB
-- JSON¶¬iIssue 11j‚Æƒrƒ‹ƒh“‡iIssue 12j‚ð Proto —R—ˆ‚É·‚µ‘Ö‚¦B
-## i’»i2025-09-29j
-- [x] Issue05: NewsDraft Œ^E‹¤’ÊƒXƒL[ƒ}‚ð src/lib/types.ts ‚É’Ç‰ÁB
-- [x] Issue06: •ÒW‰æ–Ê‚É‹¤’ÊƒoƒŠƒf[ƒVƒ‡ƒ“‚ð“K—p‚µAƒ‰ƒCƒuƒvƒŒƒrƒ…[˜AŒg‚ðŠm”FB
+- [x] Edit Mode: å…¬é–‹ãƒœã‚¿ãƒ³â†’GitHub PR ãƒ•ãƒ­ãƒ¼ï¼ˆæ—¢å­˜ãƒˆãƒ¼ã‚¯ãƒ³å†åˆ©ç”¨ï¼‰
+  - 2025-10-10 chrome-devtools: æœªå®Ÿè¡Œï¼ˆdev server æœªèµ·å‹•ã®ãŸã‚è¦ãƒ•ã‚©ãƒ­ãƒ¼ã‚¢ãƒƒãƒ—ï¼‰
+
+

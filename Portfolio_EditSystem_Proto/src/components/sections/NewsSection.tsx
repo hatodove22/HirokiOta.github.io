@@ -1,34 +1,46 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { ContentList } from '../ContentList';
-import { NewsEditor } from '../editors/NewsEditor';
-import { NewsItem } from '../../types/content';
+import React, { useState } from 'react'
+import { ContentList } from '../ContentList'
+
+interface NewsItem {
+  id: string
+  slug: string
+  date: string
+  title: { ja: string; en: string }
+  summary: { ja: string; en: string }
+  body: { ja: string; en: string }
+  image: string
+  alt: { ja: string; en: string }
+  tags: string[]
+  published: boolean
+  publish: { ja: boolean; en: boolean }
+  pinned: boolean
+}
 
 const mockNewsData: NewsItem[] = [
   {
     id: 'news-1',
-    slug: 'ai-research-breakthrough',
+    slug: 'lab-notes-update',
     date: '2024-01-15',
     title: {
-      ja: 'AI研究の新たな突破口',
-      en: 'New Breakthrough in AI Research'
+      ja: '研究室ノート更新',
+      en: 'Lab Notes Update'
     },
     summary: {
-      ja: '機械学習の新しいアプローチが発見されました',
-      en: 'A new approach to machine learning has been discovered'
+      ja: '最新の研究進捗と考察を共有します',
+      en: 'Sharing latest research progress and insights'
     },
     body: {
-      ja: '本日、我々の研究チームは...',
-      en: 'Today, our research team has...'
+      ja: '今回は、深層学習モデルの最適化について...',
+      en: 'This time, we discuss optimization of deep learning models...'
     },
-    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400',
+    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400',
     alt: {
-      ja: 'AI研究のイメージ',
-      en: 'AI research visualization'
+      ja: '研究室の様子',
+      en: 'Lab environment'
     },
-    tags: ['AI', 'Research', 'Machine Learning'],
+    tags: ['Research', 'Deep Learning', 'Update'],
     published: true,
-    publish: { ja: true, en: true },
+    publish: { ja: true, en: false },
     pinned: true
   },
   {
@@ -36,7 +48,7 @@ const mockNewsData: NewsItem[] = [
     slug: 'conference-announcement',
     date: '2024-01-10',
     title: {
-      ja: '国際会議での発表決定',
+      ja: '学会発表のお知らせ',
       en: 'Conference Presentation Announced'
     },
     summary: {
@@ -44,12 +56,12 @@ const mockNewsData: NewsItem[] = [
       en: 'Paper accepted for presentation at ICML 2024'
     },
     body: {
-      ja: 'この度、ICML 2024にて...',
+      ja: 'この度、ICML 2024での論文発表が決定しました...',
       en: 'We are pleased to announce...'
     },
     image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400',
     alt: {
-      ja: '会議場の様子',
+      ja: '学会会場の様子',
       en: 'Conference venue'
     },
     tags: ['Conference', 'ICML', 'Publication'],
@@ -57,84 +69,41 @@ const mockNewsData: NewsItem[] = [
     publish: { ja: true, en: false },
     pinned: false
   }
-];
+]
 
-export function NewsSection() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-  
-  const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null);
-
-  // URLパスに基づいて表示モードを判定
-  const isEditing = location.pathname.includes('/edit/') || location.pathname === '/news/new';
-  const isNew = location.pathname === '/news/new';
-  const isList = location.pathname === '/news';
-
-  // 編集モードの場合、アイテムを取得
-  React.useEffect(() => {
-    if (isEditing) {
-      if (isNew) {
-        // 新規作成の場合
-        const newItem: NewsItem = {
-          id: `news-${Date.now()}`,
-          slug: '',
-          date: new Date().toISOString().split('T')[0],
-          title: { ja: '', en: '' },
-          summary: { ja: '', en: '' },
-          body: { ja: '', en: '' },
-          alt: { ja: '', en: '' },
-          tags: [],
-          published: false,
-          publish: { ja: true, en: true },
-          pinned: false
-        };
-        setSelectedItem(newItem);
-      } else if (id) {
-        // 編集の場合、IDに基づいてアイテムを取得
-        const item = mockNewsData.find(item => item.id === id);
-        if (item) {
-          setSelectedItem(item);
-        } else {
-          // アイテムが見つからない場合は一覧に戻る
-          navigate('/news');
-        }
-      }
-    } else {
-      setSelectedItem(null);
-    }
-  }, [isEditing, isNew, id, navigate]);
+export const NewsSection: React.FC = () => {
+  const [editingItem, setEditingItem] = useState<NewsItem | null>(null)
+  const [isCreating, setIsCreating] = useState(false)
 
   const handleEdit = (item: NewsItem) => {
-    navigate(`/news/edit/${item.id}`);
-  };
+    setEditingItem(item)
+    setIsCreating(false)
+  }
 
   const handleNew = () => {
-    navigate('/news/new');
-  };
+    setEditingItem(null)
+    setIsCreating(true)
+  }
 
   const handleSave = (item: NewsItem) => {
-    // TODO: Implement save logic
-    console.log('Saving news item:', item);
-    navigate('/news');
-  };
+    // 保存ロジック
+    console.log('Saving news item:', item)
+    setEditingItem(null)
+    setIsCreating(false)
+  }
 
   const handleCancel = () => {
-    navigate('/news');
-  };
-
-  if (isEditing && selectedItem) {
-    return (
-      <NewsEditor
-        item={selectedItem}
-        onSave={handleSave}
-        onCancel={handleCancel}
-      />
-    );
+    setEditingItem(null)
+    setIsCreating(false)
   }
 
   return (
-    <div className="w-full h-full overflow-auto">
+    <div className="p-6">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-2">ニュース管理</h2>
+        <p className="text-gray-600">ニュース記事の作成・編集・管理を行います</p>
+      </div>
+
       <ContentList
         items={mockNewsData}
         type="news"
@@ -143,10 +112,10 @@ export function NewsSection() {
         columns={[
           { key: 'title', label: 'タイトル' },
           { key: 'date', label: '日付' },
-          { key: 'published', label: 'ステータス' },
+          { key: 'published', label: '公開' },
           { key: 'publish', label: '言語' }
         ]}
       />
     </div>
-  );
+  )
 }

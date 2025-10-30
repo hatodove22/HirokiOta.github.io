@@ -18,7 +18,7 @@ import { useMainContentHeader } from '../MainContentHeaderContext';
 
 interface NewsEditorProps {
   item: NewsItem;
-  onSave: (item: NewsItem) => void;
+  onSave: (item: NewsItem) => Promise<NewsItem>;
   onCancel: () => void;
 }
 
@@ -69,6 +69,7 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
   const [previewLanguage, setPreviewLanguage] = useState<Language>('ja');
   const [showPreview, setShowPreview] = useState(true);
   const [publishStatus, setPublishStatus] = useState<'draft' | 'published'>(item.published ? 'published' : 'draft');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { setHeaderLeft, setHeaderRight } = useMainContentHeader();
 
   const previewCopy = getPreviewText(previewLanguage);
@@ -124,13 +125,25 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async (nextStatus: 'draft' | 'published') => {
+    if (isSubmitting) {
+      return;
+    }
+    setPublishStatus(nextStatus);
+
     const finalItem: NewsItem = {
       ...editingItem,
-      published: publishStatus === 'published',
+      published: nextStatus === 'published',
       publish: { ja: true, en: true },
     };
-    onSave(finalItem);
+
+    setIsSubmitting(true);
+    try {
+      const savedItem = await onSave(finalItem);
+      setEditingItem(savedItem);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleTabChange = (value: string) => {
@@ -309,22 +322,17 @@ export function NewsEditor({ item, onSave, onCancel }: NewsEditorProps) {
         <div className="flex justify-end gap-3 border-t pt-6">
           <Button
             variant="outline"
-            onClick={() => {
-              setPublishStatus('draft');
-              handleSave();
-            }}
+            onClick={() => { handleSave('draft').catch(() => undefined); }}
             size="lg"
+            disabled={isSubmitting}
           >
             {editorCopy.actions.saveDraft}
           </Button>
           <Button
-            onClick={() => {
-              setPublishStatus('published');
-              handleSave();
-            }}
+            onClick={() => { handleSave('published').catch(() => undefined); }}
             size="lg"
             className="bg-green-600 text-white hover:bg-green-700"
-            disabled={!bothLanguagesFilled()}
+            disabled={!bothLanguagesFilled() || isSubmitting}
           >
             {editorCopy.actions.publish}
           </Button>

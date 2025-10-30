@@ -1,0 +1,35 @@
+{
+  "id": "paper4",
+  "title": "Transformerを用いた日本語文書分類の高精度化手法",
+  "venue": "人工知能学会全国大会",
+  "year": 2024,
+  "authors": "**太田裕紀**, 田中花子",
+  "slidesUrl": "https://slides.example.com/jsai2024",
+  "relatedProjects": ["2"],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読付き"
+  },
+  "doi": "",
+  "arxiv": "",
+  "award": "",
+  "abstract": {
+    "ja": "Transformerアーキテクチャを活用した日本語文書分類の高精度化手法を提案する。",
+    "en": "We propose a high-accuracy method for Japanese document classification using Transformer architecture."
+  },
+  "keywords": ["Transformer", "Document Classification", "Japanese NLP", "Natural Language Processing"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "国内学会発表論文"
+}

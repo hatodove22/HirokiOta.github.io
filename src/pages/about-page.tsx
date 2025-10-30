@@ -17,67 +17,67 @@ export function AboutPage({ locale }: AboutPageProps) {
     {
       year: '2024 - Present',
       title: locale === 'ja' ? '博士課程学生' : 'PhD Student',
-      organization: locale === 'ja' ? '○○大学 工学研究科' : 'Graduate School of Engineering, XX University',
+      organization: locale === 'ja' ? '奈良先端科学技術大学院大学（NAIST）' : 'Nara Institute of Science and Technology (NAIST)',
       description: locale === 'ja' 
-        ? '機械学習とコンピュータビジョンの研究に従事'
-        : 'Research in machine learning and computer vision'
+        ? '触覚技術、ロボティクス、バーチャルリアリティの研究に従事'
+        : 'Research in haptic technology, robotics, and virtual reality'
     },
     {
       year: '2022 - 2024',
       title: locale === 'ja' ? '修士課程' : 'Master\'s Degree',
-      organization: locale === 'ja' ? '○○大学 工学研究科' : 'Graduate School of Engineering, XX University',
+      organization: locale === 'ja' ? '奈良先端科学技術大学院大学（NAIST）' : 'Nara Institute of Science and Technology (NAIST)',
       description: locale === 'ja'
-        ? 'GPA 3.9/4.0、優秀学生賞受賞'
-        : 'GPA 3.9/4.0, Outstanding Student Award'
+        ? '情報科学専攻、触覚インターフェース研究'
+        : 'Information Science Major, Haptic Interface Research'
     },
     {
       year: '2018 - 2022',
       title: locale === 'ja' ? '学士課程' : 'Bachelor\'s Degree',
-      organization: locale === 'ja' ? '○○大学 工学部' : 'Faculty of Engineering, XX University',
+      organization: locale === 'ja' ? '東京理科大学 理工学部 機械工学科' : 'Tokyo University of Science, Faculty of Science and Technology, Department of Mechanical Engineering',
       description: locale === 'ja'
-        ? 'コンピュータサイエンス専攻、首席卒業'
-        : 'Computer Science Major, Summa Cum Laude'
+        ? '機械工学専攻'
+        : 'Mechanical Engineering Major'
     }
   ]
 
   const researchSkills = [
-    'Machine Learning',
-    'Deep Learning',
-    'Computer Vision',
-    'Natural Language Processing',
-    'Medical Image Analysis',
-    'Statistical Analysis'
+    'Haptic Technology',
+    'Robotics',
+    'Virtual Reality',
+    'Human-Computer Interaction',
+    'Tactile Perception',
+    'Shape Display Devices'
   ]
 
   const technicalSkills = [
+    'C++',
     'Python',
-    'PyTorch',
-    'TensorFlow',
-    'React',
-    'TypeScript',
-    'Docker',
-    'AWS',
-    'GPU Computing'
+    'Unity',
+    'OpenGL',
+    'Arduino',
+    'ROS',
+    '3D Modeling',
+    'Electronics'
   ]
 
   const goals = [
     {
-      title: locale === 'ja' ? '医療AIの社会実装を加速する' : 'Accelerate the clinical adoption of medical AI',
+      title: locale === 'ja' ? '触覚技術の革新を推進する' : 'Advance haptic technology innovation',
       description: locale === 'ja'
-        ? '医療現場のニーズを踏まえ、診断支援や治療計画に直結するAIシステムの共同開発を推進します。'
-        : 'Advance collaborative development of AI systems that directly support diagnosis and treatment planning in clinical settings.'
+        ? 'FresnelShapeをはじめとする新しい触覚デバイスの開発を通じて、VR環境での触覚体験を根本的に改善します。'
+        : 'Fundamentally improve tactile experiences in VR environments through the development of novel haptic devices like FresnelShape.'
     },
     {
-      title: locale === 'ja' ? '国際共同研究をリードする' : 'Lead impactful international collaborations',
+      title: locale === 'ja' ? '人間の触覚認知の理解を深める' : 'Deepen understanding of human tactile perception',
       description: locale === 'ja'
-        ? '海外研究機関との長期的な連携を構築し、医療AIの国際基準策定と社会実装を加速させます。'
-        : 'Build long-term partnerships with global institutes to shape standards and accelerate worldwide deployment of medical AI.'
+        ? '人間の触覚的形状認知特性の研究を通じて、より自然で直感的な触覚インターフェースの設計指針を確立します。'
+        : 'Establish design guidelines for more natural and intuitive haptic interfaces through research on human tactile shape perception characteristics.'
     },
     {
-      title: locale === 'ja' ? '次世代研究者の育成に貢献する' : 'Empower the next generation of researchers',
+      title: locale === 'ja' ? 'VR・ロボティクス分野での社会実装を目指す' : 'Aim for social implementation in VR and robotics',
       description: locale === 'ja'
-        ? '教育・コミュニティ活動を通じて、研究倫理と実践力を兼ね備えた若手人材の育成に取り組みます。'
-        : 'Invest in mentoring and community work to foster young talents with both research ethics and practical skills.'
+        ? '研究成果を教育、医療、エンターテインメントなどの実用分野に応用し、社会に貢献できる技術の実現を目指します。'
+        : 'Apply research findings to practical fields such as education, healthcare, and entertainment to realize technologies that contribute to society.'
     }
   ]
 
@@ -145,8 +145,8 @@ export function AboutPage({ locale }: AboutPageProps) {
             <CardContent className="p-6">
               <p className="text-muted-foreground leading-relaxed">
                 {locale === 'ja' 
-                  ? '機械学習とコンピュータビジョンを専門とする博士課程学生です。特に医療画像解析と自然言語処理の領域で革新的な研究を行っており、実世界の課題解決に向けた応用研究に情熱を注いでいます。これまでに国際的なトップカンファレンスで10本以上の論文を発表し、複数の賞を受賞してきました。研究と並行して、オープンソースプロジェクトへの貢献や技術コミュニティでの活動も積極的に行っています。'
-                  : 'I am a PhD student specializing in machine learning and computer vision. I conduct innovative research particularly in medical image analysis and natural language processing, with a passion for applied research toward real-world problem solving. I have published over 10 papers at international top-tier conferences and received multiple awards. Alongside my research, I actively contribute to open-source projects and engage in technical community activities.'
+                  ? '私は奈良先端科学技術大学院大学（NAIST）の博士課程学生です。触覚技術、ロボティクス、バーチャルリアリティの研究に従事しています。特に、人間の触覚的形状認知特性に着目したハンドヘルド型形状提示装置「FresnelShape」の開発と評価を行っています。VR環境における触覚体験の向上を目指しています。'
+                  : 'I am a Ph.D. student at the Nara Institute of Science and Technology (NAIST). I am engaged in research on haptic technology, robotics, and virtual reality. Specifically, I am developing and evaluating "FresnelShape," a handheld shape display device focusing on human tactile shape perception characteristics. I aim to enhance tactile experiences in VR environments.'
                 }
               </p>
             </CardContent>
@@ -238,48 +238,48 @@ export function AboutPage({ locale }: AboutPageProps) {
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 <div>
                   <h4 className="mb-3 font-semibold">
-                    {locale === 'ja' ? '機械学習・深層学習' : 'Machine Learning & Deep Learning'}
+                    {locale === 'ja' ? '触覚技術・ハプティクス' : 'Haptic Technology & Haptics'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
                     {locale === 'ja'
-                      ? '新たなアーキテクチャや最適化手法の設計、医療・産業領域への応用を探求しています。'
-                      : 'Designing novel architectures, refining optimization methods, and exploring applications in healthcare and industry.'
+                      ? 'FresnelShapeをはじめとする新しい触覚デバイスの開発と、人間の触覚認知特性の研究を行っています。'
+                      : 'Developing novel haptic devices like FresnelShape and researching human tactile perception characteristics.'
                     }
                   </p>
                 </div>
 
                 <div>
                   <h4 className="mb-3 font-semibold">
-                    {locale === 'ja' ? '医療画像解析' : 'Medical Image Analysis'}
+                    {locale === 'ja' ? 'バーチャルリアリティ' : 'Virtual Reality'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
                     {locale === 'ja'
-                      ? '画像診断支援のためのセグメンテーション、疾患検出、ベンチマーク構築に注力しています。'
-                      : 'Focusing on segmentation, disease detection, and benchmark creation for computer-aided diagnosis.'
+                      ? 'VR環境における触覚体験の向上を目指し、より没入感のあるインタラクション技術を開発しています。'
+                      : 'Aiming to enhance tactile experiences in VR environments and develop more immersive interaction technologies.'
                     }
                   </p>
                 </div>
 
                 <div>
                   <h4 className="mb-3 font-semibold">
-                    {locale === 'ja' ? '自然言語処理' : 'Natural Language Processing'}
+                    {locale === 'ja' ? 'ロボティクス' : 'Robotics'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
                     {locale === 'ja'
-                      ? '医療記録や学術情報を対象にした情報抽出、質疑応答、会話システムを研究しています。'
-                      : 'Researching information extraction, question answering, and dialogue systems for medical and scholarly text.'
+                      ? '人間とロボットの触覚的インタラクションや、ハンドヘルド型デバイスの制御技術を研究しています。'
+                      : 'Researching tactile interaction between humans and robots, and control technologies for handheld devices.'
                     }
                   </p>
                 </div>
 
                 <div>
                   <h4 className="mb-3 font-semibold">
-                    {locale === 'ja' ? 'コンピュータビジョン' : 'Computer Vision'}
+                    {locale === 'ja' ? '人間-コンピュータインタラクション' : 'Human-Computer Interaction'}
                   </h4>
                   <p className="text-sm text-muted-foreground">
                     {locale === 'ja'
-                      ? '物体検出やシーン理解など、現場で機能するロバストな視覚認識技術を追求しています。'
-                      : 'Advancing robust visual recognition technologies for object detection and scene understanding in the real world.'
+                      ? '触覚インターフェースの設計と評価を通じて、より自然で直感的なユーザー体験の実現を目指しています。'
+                      : 'Aiming to realize more natural and intuitive user experiences through the design and evaluation of haptic interfaces.'
                     }
                   </p>
                 </div>

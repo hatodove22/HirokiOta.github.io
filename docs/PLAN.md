@@ -1,38 +1,41 @@
-# PLAN - ���m�ے��w���|�[�g�t�H���I V1
+﻿# PLAN - 博士課程学生ポートフォリオ V1
 
-�����v��i�}�C���X�g�[���Ǝ󂯓�������j�B�������͓��t��ǋL���Ă��������B
+中期計画（マイルストーンと受け入れ条件）。完了時は日付を追記してください。
 
-## M1: �T�C�g��Ղ̐���
-- ���: ��v�y�[�W�iHome/Projects/Papers/Blogs/Contact�j���r���h�ʉ߂��i�r�Q�[�V�����\�B
-- ���: i18n �̓y�䂪�ғ��i����g�O���Ŏ�v�������ؑցj�B
+## M1: サイト基盤の整備
+- 受入: 主要ページ（Home/Projects/Papers/Blogs/Contact）がビルド通過しナビゲーション可能。
+- 受入: i18n の土台が稼働（言語トグルで主要文言が切替）。
 
-## M2: Edit Mode �v���g�̈��艻
-- ���: �ҏW�p�v���r���[�i�j���[�X�ꗗ/�ڍׁj�� UI �Ɛ����B
-- ���: ����g�O���̏�Ԃ��v���r���[�ɔ��f�iURL ����ԋ��L�j�B
-- �ǉ�: �v���r���[�ĕ\����UI���F�����m�ہiJA�������������E���C�g�e�[�}�Ή��E�p�l���Œ�j
-- �ǉ�: Issue19 Plan B ? markdown-it -> generateJSON -> generateHTML -> DOMPurify �p�C�v���C���Ńj���[�X�v���r���[��H1/H2/���X�g������S�ہB
+## M2: Edit Mode プロトの安定化
+- 2025-10-10: Codex refactoring audit will produce risk/impact matrix for repo cleanup options.
+- 受入: 編集用プレビュー（ニュース一覧/詳細）が UI と整合。
+- 受入: 言語トグルの状態がプレビューに反映（URL か状態共有）。
+- 追加: プレビュー再表示とUI視認性を確保（JA文字化け解消・ライトテーマ対応・パネル固定）
+- 追加: Issue19 Plan B ? markdown-it -> generateJSON -> generateHTML -> DOMPurify パイプラインでニュースプレビューのH1/H2/リスト整合を担保。
+- 追記: 公開ボタンでGitHub App OAuth→PR作成まで自動化（news slug生成とcontent/news JSONコミットを含む）
 
-## M3: Decap CMS �A�g�iGitHub �o�b�N�G���h�j
-- ���: public/admin/ ���烍�O�C��?�ꗗ?�v���r���[�܂Œʂ�B
-- ���: public/admin/config.yml �� src/lib/types.ts �̃X�L�[�}�����������B
+## M3: Decap CMS 連携（GitHub バックエンド）
+- 受入: public/admin/ からログイン?一覧?プレビューまで通る。
+- 受入: public/admin/config.yml と src/lib/types.ts のスキーマ差分が解消。
 
-## M4: �F��/�F�t���[�K�p
-- ���: docs/AuthDesign.md �Ɋ�Â��A�ҏW�ۂ���ʂŐ��䂳���i�w�b�_�[/�ҏW�{�^���j�B
-- ���: �񌠌����[�U�[�͕ҏW UI ���\������Ȃ��B
+## M4: 認証/認可フロー適用
+- 追加: MCP 経由で GitHub API を扱えるよう @missionsquad/mcp-github を設定（Codex .codex/config.toml）
+- 受入: docs/AuthDesign.md に基づき、編集可否が画面で制御される（ヘッダー/編集ボタン）。
+- 受入: 非権限ユーザーは編集 UI が表示されない。
 
-## M5: ������o���f�[�V����
-- ���: ���p������̓��͌��������m���A�v���r���[�Ōx���B
-- ���: �K�{�t�B�[���h�� Decap �ƃA�v���̗����ň�сB
+## M5: 多言語バリデーション
+- 受入: 日英いずれの入力欠落も検知し、プレビューで警告。
+- 受入: 必須フィールドは Decap とアプリの両方で一貫。
 
-## M6: �f�v���C/CI
-- ���: main �u�����` push �Ō^�`�F�b�N/�r���h/Lighthouse�i�X���[�N�j���������s�B
-- ���: �X�e�[�W���O���� CMS �v���r���[���m�F�\�B
+## M6: デプロイ/CI
+- 受入: main ブランチ push で型チェック/ビルド/Lighthouse（スモーク）を自動実行。
+- 受入: ステージング環境で CMS プレビューを確認可能。
 
-## �^�p���[��
-- ���X�̎���Ƃ� docs/TODO.md �ɋL�ڂ��A�}�C���X�g�[���B�����ɖ{�t�@�C���֔��f�B
-- �傫�Ȑ݌v���f�� docs/ �z���� 1?3 �s�ō���������ǉ��B
-## ���j�X�V�i2025-09-29�j
-- �ҏWUI�� Portfolio_EditSystem_Proto �𐳎��̗p���A/edit �ŉғ������܂��B
-- Decap �̃J�X�^���v���r���[�A�g�͔p�~�BDecap �͔F��/���f�B�A�^�p�̕⏕�Ƃ��ĔC�ӗ��p���܂��B
-- �^�E�X�L�[�}�̈ꎟ���� src/lib/types.ts �ɓ��ꂵ�AProto ���t�H�[��/�v���r���[�Ɛ��������܂��B
+## 運用ルール
+- 日々の実作業は docs/TODO.md に記載し、マイルストーン達成時に本ファイルへ反映。
+- 大きな設計判断は docs/ 配下に 1?3 行で根拠メモを追加。
+## 方針更新（2025-09-29）
+- 編集UIは Portfolio_EditSystem_Proto を正式採用し、/edit で稼働させます。
+- Decap のカスタムプレビュー連携は廃止。Decap は認証/メディア運用の補助として任意利用します。
+- 型・スキーマの一次情報は src/lib/types.ts に統一し、Proto 側フォーム/プレビューと整合させます。
 

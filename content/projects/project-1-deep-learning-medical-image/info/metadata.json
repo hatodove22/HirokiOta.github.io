@@ -1,0 +1,37 @@
+{
+  "id": "1",
+  "title": {
+    "ja": "医療画像解析のための深層学習",
+    "en": "Deep Learning for Medical Image Analysis"
+  },
+  "slug": "deep-learning-medical-image",
+  "status": "Published",
+  "date": "2024-03-15",
+  "tags": ["Deep Learning", "Medical AI", "Computer Vision", "Python", "PyTorch"],
+  "summary": {
+    "ja": "自動医療画像解析のための新しい深層学習アプローチを開発し、疾患検出において95%の精度を達成しました。",
+    "en": "Developed a novel deep learning approach for automated medical image analysis, achieving 95% accuracy in disease detection."
+  },
+  "body": {
+    "ja": "このプロジェクトでは、医療画像解析のための先進的な深層学習モデルの開発に焦点を当てています。",
+    "en": "This project focuses on developing advanced deep learning models for medical image analysis."
+  },
+  "repoUrl": "https://github.com/example/medical-ai",
+  "demoUrl": "https://demo.example.com",
+  "slidesUrl": "https://slides.example.com",
+  "relatedPapers": ["paper1"],
+  "heroImage": "hero-image.jpg",
+  "language": "en",
+  "isPinned": true,
+  "status": "completed",
+  "featured": true,
+  "technologies": ["Python", "PyTorch", "OpenCV", "Docker"],
+  "duration": "6 months",
+  "teamSize": 3,
+  "role": "Lead Developer",
+  "achievements": [
+    "95% accuracy in disease detection",
+    "50% reduction in processing time",
+    "Published in international conference"
+  ]
+}

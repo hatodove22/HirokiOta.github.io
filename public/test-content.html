@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Loader Test</title>
+</head>
+<body>
+    <h1>Content Loader Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function testContentLoader() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Testing content loader...</p>';
+            
+            try {
+                // プロジェクトデータの読み込みテスト
+                const response = await fetch('/content/projects/project-1-deep-learning-medical-image/info/metadata.json');
+                console.log('Response status:', response.status);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Project 1 data:', data);
+                    resultsDiv.innerHTML = '<p>✅ Successfully loaded project data!</p><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                } else {
+                    console.error('Failed to load project data:', response.status, response.statusText);
+                    resultsDiv.innerHTML = '<p>❌ Failed to load project data: ' + response.status + ' ' + response.statusText + '</p>';
+                }
+            } catch (error) {
+                console.error('Error loading content:', error);
+                resultsDiv.innerHTML = '<p>❌ Error loading content: ' + error.message + '</p>';
+            }
+        }
+        
+        // ページが読み込まれた後にテストを実行
+        window.addEventListener('load', testContentLoader);
+    </script>
+</body>
+</html>

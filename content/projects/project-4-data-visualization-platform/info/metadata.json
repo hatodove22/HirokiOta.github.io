@@ -1,0 +1,37 @@
+{
+  "id": "4",
+  "title": {
+    "ja": "インタラクティブデータ可視化プラットフォーム",
+    "en": "Interactive Data Visualization Platform"
+  },
+  "slug": "data-visualization-platform",
+  "status": "Published",
+  "date": "2023-12-05",
+  "tags": ["Data Visualization", "React", "D3.js", "TypeScript", "Web Development"],
+  "summary": {
+    "ja": "大規模データセットの可視化とインタラクティブな分析を可能にするWebプラットフォームを開発。",
+    "en": "Developed a web platform that enables visualization and interactive analysis of large-scale datasets."
+  },
+  "body": {
+    "ja": "このプロジェクトでは、ReactとD3.jsを使用して、直感的なデータ可視化インターフェースを構築しました。",
+    "en": "This project built an intuitive data visualization interface using React and D3.js."
+  },
+  "repoUrl": "https://github.com/example/data-viz-platform",
+  "demoUrl": "https://data-viz.example.com",
+  "slidesUrl": "https://slides.example.com/dataviz2023",
+  "relatedPapers": [],
+  "heroImage": "data-viz-hero.jpg",
+  "language": "en",
+  "isPinned": false,
+  "status": "completed",
+  "featured": false,
+  "technologies": ["React", "TypeScript", "D3.js", "Node.js", "MongoDB"],
+  "duration": "5 months",
+  "teamSize": 3,
+  "role": "Frontend Developer",
+  "achievements": [
+    "Supports datasets up to 1M records",
+    "Real-time data streaming",
+    "Customizable visualization components"
+  ]
+}
