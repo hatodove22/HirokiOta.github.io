@@ -1,0 +1,38 @@
+{
+  "id": "2",
+  "title": {
+    "ja": "Hap'n'Roll",
+    "en": "Hap'n'Roll"
+  },
+  "slug": "hapnroll",
+  "status": "Published",
+  "date": "2024-02-10",
+  "tags": ["Haptics", "Scroll Device"],
+  "summary": {
+    "ja": "巻物式のロール可能な触覚デバイス。単一アクチュエータで多様な触感を生成。",
+    "en": "A rollable haptic device that delivers diverse feedback with a single actuator."
+  },
+  "body": {
+    "ja": "ロール動作と内部機構の同期により、引き出し/巻き取りで連続的な触感を提示。",
+    "en": "Synchronized roll motion and internal mechanism provide continuous haptic sensations."
+  },
+  "repoUrl": "",
+  "demoUrl": "",
+  "slidesUrl": "",
+  "relatedPapers": ["paper10"],
+  "heroImage": "",
+  "language": "ja",
+  "isPinned": true,
+  "status": "completed",
+  "featured": true,
+  "technologies": ["Python", "Transformers", "scikit-learn", "FastAPI"],
+  "duration": "4 months",
+  "teamSize": 2,
+  "role": "Full-stack Developer",
+  "achievements": [
+    "20% improvement over baseline",
+    "Handles 1M+ documents",
+    "Real-time classification API"
+  ]
+}
+

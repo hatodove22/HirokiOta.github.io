@@ -55,6 +55,8 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build"
+            "prebuild": "node scripts/export-content.mjs",
+            "build": "vite build",
+            "export:content": "node scripts/export-content.mjs"
       }
 }

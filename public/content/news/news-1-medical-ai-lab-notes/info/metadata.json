@@ -1,0 +1,15 @@
+{
+  "id": "news-1",
+  "title": "医療AI研究の実験メモ",
+  "slug": "medical-ai-lab-notes",
+  "date": "2024-08-20",
+  "tags": ["Research", "Medical AI"],
+  "summary": "最新の医療画像解析モデルで得られた知見と課題を共有します。",
+  "heroImage": "hero-image.jpg",
+  "readTime": "5 min",
+  "language": "ja",
+  "status": "published",
+  "author": "太田裕紀",
+  "category": "research-notes"
+}
+

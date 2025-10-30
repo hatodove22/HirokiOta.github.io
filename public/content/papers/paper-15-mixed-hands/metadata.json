@@ -1,0 +1,38 @@
+{
+  "id": "paper15",
+  "title": "Mixed-hands",
+  "venue": "第27回日本バーチャルリアリティ学会大会論文集",
+  "year": 2022,
+  "authors": "有隅惟人, 石塚裕之, 大石悠貴, **太田裕紀**, 東山輝",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国内",
+    "type": "会議",
+    "peerReview": "査読なし"
+  },
+  "doi": "",
+  "arxiv": "",
+  "url": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "利き手・非利き手よりも運動賦活や労務度差などで優先度を定義し、状況に応じた手交換と協調動作を行う手法 Mixed-hands を提案する。",
+    "en": "We propose Mixed-hands, a method for cooperative hand role switching based on activation and workload rather than handedness."
+  },
+  "keywords": ["VR", "協調動作", "利き手交換"],
+  "status": "published",
+  "pdfUrl": "https://conference.vrsj.org/ac2022/program/doc/1A3-16.pdf",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "2022-09-01",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "第27回日本VR学会（2022年9月）"
+}
+
+

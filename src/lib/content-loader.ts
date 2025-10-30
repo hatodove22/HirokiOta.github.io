@@ -27,10 +27,14 @@ export async function loadProjects(preferredLocale?: Locale): Promise<Project[]>
   console.log('Loading projects from content files...')
   const projects: Project[] = []
   
-  // プロジェクトフォルダのリストを取得（ミドルウェアのディレクトリ一覧を優先）
+  // プロジェクトフォルダのリストを取得（ビルド時に出力される静的JSONを優先）
   let projectFolders: string[] = []
   try {
-    const res = await fetch('/__content/list/projects')
+    let res = await fetch('/__content/list/projects.json')
+    if (!res.ok) {
+      // dev ミドルウェア互換
+      res = await fetch('/__content/list/projects')
+    }
     if (res.ok) {
       const body = await res.json()
       if (Array.isArray(body.items)) projectFolders = body.items
@@ -184,7 +188,10 @@ export async function loadNews(): Promise<NewsItem[]> {
 // 動的に projects フォルダ一覧を取得
 async function listProjectFolders(): Promise<string[]> {
   try {
-    const res = await fetch('/__content/list/projects')
+    let res = await fetch('/__content/list/projects.json')
+    if (!res.ok) {
+      res = await fetch('/__content/list/projects')
+    }
     if (!res.ok) return []
     const body = await res.json()
     return Array.isArray(body.items) ? body.items : []

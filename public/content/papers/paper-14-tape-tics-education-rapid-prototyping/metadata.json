@@ -1,0 +1,38 @@
+{
+  "id": "paper14",
+  "title": "Tape-Tics: A Flexible and Modular Vibrotactile Feedback System for Rapid Prototyping of Haptic Applications in Education",
+  "venue": "International Conference on Augmented Humans (AHs)",
+  "year": 2025,
+  "authors": "Carlos Paniagua, **Hiroki Ota**, Yutaro Hirao, Monica Perusquia-Hernandez, Hideaki Uchiyama, Kiyoshi Kiyokawa",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国際",
+    "type": "会議",
+    "peerReview": "査読付き"
+  },
+  "doi": "https://doi.org/10.1145/3745900.3746092",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "教育用途の迅速なプロトタイピングに向けた柔軟・モジュール型の振動触覚システムを提案する。",
+    "en": "We propose a flexible and modular vibrotactile system for rapid prototyping in education."
+  },
+  "keywords": ["Vibrotactile", "Education", "Prototyping"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "Full Paper",
+  "url": ""
+}
+
+

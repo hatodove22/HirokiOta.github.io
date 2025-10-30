@@ -1,0 +1,37 @@
+{
+  "id": "1",
+  "title": {
+    "ja": "FresnelShape",
+    "en": "FresnelShape"
+  },
+  "slug": "fresnelshape",
+  "status": "Published",
+  "date": "2024-03-15",
+  "tags": ["Shape Display", "Haptics"],
+  "summary": {
+    "ja": "フレネルレンズを用いた形状可変ディスプレイ『FresnelShape』の設計と実装。",
+    "en": "A shape‑changing display using Fresnel lenses (FresnelShape)."
+  },
+  "body": {
+    "ja": "フレネルレンズの配置最適化と駆動制御により、軽量・薄型でダイナミックな形状提示を実現。",
+    "en": "Lightweight, thin shape display driven by optimized Fresnel lens arrangement and actuation."
+  },
+  "repoUrl": "",
+  "demoUrl": "",
+  "slidesUrl": "",
+  "relatedPapers": [],
+  "heroImage": "",
+  "language": "ja",
+  "isPinned": true,
+  "status": "completed",
+  "featured": true,
+  "technologies": ["Python", "PyTorch", "OpenCV", "Docker"],
+  "duration": "6 months",
+  "teamSize": 3,
+  "role": "Lead Developer",
+  "achievements": [
+    "95% accuracy in disease detection",
+    "50% reduction in processing time",
+    "Published in international conference"
+  ]
+}

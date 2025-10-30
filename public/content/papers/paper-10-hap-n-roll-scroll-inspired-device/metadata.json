@@ -1,0 +1,37 @@
+{
+  "id": "paper10",
+  "title": "Hap ’n ’Roll: A Scroll-inspired Device for Delivering Diverse Haptic Feedback with a Single Actuator",
+  "venue": "IEEE Conference on Virtual Reality and 3D User Interfaces (IEEE VR)",
+  "year": 2024,
+  "authors": "**Hiroki Ota**, Daiki Hagimori, Monica Perusquía-Hernández, Naoya Isoyama, Hideaki Uchiyama, Kiyoshi Kiyokawa",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国際",
+    "type": "会議",
+    "peerReview": "査読付き"
+  },
+  "doi": "https://doi.org/10.1109/VR58804.2024.00028",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "単一アクチュエータで多様な触覚提示を実現する巻物着想のデバイスを提案する。",
+    "en": "We present a scroll-inspired device that delivers diverse haptic feedback with a single actuator."
+  },
+  "keywords": ["Haptics", "Device", "VR"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "Full Paper, Florida, USA"
+}
+
+

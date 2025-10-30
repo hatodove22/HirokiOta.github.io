@@ -1,0 +1,38 @@
+{
+  "id": "3",
+  "title": {
+    "ja": "Tape‑tics",
+    "en": "Tape‑tics"
+  },
+  "slug": "tape-tics",
+  "status": "Published",
+  "date": "2024-01-20",
+  "tags": ["Haptics", "Tape", "Vibrotactile"],
+  "summary": {
+    "ja": "小型振動子を並べた切断可能なテープ型触覚デバイス。",
+    "en": "A cuttable tape‑type vibrotactile device with small vibrators."
+  },
+  "body": {
+    "ja": "教育・試作の迅速化を目的としたモジュール型テープデバイスの設計。",
+    "en": "Modular tape device designed for rapid prototyping and education."
+  },
+  "repoUrl": "",
+  "demoUrl": "https://www.youtube.com/watch?v=Vn3T7iVowfg",
+  "slidesUrl": "",
+  "relatedPapers": ["paper13", "paper14"],
+  "heroImage": "/content/projects/project-3-tape-tics/images/HeroImage.png",
+  "language": "ja",
+  "isPinned": false,
+  "status": "completed",
+  "featured": false,
+  "technologies": ["C++", "ROS", "OpenCV", "PCL", "Gazebo"],
+  "duration": "8 months",
+  "teamSize": 4,
+  "role": "Computer Vision Engineer",
+  "achievements": [
+    "Real-time processing at 30 FPS",
+    "95% object detection accuracy",
+    "Successfully deployed on physical robot"
+  ]
+}
+

@@ -1,0 +1,38 @@
+{
+  "id": "paper13",
+  "title": "Design and Development of a Tape-Type Vibrotactile Feedback System",
+  "venue": "IEEE Conference on Virtual Reality and 3D User Interfaces Abstracts and Workshops (VRW)",
+  "year": 2025,
+  "authors": "Carlos Paniagua, **Hiroki Ota**, Yutaro Hirao, Monica Perusquia-Hernandez, Hideaki Uchiyama, Kiyoshi Kiyokawa",
+  "relatedProjects": [],
+  "language": "ja",
+  "categories": {
+    "scope": "国際",
+    "type": "ワークショップ",
+    "peerReview": "査読付き"
+  },
+  "doi": "https://doi.org/10.1109/VRW66409.2025.00022",
+  "arxiv": "",
+  "slidesUrl": "",
+  "award": "",
+  "abstract": {
+    "ja": "テープ型の振動触覚フィードバックシステムの設計と開発について報告する。",
+    "en": "We present the design and development of a tape-type vibrotactile feedback system."
+  },
+  "keywords": ["Vibrotactile", "Haptics", "Device"],
+  "status": "published",
+  "pdfUrl": "",
+  "posterUrl": "",
+  "codeUrl": "",
+  "videoUrl": "",
+  "presentationDate": "",
+  "acceptanceDate": "",
+  "submissionDate": "",
+  "pageCount": 0,
+  "citationCount": 0,
+  "impactFactor": 0,
+  "notes": "Extended Abstract, Workshop",
+  "url": "https://ieeexplore.ieee.org/document/10972889"
+}
+
+
