@@ -196,10 +196,6 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
 
         {/* Project Details */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-semibold">
-            {locale === 'ja' ? 'プロジェクト詳細' : 'Project Details'}
-          </h2>
-
           {/* Main Content */}
           <div className="prose prose-gray dark:prose-invert max-w-none">
             {(() => {
@@ -228,8 +224,21 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                         )
                     }
                   }
+                  // Markdown画像行を検出して画像として描画
+                  {
+                    const img = typeof block.content === 'string' && block.content.trim()
+                    const imgMatch = img && img.match(/^!\[[^\]]*\]\(([^)]+)\)$/)
+                    if (imgMatch) {
+                      const src = imgMatch[1]
+                      return (
+                        <div key={index} className="my-4">
+                          <ImageWithFallback src={src} alt="image" className="w-full rounded-lg" />
+                        </div>
+                      )
+                    }
+                  }
                     {
-                      const elements: React.ReactNode[] = [
+                      const elements: any[] = [
                         <p key={`p-${index}`} className="mb-4 leading-relaxed text-muted-foreground">
                           {renderInlineBold(block.content as string)}
                         </p>

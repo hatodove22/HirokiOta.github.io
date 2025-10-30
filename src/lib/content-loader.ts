@@ -219,9 +219,19 @@ export async function loadProjectDetail(slug: string, preferredLocale?: Locale):
       // 説明本文（Markdown）を読み込み、簡易ブロックへ変換
       let bodyBlocks: { type: string; content: string; children?: any[] }[] = []
       try {
-        const mdRes = await fetch(`${CONTENT_BASE_PATH}/projects/${folder}/content/description.md`)
-        if (mdRes.ok) {
-          let md = await mdRes.text()
+        // locale優先で description_<locale>.md -> 既定 description.md の順で取得
+        const tryPaths: string[] = []
+        if (preferredLocale) {
+          tryPaths.push(`${CONTENT_BASE_PATH}/projects/${folder}/content/description_${preferredLocale}.md`)
+        }
+        tryPaths.push(`${CONTENT_BASE_PATH}/projects/${folder}/content/description.md`)
+        let mdText: string | null = null
+        for (const p of tryPaths) {
+          const res = await fetch(p)
+          if (res.ok) { mdText = await res.text(); break }
+        }
+        if (mdText !== null) {
+          let md = mdText
           // 先頭H1を除去
           md = md.replace(/^\s*#\s+.*\n?/, '')
           // H4+ を H3 に丸める
