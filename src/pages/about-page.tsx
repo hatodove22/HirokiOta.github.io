@@ -126,12 +126,7 @@ export function AboutPage({ locale }: AboutPageProps) {
             <p className="text-muted-foreground">{t.about.profile.affiliation}</p>
           </div>
 
-          <Button asChild>
-            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-              <Download className="mr-2 h-4 w-4" />
-              {t.home.cta.cv}
-            </a>
-          </Button>
+          {/* CV download button removed by request */}
         </section>
 
         {/* Introduction */}

@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react'
+import React, { useEffect, useState, type ReactNode } from 'react'
 import { ArrowRight, Download, ExternalLink, Mail, Github, Twitter, Linkedin, GraduationCap, IdCard } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
@@ -68,7 +68,10 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
     fetchData()
   }, [locale])
 
-  const researchAreas = ['Machine Learning', 'Deep Learning', 'Computer Vision']
+  const researchAreas =
+    locale === 'ja'
+      ? ['バーチャルリアリティ', 'ロボティクス', '触覚', 'インターフェース']
+      : ['Virtual Reality', 'Robotics', 'Haptics', 'Interfaces']
   const heroLines =
     locale === 'ja'
       ? {

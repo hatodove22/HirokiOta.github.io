@@ -84,7 +84,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
           </p>
           <Button onClick={() => onNavigate('projects')}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            {t.common.backTo} {t.projects.title}
+            {t.common.backTo}
           </Button>
         </div>
       </div>
@@ -115,7 +115,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
         {/* Back Button */}
         <Button variant="ghost" onClick={() => onNavigate('projects')}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          {t.common.backTo} {t.projects.title}
+          {t.common.backTo}
         </Button>
 
         {/* Hero Section */}
@@ -129,6 +129,8 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
               />
             </div>
           )}
+
+          {/* YouTube embed moved below details by request */}
 
           <div className="space-y-4">
             <h1 className="text-4xl font-bold">{project.title}</h1>
@@ -158,19 +160,34 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
           </div>
         </div>
 
-        {/* Summary */}
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              {locale === 'ja' ? '概要' : 'Summary'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground leading-relaxed">
-              {project.summary}
-            </p>
-          </CardContent>
-        </Card>
+        {/* Summary (highlighted text, no box) */}
+        <div className="px-2 md:px-0 py-2">
+          <p className="leading-relaxed text-primary font-medium">
+            {project.summary}
+          </p>
+        </div>
+
+        {/* Demo video (YouTube) right below summary if provided */}
+        {project.demoUrl && /youtube\.com|youtu\.be/.test(project.demoUrl) && (
+          <div className="space-y-3">
+            <h2 className="text-2xl font-semibold">
+              {locale === 'ja' ? 'デモ動画' : 'Demo Video'}
+            </h2>
+            <div className="relative aspect-video overflow-hidden rounded-lg">
+              <iframe
+                className="w-full h-full"
+                src={(() => {
+                  const m = project.demoUrl!.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/)
+                  const id = m ? m[1] : ''
+                  return id ? `https://www.youtube.com/embed/${id}` : project.demoUrl!
+                })()}
+                title="YouTube video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )}
 
         {/* Project Details */}
         <div className="space-y-6">
@@ -180,40 +197,108 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
 
           {/* Main Content */}
           <div className="prose prose-gray dark:prose-invert max-w-none">
-            {project.body.map((block, index) => {
-              switch (block.type) {
+            {(() => {
+              let insertAfterNextParagraph: 'approach' | 'benefit' | null = null
+              return project.body.map((block, index) => {
+                switch (block.type) {
                 case 'paragraph':
-                  return (
-                    <p key={index} className="mb-4 leading-relaxed">
-                      {block.content}
-                    </p>
-                  )
+                  // YouTube 埋め込み（URLのみの段落をiframe化）
+                  {
+                    const yt = typeof block.content === 'string' && block.content.trim()
+                    const ytMatch = yt && yt.match(/^(https?:\/\/(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11})(?:[&#?].*)?$/)
+                    if (ytMatch) {
+                      const url = new URL(ytMatch[1])
+                      const videoId = url.hostname === 'youtu.be' ? url.pathname.slice(1) : url.searchParams.get('v')
+                      const embed = `https://www.youtube.com/embed/${videoId}`
+                        return (
+                          <div key={index} className="aspect-video w-full overflow-hidden rounded-lg">
+                            <iframe
+                              className="w-full h-full"
+                              src={embed}
+                              title="YouTube video"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowFullScreen
+                            />
+                          </div>
+                        )
+                    }
+                  }
+                    {
+                      const elements: React.ReactNode[] = [
+                        <p key={`p-${index}`} className="mb-4 leading-relaxed text-muted-foreground">
+                          {block.content}
+                        </p>
+                      ]
+                      if (project.slug === 'tape-tics' && insertAfterNextParagraph) {
+                        if (insertAfterNextParagraph === 'approach') {
+                          elements.push(
+                            <div key={`img-usage-${index}`} className="my-4">
+                              <ImageWithFallback
+                                src="/content/projects/project-3-tape-tics/images/usage.jpg"
+                                alt="Tape‑tics usage"
+                                className="w-full rounded-lg"
+                              />
+                            </div>
+                          )
+                        } else if (insertAfterNextParagraph === 'benefit') {
+                          elements.push(
+                            <div key={`img-usage2-${index}`} className="my-4">
+                              <ImageWithFallback
+                                src="/content/projects/project-3-tape-tics/images/Usage2.png"
+                                alt="Tape‑tics benefits"
+                                className="w-full rounded-lg"
+                              />
+                            </div>
+                          )
+                        }
+                        insertAfterNextParagraph = null
+                      }
+                      return <React.Fragment key={index}>{elements}</React.Fragment>
+                    }
                 case 'heading':
+                  if ((block as any).level === 1) {
+                    return (
+                      <h1 key={index} className="text-3xl font-bold mt-8 mb-4">
+                        {(block as any).content}
+                      </h1>
+                    )
+                  } else if ((block as any).level === 2) {
+                      if (project.slug === 'tape-tics') {
+                        const text = String((block as any).content)
+                        if (/^\s*アプローチ\s*$/i.test(text) || /^\s*Approach\s*$/i.test(text)) {
+                          insertAfterNextParagraph = 'approach'
+                        } else if (/(^\s*(何|なに)がうれしいか\s*$)|(^\s*嬉しい点\s*$)|(^\s*メリット\s*$)|(^\s*Benefits?\s*$)/i.test(text)) {
+                          insertAfterNextParagraph = 'benefit'
+                        }
+                      }
+                    return (
+                      <h2 key={index} className="text-2xl font-semibold mt-8 mb-4">
+                        {(block as any).content}
+                      </h2>
+                    )
+                  }
                   return (
                     <h3 key={index} className="text-xl font-semibold mt-8 mb-4">
-                      {block.content}
+                      {(block as any).content}
                     </h3>
                   )
                 case 'list':
-                  return (
-                    <ul key={index} className="list-disc pl-6 mb-4 space-y-1">
-                      {block.children?.map((child, childIndex) => (
-                        <li key={childIndex}>{child.content}</li>
-                      ))}
-                    </ul>
-                  )
+                  return null
                 default:
                   return (
                     <div key={index} className="mb-4">
                       {block.content}
                     </div>
                   )
-              }
-            })}
+                }
+              })
+            })()}
           </div>
 
           {/* extra sample content removed; description.md is the single source of truth */}
         </div>
+
+        {/* Demo video moved above under summary */}
 
         {/* Related Papers */}
         {relatedPapers.length > 0 && (
@@ -241,6 +326,39 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                           </Badge>
                         )}
                       </p>
+                      {/* Links */}
+                      <div className="flex flex-wrap gap-2 pt-1">
+                        {paper.url && (
+                          <a href={paper.url} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
+                            URL
+                          </a>
+                        )}
+                        {paper.pdfUrl && (
+                          <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
+                            PDF
+                          </a>
+                        )}
+                        {paper.doi && (
+                          <a href={paper.doi} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
+                            DOI
+                          </a>
+                        )}
+                        {paper.arxiv && (
+                          <a href={paper.arxiv} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
+                            arXiv
+                          </a>
+                        )}
+                        {paper.slidesUrl && (
+                          <a href={paper.slidesUrl} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
+                            Slides
+                          </a>
+                        )}
+                        {paper.posterUrl && (
+                          <a href={paper.posterUrl} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
+                            Poster
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

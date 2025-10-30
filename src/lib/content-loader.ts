@@ -27,14 +27,25 @@ export async function loadProjects(preferredLocale?: Locale): Promise<Project[]>
   console.log('Loading projects from content files...')
   const projects: Project[] = []
   
-  // プロジェクトフォルダのリストを取得（実際の実装では、APIエンドポイントから取得）
-  const projectFolders = [
-    'project-1-deep-learning-medical-image',
-    'project-2-nlp-document-classification',
-    'project-3-computer-vision-robotics',
-    'project-4-data-visualization-platform',
-    'project-5-blockchain-identity-management'
-  ]
+  // プロジェクトフォルダのリストを取得（ミドルウェアのディレクトリ一覧を優先）
+  let projectFolders: string[] = []
+  try {
+    const res = await fetch('/__content/list/projects')
+    if (res.ok) {
+      const body = await res.json()
+      if (Array.isArray(body.items)) projectFolders = body.items
+    }
+  } catch {}
+  // フォールバック（固定リスト）
+  if (projectFolders.length === 0) {
+    projectFolders = [
+      'project-1-deep-learning-medical-image',
+      'project-2-nlp-document-classification',
+      'project-3-computer-vision-robotics',
+      'project-4-data-visualization-platform',
+      'project-5-blockchain-identity-management'
+    ]
+  }
 
   for (const folder of projectFolders) {
     console.log(`Loading project: ${folder}`)
@@ -170,15 +181,30 @@ export async function loadNews(): Promise<NewsItem[]> {
   return news
 }
 
+// 動的に projects フォルダ一覧を取得
+async function listProjectFolders(): Promise<string[]> {
+  try {
+    const res = await fetch('/__content/list/projects')
+    if (!res.ok) return []
+    const body = await res.json()
+    return Array.isArray(body.items) ? body.items : []
+  } catch {
+    return []
+  }
+}
+
 // 特定のプロジェクトの詳細データを読み込む関数
 export async function loadProjectDetail(slug: string, preferredLocale?: Locale): Promise<Project | null> {
-  const projectFolders = [
-    'project-1-deep-learning-medical-image',
-    'project-2-nlp-document-classification',
-    'project-3-computer-vision-robotics',
-    'project-4-data-visualization-platform',
-    'project-5-blockchain-identity-management'
-  ]
+  let projectFolders = await listProjectFolders()
+  if (projectFolders.length === 0) {
+    projectFolders = [
+      'project-1-deep-learning-medical-image',
+      'project-2-nlp-document-classification',
+      'project-3-computer-vision-robotics',
+      'project-4-data-visualization-platform',
+      'project-5-blockchain-identity-management'
+    ]
+  }
 
   for (const folder of projectFolders) {
     const metadata = await loadMetadata<any>(`/projects/${folder}/info/metadata.json`)
@@ -188,17 +214,54 @@ export async function loadProjectDetail(slug: string, preferredLocale?: Locale):
       try {
         const mdRes = await fetch(`${CONTENT_BASE_PATH}/projects/${folder}/content/description.md`)
         if (mdRes.ok) {
-          const md = await mdRes.text()
-          bodyBlocks = md
-            .split(/\r?\n\r?\n/) // 段落分割
-            .map((chunk) => chunk.trim())
-            .filter(Boolean)
-            .map((chunk) => {
-              if (/^#\s+/.test(chunk) || /^##\s+/.test(chunk) || /^###\s+/.test(chunk)) {
-                return { type: 'heading', content: chunk.replace(/^#+\s+/, '') }
-              }
-              return { type: 'paragraph', content: chunk }
-            })
+          let md = await mdRes.text()
+          // 先頭H1を除去
+          md = md.replace(/^\s*#\s+.*\n?/, '')
+          // H4+ を H3 に丸める
+          md = md.replace(/^(\s*)######\s/gm, '$1### ')
+          md = md.replace(/^(\s*)#####\s/gm, '$1### ')
+          md = md.replace(/^(\s*)####\s/gm, '$1### ')
+
+          // 行単位パーサ（空行不要、行頭の見出しを確実に検出）
+          const lines = md.split(/\r?\n/)
+          const blocks: { type: string; content: string; level?: number; children?: any[] }[] = []
+          let paragraphBuf: string[] = []
+          const flushParagraph = () => {
+            const text = paragraphBuf.join('\n').trim()
+            if (text) blocks.push({ type: 'paragraph', content: text })
+            paragraphBuf = []
+          }
+          let listBuf: string[] | null = null
+          const flushList = () => {
+            if (listBuf && listBuf.length) {
+              blocks.push({ type: 'list', content: '', children: listBuf.map(it => ({ type: 'listItem', content: it })) })
+            }
+            listBuf = null
+          }
+          for (const rawLine of lines) {
+            const line = rawLine.replace(/\s+$/,'')
+            const heading = line.match(/^(#+)\s*(.*)$/)
+            if (heading) {
+              flushParagraph(); flushList()
+              const level = Math.min(heading[1].length, 3)
+              blocks.push({ type: 'heading', level, content: heading[2] })
+              continue
+            }
+            const listMatch = line.match(/^[-*+]\s+(.*)$/)
+            if (listMatch) {
+              flushParagraph()
+              if (!listBuf) listBuf = []
+              listBuf.push(listMatch[1])
+              continue
+            }
+            // 空行で区切り
+            if (/^\s*$/.test(line)) { flushParagraph(); flushList(); continue }
+            // それ以外は段落
+            if (listBuf) { flushList() }
+            paragraphBuf.push(line)
+          }
+          flushParagraph(); flushList()
+          bodyBlocks = blocks
         }
       } catch (e) {
         console.warn('Failed to load project description markdown:', e)

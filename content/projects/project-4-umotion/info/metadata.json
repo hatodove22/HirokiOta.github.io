@@ -1,0 +1,38 @@
+{
+  "id": "4",
+  "title": {
+    "ja": "UMotion",
+    "en": "UMotion"
+  },
+  "slug": "umotion",
+  "status": "Published",
+  "date": "2023-12-05",
+  "tags": ["HCI", "Inertial", "UWB"],
+  "summary": {
+    "ja": "ウェアラブルセンサのみで頑強な姿勢推定を行う研究",
+    "en": "A research that allows stable human motion reconstruction from small sensors attached to the body."
+  },
+  "body": {
+    "ja": "時系列センサデータからの頑健な姿勢推定と不確実性推定。",
+    "en": "Robust pose estimation with uncertainty from time‑series sensors. Robust pose estimation with uncertainty from time‑series sensors."
+  },
+  "repoUrl": "",
+  "demoUrl": "",
+  "slidesUrl": "",
+  "relatedPapers": ["paper1"],
+  "heroImage": "/content/projects/project-4-umotion/images/HeroImage.png",
+  "language": "ja",
+  "isPinned": false,
+  "status": "completed",
+  "featured": false,
+  "technologies": ["React", "TypeScript", "D3.js", "Node.js", "MongoDB"],
+  "duration": "5 months",
+  "teamSize": 3,
+  "role": "Frontend Developer",
+  "achievements": [
+    "Supports datasets up to 1M records",
+    "Real-time data streaming",
+    "Customizable visualization components"
+  ]
+}
+

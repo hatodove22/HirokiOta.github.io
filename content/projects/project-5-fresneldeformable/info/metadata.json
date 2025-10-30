@@ -1,0 +1,38 @@
+{
+  "id": "5",
+  "title": {
+    "ja": "FresnelDeformable",
+    "en": "FresnelDeformable"
+  },
+  "slug": "fresneldeformable",
+  "status": "Published",
+  "date": "2023-10-15",
+  "tags": ["Haptics", "Softness", "Tilt"],
+  "summary": {
+    "ja": "指先接平面の傾き操作と擬似剛性を組み合わせた柔らかさ提示手法。",
+    "en": "Softness presentation combining fingertip tilt manipulation and pseudo‑stiffness."
+  },
+  "body": {
+    "ja": "傾き制御と触錯覚を併用し、深部感覚の柔らかさを軽量構成で提示。",
+    "en": "Combines tilt control and illusions to render softness with lightweight hardware."
+  },
+  "repoUrl": "",
+  "demoUrl": "",
+  "slidesUrl": "",
+  "relatedPapers": ["paper11", "paper12"],
+  "heroImage": "/content/projects/project-5-fresneldeformable/images/HeroImage.png",
+  "language": "ja",
+  "isPinned": false,
+  "status": "completed",
+  "featured": false,
+  "technologies": ["Solidity", "Web3.js", "React", "IPFS", "MetaMask"],
+  "duration": "7 months",
+  "teamSize": 5,
+  "role": "Blockchain Developer",
+  "achievements": [
+    "Zero-knowledge proof integration",
+    "Gas-optimized smart contracts",
+    "Cross-chain compatibility"
+  ]
+}
+
