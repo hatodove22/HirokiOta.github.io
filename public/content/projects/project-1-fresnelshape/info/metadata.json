@@ -19,7 +19,7 @@
   "repoUrl": "",
   "demoUrl": "",
   "slidesUrl": "",
-  "relatedPapers": [],
+  "relatedPapers": ["paper7", "paper12"],
   "heroImage": "",
   "language": "ja",
   "isPinned": true,
