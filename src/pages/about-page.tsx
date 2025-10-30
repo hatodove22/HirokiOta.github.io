@@ -304,29 +304,7 @@ export function AboutPage({ locale }: AboutPageProps) {
           </div>
         </section>
 
-        {/* Awards */}
-        <section className="space-y-6">
-          <h3 className="text-2xl font-semibold flex items-center">
-            <Award className="mr-3 h-6 w-6" />
-            {t.about.sections.awards}
-          </h3>
-
-          <div className="space-y-4">
-            {awards.map((award, index) => (
-              <Card key={index}>
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 space-y-1">
-                      <h4 className="font-semibold">{award.title}</h4>
-                      <p className="text-sm text-muted-foreground">{award.description}</p>
-                    </div>
-                    <Badge variant="secondary">{award.year}</Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </section>
+        {/* Awards section removed as requested */}
 
         {/* Extracurriculars */}
         <section className="space-y-6">
@@ -357,6 +335,9 @@ export function AboutPage({ locale }: AboutPageProps) {
                 <li>{locale === 'ja' ? 'JASSO 海外留学支援制度（協定派遣）：66万円' : 'JASSO Study Abroad Support (Exchange): 0.66M JPY'}</li>
                 <li>{locale === 'ja' ? 'NAIST 長期留学支援制度：70万円' : 'NAIST Long-term Study Abroad Support: 0.7M JPY'}</li>
                 <li>{locale === 'ja' ? 'JST 次世代研究者挑戦的研究プログラム（NAIST Granite）：総額約800万円' : 'JST Next-Gen Researcher Program (NAIST Granite): ~8.0M JPY total'}</li>
+                <li>{locale === 'ja' ? '日本学術振興会 特別研究員（DC2）採択' : 'JSPS Research Fellow (DC2): accepted'}</li>
+                <li>{locale === 'ja' ? 'Global Visionary Bridge：40万円' : 'Global Visionary Bridge: 0.4M JPY'}</li>
+                <li>{locale === 'ja' ? 'Granite Innovation Challenge（小規模プロジェクト支援）：40万円' : 'Granite Innovation Challenge (Small Project Support): 0.4M JPY'}</li>
               </ul>
             </CardContent>
           </Card>
@@ -375,6 +356,8 @@ export function AboutPage({ locale }: AboutPageProps) {
                 <li>{locale === 'ja' ? '触覚講習会 2024（デモ展示）' : 'Haptics Tutorial 2024 (demo exhibit)'}</li>
                 <li>{locale === 'ja' ? 'ICRA 2024 / IEEE VR 2025 Student Volunteer' : 'ICRA 2024 / IEEE VR 2025: Student Volunteer'}</li>
                 <li>{locale === 'ja' ? 'AHs / WHC 2025 査読協力' : 'AHs / WHC 2025: Reviewer'}</li>
+                <li>{locale === 'ja' ? 'IEEE VR 査読協力' : 'IEEE VR: Reviewer'}</li>
+                <li>{locale === 'ja' ? 'SIGGRAPH Asia 査読協力' : 'SIGGRAPH Asia: Reviewer'}</li>
               </ul>
             </CardContent>
           </Card>
