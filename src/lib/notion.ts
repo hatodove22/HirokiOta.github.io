@@ -47,16 +47,16 @@ const mockProjects: Project[] = [
   },
   {
     id: '3',
-    title: 'Computer Vision for Autonomous Robotics',
+    title: '自律ロボットのためのコンピュータビジョン',
     slug: 'computer-vision-robotics',
     status: 'Published',
     date: '2024-01-20',
-    tags: ['Computer Vision', 'Robotics', 'Deep Learning'],
-    summary: 'Implemented real-time object detection and navigation system for autonomous robots using advanced computer vision techniques.',
+    tags: ['コンピュータビジョン', 'ロボティクス', '深層学習'],
+    summary: '先進的なコンピュータビジョン技術により、自律ロボット向けのリアルタイム物体検出・ナビゲーションを実装。',
     body: [
       {
         type: 'paragraph',
-        content: 'This research focuses on developing robust computer vision algorithms for autonomous robot navigation...'
+        content: '本研究は、自律移動ロボットのナビゲーションに有効な堅牢なコンピュータビジョン手法の開発に焦点を当てています...'
       }
     ],
     repoUrl: 'https://github.com/example/robotics-cv',
@@ -68,16 +68,16 @@ const mockProjects: Project[] = [
   },
   {
     id: '4',
-    title: 'Interactive Data Visualization Platform',
+    title: 'インタラクティブデータ可視化プラットフォーム',
     slug: 'data-visualization-platform',
     status: 'Published',
     date: '2023-12-05',
-    tags: ['Data Science', 'Visualization', 'Web Development'],
-    summary: 'Built a comprehensive web-based platform for interactive data exploration and visualization with advanced analytics capabilities.',
+    tags: ['データサイエンス', '可視化', 'Web開発'],
+    summary: '双方向なデータ探索・可視化を可能にする高機能なWebプラットフォームを構築。',
     body: [
       {
         type: 'paragraph',
-        content: 'This platform enables researchers and analysts to create interactive visualizations...'
+        content: '研究者やアナリストが対話的な可視化を容易に作成できるよう設計されています...'
       }
     ],
     repoUrl: 'https://github.com/example/data-viz-platform',
@@ -89,16 +89,16 @@ const mockProjects: Project[] = [
   },
   {
     id: '5',
-    title: 'Blockchain-based Identity Management',
+    title: 'ブロックチェーンID管理システム',
     slug: 'blockchain-identity-management',
     status: 'Published',
     date: '2023-11-18',
-    tags: ['Blockchain', 'Security', 'Cryptography'],
-    summary: 'Developed a decentralized identity management system using blockchain technology to ensure privacy and security.',
+    tags: ['ブロックチェーン', 'セキュリティ', '暗号技術'],
+    summary: 'プライバシーとセキュリティを両立する分散型ID管理システムをブロックチェーンで実装。',
     body: [
       {
         type: 'paragraph',
-        content: 'This project addresses the challenges of digital identity management through blockchain...'
+        content: 'デジタルID管理の課題に対し、ブロックチェーンを活用した実装で解決を図ります...'
       }
     ],
     repoUrl: 'https://github.com/example/blockchain-identity',
