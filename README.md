@@ -4,6 +4,25 @@ React + Vite で構築した博士課程学生向けのポートフォリオサ�
 
 - [Figma デザイン](https://www.figma.com/design/q96wxyH2JhBsvZj0gPyVxD/%E5%8D%9A%E5%A3%AB%E8%AA%B2%E7%A8%8B%E5%AD%A6%E7%94%9F%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA-V1)
 
+## 重要: プッシュ先リポジトリ（必ずこちらを使用）
+
+このリポジトリの変更は、常に以下の GitHub リポジトリの `main` ブランチへプッシュしてください。
+
+- リモート名: `ota`
+- URL: `https://github.com/yamaokayuki20/ota_portfolio`
+- プッシュ方法:
+  - 初回設定（済の場合は不要）
+    ```bash
+    git remote add ota https://github.com/yamaokayuki20/ota_portfolio
+    ```
+  - 現在の作業ブランチの内容を `main` に反映（チェックアウト不要）
+    ```bash
+    git push ota HEAD:main
+    ```
+  - 以降も同様に、必ず `git push ota HEAD:main` を使用してください。
+
+> 注意: `origin`（例: `hatodove22/HirokiOta.github.io`）にはプッシュしないでください。誤ってプッシュした場合は、`ota` の `main` を正とします。
+
 ## 必要環境
 
 - Node.js 18 以上
