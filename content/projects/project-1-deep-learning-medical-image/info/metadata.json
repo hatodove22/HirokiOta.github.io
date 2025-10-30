@@ -19,7 +19,7 @@
   "repoUrl": "https://github.com/example/medical-ai",
   "demoUrl": "https://demo.example.com",
   "slidesUrl": "https://slides.example.com",
-  "relatedPapers": ["paper1"],
+  "relatedPapers": ["paper2"],
   "heroImage": "hero-image.jpg",
   "language": "en",
   "isPinned": true,

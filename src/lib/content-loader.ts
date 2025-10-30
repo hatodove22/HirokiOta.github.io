@@ -97,7 +97,8 @@ export async function loadPapers(): Promise<Paper[]> {
     'paper-11-fresneldeformable-softness-pseudo-stiffness',
     'paper-12-enhancing-visuo-haptic-coherency-tilt',
     'paper-13-tape-type-vibrotactile-feedback-system-design',
-    'paper-14-tape-tics-education-rapid-prototyping'
+    'paper-14-tape-tics-education-rapid-prototyping',
+    'paper-15-mixed-hands'
   ]
 
   for (const folder of paperFolders) {
