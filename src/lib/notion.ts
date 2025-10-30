@@ -334,31 +334,12 @@ class NotionService {
   }
 
   async getPinnedProjects(locale: Locale): Promise<Project[]> {
-    // 一時的にコンテンツローダーを無効にして、モックデータを使用
-    console.log('Using mock data for getPinnedProjects')
-    return mockProjects.filter(p => 
-      p.isPinned && 
-      p.language === locale
-    ).slice(0, 4)
-    
-    // try {
-    //   // 新しいコンテンツローダーを使用
-    //   const projects = await loadProjects()
-    //   return projects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
-    // } catch (error) {
-    //   console.warn('Failed to load projects from content files, falling back to mock data:', error)
-    //   return mockProjects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
-    // }
+    const projects = await loadProjects()
+    return projects.filter(p => p.language === locale && p.isPinned).slice(0, 4)
   }
 
   async getProjects(locale: Locale, filters: FilterParams = {}): Promise<Project[]> {
-    // 一時的にコンテンツローダーを無効にして、モックデータを使用
-    console.log('Using mock data for getProjects')
-    // 言語フィルタリング：現在の言語のみを表示
-    let projects = mockProjects.filter(p => 
-      p.status === 'Published' && 
-      p.language === locale
-    )
+    let projects = (await loadProjects()).filter(p => p.status === 'Published' && p.language === locale)
     
     if (filters.tag) {
       projects = projects.filter(p => p.tags.includes(filters.tag!))
@@ -371,12 +352,8 @@ class NotionService {
   }
 
   async getProjectBySlug(locale: Locale, slug: string): Promise<Project | null> {
-    // 一時的にコンテンツローダーを無効にして、モックデータを使用
-    console.log('Using mock data for getProjectBySlug')
-    return mockProjects.find(p => 
-      p.slug === slug && 
-      p.language === locale
-    ) || null
+    const project = await loadProjectDetail(slug)
+    return project && project.language === locale ? project : null
   }
 
   async getPapers(locale: Locale, filters: FilterParams = {}): Promise<Paper[]> {
