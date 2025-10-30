@@ -106,7 +106,10 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                   {t.about.profile.name}
                 </h1>
                 <div className="mt-2 space-y-1 text-base text-muted-foreground leading-tight md:text-lg">
-                  <div>{heroLines.title}</div>
+                  <div>
+                    {heroLines.title}
+                    {locale === 'ja' ? ' / 日本学術振興会 特別研究員（DC2）' : ' / JSPS Research Fellow (DC2)'}
+                  </div>
                   <div>{heroLines.university}</div>
                   <a
                     href={labUrl}
