@@ -10,7 +10,7 @@ import { PaperListItem } from '../components/paper-list-item'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
 import { Locale, Project, NewsItem, Paper, NewsPost } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
-import { getPinnedProjects, getRecentPapers, getLatestNewsPosts } from '../lib/notion'
+import { getProjects, getRecentPapers, getLatestNewsPosts } from '../lib/notion'
 import { formatDate, formatDateJa } from '../lib/utils'
 import profileImage from 'figma:asset/37d3f31165fb6b41b77513c4d8e0d1b581053602.png'
 
@@ -40,7 +40,7 @@ function HeroSocialLink({ href, label, children }: {
 }
 
 export function HomePage({ locale, onNavigate }: HomePageProps) {
-  const [pinnedProjects, setPinnedProjects] = useState<Project[]>([])
+  const [latestProjects, setLatestProjects] = useState<Project[]>([])
   const [latestNews, setLatestNews] = useState<NewsPost[]>([])
   const [recentPapers, setRecentPapers] = useState<Paper[]>([])
   const [loading, setLoading] = useState(true)
@@ -50,12 +50,16 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [projects, newsPosts, papers] = await Promise.all([
-          getPinnedProjects(locale),
+        const [allProjects, newsPosts, papers] = await Promise.all([
+          getProjects(locale),
           getLatestNewsPosts(locale, 3),
           getRecentPapers(locale, 3)
         ])
-        setPinnedProjects(projects)
+        // 日付順でソートして最新4つを取得（プロジェクト一覧ページと同様に言語での除外は行わない）
+        const latestProjects = allProjects
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+          .slice(0, 4)
+        setLatestProjects(latestProjects)
         setLatestNews(newsPosts)
         setRecentPapers(papers)
       } catch (error) {
@@ -196,7 +200,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {pinnedProjects.filter(p => p.language === locale).map((project) => (
+              {latestProjects.map((project) => (
                 <ProjectCard 
                   key={project.id} 
                   project={project} 

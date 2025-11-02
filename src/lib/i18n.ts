@@ -58,6 +58,16 @@ export interface Translations {
       repo: string
     }
   }
+  news: {
+    title: string
+    description: string
+    filters: {
+      search: string
+      tag: string
+      year: string
+      clear: string
+    }
+  }
   papers: {
     title: string
     filters: {
@@ -66,6 +76,22 @@ export interface Translations {
       search: string
     }
     award: string
+    categories: {
+      scope: {
+        国内: string
+        国際: string
+        学位論文: string
+      }
+      type: {
+        ジャーナル: string
+        会議: string
+        ワークショップ: string
+      }
+      peerReview: {
+        査読付き: string
+        査読なし: string
+      }
+    }
   }
   contact: {
     title: string
@@ -175,7 +201,23 @@ export const translations: Record<Locale, Translations> = {
         venue: '会議・ジャーナル',
         search: '検索'
       },
-      award: '受賞'
+      award: '受賞',
+      categories: {
+        scope: {
+          国内: '国内',
+          国際: '国際',
+          学位論文: '学位論文'
+        },
+        type: {
+          ジャーナル: 'ジャーナル',
+          会議: '会議',
+          ワークショップ: 'ワークショップ'
+        },
+        peerReview: {
+          査読付き: '査読付き',
+          査読なし: '査読なし'
+        }
+      }
     },
     contact: {
       title: 'お問い合わせ',
@@ -241,7 +283,7 @@ export const translations: Record<Locale, Translations> = {
       profile: {
         name: 'Ota Hiroki',
         title: 'PhD Student',
-        affiliation: 'Graduate School of Engineering, XX University'
+        affiliation: 'Nara Institute of Science and Technology, Cybernetics Reality Engineering Laboratory'
       },
       sections: {
         introduction: 'Introduction',
@@ -283,7 +325,23 @@ export const translations: Record<Locale, Translations> = {
         venue: 'Venue',
         search: 'Search'
       },
-      award: 'Award'
+      award: 'Award',
+      categories: {
+        scope: {
+          国内: 'Domestic',
+          国際: 'International',
+          学位論文: 'Dissertation'
+        },
+        type: {
+          ジャーナル: 'Journal',
+          会議: 'Conference',
+          ワークショップ: 'Workshop'
+        },
+        peerReview: {
+          査読付き: 'Peer-reviewed',
+          査読なし: 'Non-peer-reviewed'
+        }
+      }
     },
     contact: {
       title: 'Contact',

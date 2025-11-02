@@ -18,6 +18,14 @@
  - [x] UI: プロジェクト詳細の戻るボタン文言を「戻る」に統一（2025-10-30）
  - [x] Contact: 住所とテスト用メールを更新（2025-10-30）
  - [x] Contact: フォーム削除＆メールコピーアイコン追加、本番メール適用（2025-10-30）
+ - [x] Fix: ホーム画面の注目プロジェクトが英語表示で消える不具合を修正（2025-10-30）
+   - getPinnedProjects から getProjects に変更し、日付順で最新4つを表示するように修正
+   - プロジェクト一覧ページと同様に言語での除外は行わない
+ - [x] i18n: 論文のカテゴリタグ（国際、会議、査読付きなど）を英語モードで翻訳（2025-10-30）
+   - i18n.ts に論文カテゴリの翻訳を追加（scope/type/peerReview）
+   - paper-list-item.tsx で翻訳済みの値を表示するように修正
+ - [x] About: 英語表記の所属を正式名称に更新（2025-10-30）
+   - 「Graduate School of Engineering, XX University」→「Nara Institute of Science and Technology, Cybernetics Reality Engineering Laboratory」に変更
 ## Next（次にやる）
 - [ ] 認証設計に沿った編集可否の制御（docs/AuthDesign.md）を各ページに適用。
 - [ ] コンテンツスキーマの最小合意（Projects/Papers/News）を src/lib/types.ts と Decap 設定（public/admin/config.yml）で揃える。

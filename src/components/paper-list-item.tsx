@@ -124,21 +124,21 @@ export function PaperListItem({ paper, locale, onCategoryClick }: PaperListItemP
               className={`text-sm py-1 px-3 ${onCategoryClick ? 'cursor-pointer hover:bg-muted/50 transition-colors' : ''}`}
               onClick={() => onCategoryClick?.('scope', paper.categories.scope)}
             >
-              {paper.categories.scope}
+              {t.papers.categories.scope[paper.categories.scope]}
             </Badge>
             <Badge 
               variant="outline" 
               className={`text-sm py-1 px-3 ${onCategoryClick ? 'cursor-pointer hover:bg-muted/50 transition-colors' : ''}`}
               onClick={() => onCategoryClick?.('type', paper.categories.type)}
             >
-              {paper.categories.type}
+              {t.papers.categories.type[paper.categories.type]}
             </Badge>
             <Badge 
               variant="outline" 
               className={`text-sm py-1 px-3 ${onCategoryClick ? 'cursor-pointer hover:bg-muted/50 transition-colors' : ''}`}
               onClick={() => onCategoryClick?.('peerReview', paper.categories.peerReview)}
             >
-              {paper.categories.peerReview}
+              {t.papers.categories.peerReview[paper.categories.peerReview]}
             </Badge>
           </div>
         </div>

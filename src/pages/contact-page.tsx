@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Mail, MapPin, Clock, Copy } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
@@ -44,10 +44,9 @@ export function ContactPage({ locale }: ContactPageProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Contact Information */}
-            <div className="space-y-6">
-              <Card>
+          <div className="mx-auto max-w-3xl">
+            {/* Contact Information only */}
+            <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
                     <Mail className="mr-2 h-5 w-5" />
@@ -59,9 +58,13 @@ export function ContactPage({ locale }: ContactPageProps) {
                     <p className="text-sm text-muted-foreground">Email</p>
                     <div className="flex items-center gap-2">
                       <p>{emailAddress}</p>
-                      <Button variant="outline" size="icon" onClick={copyEmail} aria-label={locale === 'ja' ? 'メールアドレスをコピー' : 'Copy email address'}>
+                      <button
+                        onClick={copyEmail}
+                        aria-label={locale === 'ja' ? 'メールアドレスをコピー' : 'Copy email address'}
+                        className="inline-flex items-center justify-center h-9 w-9 rounded-md border bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
+                      >
                         <Copy className="h-4 w-4" />
-                      </Button>
+                      </button>
                     </div>
                     {copied && (
                       <p className="text-xs text-muted-foreground">{locale === 'ja' ? 'コピーしました' : 'Copied!'}</p>
@@ -94,77 +97,12 @@ export function ContactPage({ locale }: ContactPageProps) {
                     </p>
                   </div>
                 </CardContent>
-              </Card>
-
-              {/* Additional Info */}
-              <Card>
-                <CardContent className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="font-semibold">
-                      {locale === 'ja' ? 'お問い合わせについて' : 'About Inquiries'}
-                    </h3>
-                    <div className="text-sm text-muted-foreground space-y-2">
-                      <p>
-                        {locale === 'ja'
-                          ? '• 研究に関するご質問やコラボレーションのご提案'
-                          : '• Research questions and collaboration proposals'
-                        }
-                      </p>
-                      <p>
-                        {locale === 'ja'
-                          ? '• 採用・キャリアに関するお問い合わせ'
-                          : '• Career and hiring inquiries'
-                        }
-                      </p>
-                      <p>
-                        {locale === 'ja'
-                          ? '• メディア・取材のご依頼'
-                          : '• Media and interview requests'
-                        }
-                      </p>
-                      <p>
-                        {locale === 'ja'
-                          ? '• その他のご質問・ご相談'
-                          : '• Other questions and consultations'
-                        }
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            </Card>
 
             {/* Contact Form removed as requested */}
           </div>
 
-          {/* Additional Resources */}
-          <div className="text-center pt-8 border-t">
-            <h3 className="text-lg font-semibold mb-4">
-              {locale === 'ja' ? 'その他のリソース' : 'Additional Resources'}
-            </h3>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button variant="outline" asChild>
-                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer">
-                  CV {t.common.download}
-                </a>
-              </Button>
-              <Button variant="outline" asChild>
-                <a href="https://scholar.google.com" target="_blank" rel="noopener noreferrer">
-                  Google Scholar
-                </a>
-              </Button>
-              <Button variant="outline" asChild>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                  GitHub
-                </a>
-              </Button>
-              <Button variant="outline" asChild>
-                <a href="https://orcid.org" target="_blank" rel="noopener noreferrer">
-                  ORCID
-                </a>
-              </Button>
-            </div>
-          </div>
+          {/* Additional Resources removed as requested */}
         </div>
       </div>
     </div>
