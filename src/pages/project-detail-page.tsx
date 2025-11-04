@@ -6,6 +6,7 @@ import { Badge } from '../components/ui/badge'
 // import { Separator } from '../components/ui/separator'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '../components/ui/breadcrumb'
 import { ImageWithFallback } from '../components/figma/ImageWithFallback'
+import { PaperListItem } from '../components/paper-list-item'
 import { Locale, Project, Paper } from '../lib/types'
 import { getTranslations } from '../lib/i18n'
 import { getProjectBySlug, getPapers } from '../lib/notion'
@@ -323,59 +324,11 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
             
             <div className="space-y-4">
               {relatedPapers.map((paper) => (
-                <Card key={paper.id}>
-                  <CardContent className="p-6">
-                    <div className="space-y-2">
-                      <h3 className="font-medium">{paper.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {paper.authors.split('**').map((part, index) => 
-                          index % 2 === 1 ? <strong key={index}>{part}</strong> : part
-                        )}
-                      </p>
-                      <p className="text-sm">
-                        {paper.venue}, {paper.year}
-                        {paper.award && (
-                          <Badge variant="secondary" className="ml-2">
-                            {paper.award}
-                          </Badge>
-                        )}
-                      </p>
-                      {/* Links */}
-                      <div className="flex flex-wrap gap-2 pt-1">
-                        {paper.url && (
-                          <a href={paper.url} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
-                            URL
-                          </a>
-                        )}
-                        {paper.pdfUrl && (
-                          <a href={paper.pdfUrl} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
-                            PDF
-                          </a>
-                        )}
-                        {paper.doi && (
-                          <a href={paper.doi} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
-                            DOI
-                          </a>
-                        )}
-                        {paper.arxiv && (
-                          <a href={paper.arxiv} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
-                            arXiv
-                          </a>
-                        )}
-                        {paper.slidesUrl && (
-                          <a href={paper.slidesUrl} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
-                            Slides
-                          </a>
-                        )}
-                        {paper.posterUrl && (
-                          <a href={paper.posterUrl} target="_blank" rel="noopener noreferrer" className="text-xs underline opacity-80 hover:opacity-100">
-                            Poster
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <PaperListItem 
+                  key={paper.id} 
+                  paper={paper} 
+                  locale={locale}
+                />
               ))}
             </div>
           </div>

@@ -26,6 +26,27 @@
    - paper-list-item.tsx で翻訳済みの値を表示するように修正
  - [x] About: 英語表記の所属を正式名称に更新（2025-10-30）
    - 「Graduate School of Engineering, XX University」→「Nara Institute of Science and Technology, Cybernetics Reality Engineering Laboratory」に変更
+ - [x] Projects: プロジェクト一覧ページの説明文を更新（2025-10-30）
+   - 「機械学習、深層学習、コンピュータビジョンの研究プロジェクトをご紹介します。」→「主にハプティクス（触覚）、バーチャルリアリティなどに関するプロジェクトなどに取り組んでいます」に変更
+ - [x] UI: ホーム画面の「私について」ボタンのスタイル修正（2025-10-30）
+   - 背景透過、枠線・テキストをハイライトカラー（primary色）に変更
+ - [x] UI: ホーム画面のSNSリンクアイコンにツールチップ追加（2025-10-30）
+   - shadcnのTooltipコンポーネントを使用してホバー時にプラットフォーム名を表示
+ - [x] UI: ツールチップのスタイル修正（2025-10-30）
+   - shadcnのデフォルト構造に戻し、Tailwindクラスでスタイリング
+   - ライト/ダークモード共に白背景・黒文字で表示
+   - Arrow（三角形）が四角く表示される問題を修正（デフォルト形状を使用）
+   - 背景透過の問題を修正（インラインスタイルと!importantクラスの両方を使用、opacity: 1を明示的に設定）
+ - [x] Content: FrenelDeformableプロジェクトにGIF画像を追加（2025-10-30）
+   - 「どんなアプローチか」セクションにDeviceImage.gifを追加（日本語・英語両方）
+ - [x] Content: HapnrollプロジェクトにGIF画像を追加（2025-10-30）
+   - 「アプローチ」セクションにconcept.gifを追加（日本語・英語両方）
+ - [x] Content: FresnelShapeプロジェクトにGIF画像を追加（2025-10-30）
+   - 「背景」セクションにbackground.gifを追加（日本語・英語両方）
+   - 「アプローチ」セクションにaproach.gifを追加（日本語・英語両方）
+ - [x] UI: プロジェクト詳細ページの関連論文カードを論文一覧と同じスタイルに統一（2025-10-30）
+   - PaperListItemコンポーネントを使用するように変更
+   - タグはクリック不可（onCategoryClickを渡さない）
 ## Next（次にやる）
 - [ ] 認証設計に沿った編集可否の制御（docs/AuthDesign.md）を各ページに適用。
 - [ ] コンテンツスキーマの最小合意（Projects/Papers/News）を src/lib/types.ts と Decap 設定（public/admin/config.yml）で揃える。

@@ -6,6 +6,8 @@ https://youtu.be/GO7gw5mgXiM?si=0o45VZzM9mTAM6Sc
 ## Approach
 We slightly tilt a small fingertip contact plane according to the applied force. In VR, users see a virtual object deform (apparent stiffness) while feeling the tilt change at the fingertip. These two small cues create an illusion of holding a soft object.
 
+![Device Image](/content/projects/project-5-fresneldeformable/images/DeviceImage.gif)
+
 ## Device Image
 Three small contact planes for thumb, index, and middle fingers are angle‑controlled by compact motors. The pushing force is coarsely estimated, and the tilt switches accordingly. The device is lightweight and easy to mount on existing controllers.
 

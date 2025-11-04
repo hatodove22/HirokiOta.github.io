@@ -4,6 +4,7 @@ import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog'
+import { Tooltip, TooltipTrigger, TooltipContent } from '../components/ui/tooltip'
 import { ProjectCard } from '../components/project-card'
 import { NewsCard } from '../components/news-card'
 import { PaperListItem } from '../components/paper-list-item'
@@ -27,15 +28,22 @@ function HeroSocialLink({ href, label, children }: {
   children: ReactNode;
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex size-10 items-center justify-center rounded-full border border-border hover:border-border-strong hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
-    >
-      <span className="sr-only">{label}</span>
-      {children}
-    </a>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex size-10 items-center justify-center rounded-full border border-border hover:border-border-strong hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
+        >
+          <span className="sr-only">{label}</span>
+          {children}
+        </a>
+      </TooltipTrigger>
+      <TooltipContent>
+        {label}
+      </TooltipContent>
+    </Tooltip>
   );
 }
 
@@ -160,7 +168,12 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:gap-6">
-              <Button size="lg" onClick={() => onNavigate('about')}>
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => onNavigate('about')} 
+                className="bg-transparent border-primary text-primary hover:bg-primary/10 hover:text-primary"
+              >
                 {t.nav.about}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

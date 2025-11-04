@@ -9,12 +9,12 @@
   "date": "2025-03-01",
   "tags": ["Shape Display", "Haptics"],
   "summary": {
-    "ja": "フレネルレンズを用いた形状可変ディスプレイ『FresnelShape』の設計と実装。",
-    "en": "A shape‑changing display using Fresnel lenses (FresnelShape)."
+    "ja": "指先への触覚提示により、様々な形状情報を提示できる小型軽量なデバイス",
+    "en": "A small and lightweight device that can provide various shape information through tactile feedback to fingertips."
   },
   "body": {
-    "ja": "フレネルレンズの配置最適化と駆動制御により、軽量・薄型でダイナミックな形状提示を実現。",
-    "en": "Lightweight, thin shape display driven by optimized Fresnel lens arrangement and actuation."
+    "ja": "指先への触覚提示により、様々な形状情報を提示できる小型軽量なデバイス",
+    "en": "A small and lightweight device that can provide various shape information through tactile feedback to fingertips."
   },
   "repoUrl": "",
   "demoUrl": "",

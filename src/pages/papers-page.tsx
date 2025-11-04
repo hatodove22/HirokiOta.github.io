@@ -138,8 +138,8 @@ export function PapersPage({ locale }: PapersPageProps) {
           <h1 className="text-4xl font-bold">{t.papers.title}</h1>
           <p className="text-lg text-muted-foreground">
             {locale === 'ja' 
-              ? '国際会議・ジャーナルで発表した研究論文の一覧です。'
-              : 'A collection of research papers published in international conferences and journals.'
+              ? 'これまで発表した論文の一覧です。'
+              : 'A list of papers I have published.'
             }
           </p>
         </div>

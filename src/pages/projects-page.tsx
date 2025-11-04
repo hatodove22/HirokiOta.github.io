@@ -86,8 +86,8 @@ export function ProjectsPage({ locale, onNavigate }: ProjectsPageProps) {
           <h1 className="text-4xl font-bold">{t.projects.title}</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             {locale === 'ja' 
-              ? '機械学習、深層学習、コンピュータビジョンの研究プロジェクトをご紹介します。'
-              : 'Explore my research projects in machine learning, deep learning, and computer vision.'
+              ? '主にハプティクス（触覚）、バーチャルリアリティなどに関するプロジェクトなどに取り組んでいます'
+              : 'We are mainly working on projects related to haptics (tactile sensation), virtual reality, and so on.'
             }
           </p>
         </div>
