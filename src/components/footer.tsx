@@ -25,7 +25,7 @@ const socialLinks = [
   },
   {
     name: 'ORCID',
-    href: 'https://orcid.org/0000-0000-0000-0000',
+    href: 'https://orcid.org/0009-0003-5546-921X',
     icon: BookOpen,
   },
 ]

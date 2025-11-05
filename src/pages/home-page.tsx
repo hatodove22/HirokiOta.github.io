@@ -1,5 +1,5 @@
-import React, { useEffect, useState, type ReactNode } from 'react'
-import { ArrowRight, Download, ExternalLink, Mail, Github, Twitter, Linkedin, GraduationCap, IdCard } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { ArrowRight, Download, ExternalLink, Mail } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Badge } from '../components/ui/badge'
@@ -14,6 +14,11 @@ import { getTranslations } from '../lib/i18n'
 import { getProjects, getRecentPapers, getLatestNewsPosts } from '../lib/notion'
 import { formatDate, formatDateJa } from '../lib/utils'
 import profileImage from 'figma:asset/37d3f31165fb6b41b77513c4d8e0d1b581053602.png'
+import githubIcon from '../assets/icon/GitHub.svg'
+import xIcon from '../assets/icon/X.svg'
+import linkedinIcon from '../assets/icon/LinkedIn.svg'
+import googleScholarIcon from '../assets/icon/GoogleScholar.svg'
+import orcidIcon from '../assets/icon/ORCiD.svg'
 
 interface HomePageProps {
   locale: Locale
@@ -22,10 +27,10 @@ interface HomePageProps {
 
 
 
-function HeroSocialLink({ href, label, children }: {
+function HeroSocialLink({ href, label, iconSrc }: {
   href: string;
   label: string;
-  children: ReactNode;
+  iconSrc: string;
 }) {
   return (
     <Tooltip>
@@ -34,10 +39,15 @@ function HeroSocialLink({ href, label, children }: {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex size-10 items-center justify-center rounded-full border border-border hover:border-border-strong hover:bg-secondary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
+          className="flex size-[30px] items-center justify-center text-primary transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2"
         >
           <span className="sr-only">{label}</span>
-          {children}
+          <img 
+            src={iconSrc} 
+            alt={label}
+            className="h-full w-full object-contain"
+            style={{ width: '25px', height: '25px' }}
+          />
         </a>
       </TooltipTrigger>
       <TooltipContent>
@@ -137,22 +147,12 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
             </div>
 
             {/* Social links under the header row */}
-            <div className="mt-4 flex items-center gap-3 text-primary">
-              <HeroSocialLink href="https://github.com/hatodove22" label="GitHub">
-                <Github className="h-5 w-5" />
-              </HeroSocialLink>
-              <HeroSocialLink href="https://x.com/troll01234" label="X (Twitter)">
-                <Twitter className="h-5 w-5" />
-              </HeroSocialLink>
-              <HeroSocialLink href="https://www.linkedin.com/in/hiroki-ota-54a11119b/" label="LinkedIn">
-                <Linkedin className="h-5 w-5" />
-              </HeroSocialLink>
-              <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="Google Scholar">
-                <GraduationCap className="h-5 w-5" />
-              </HeroSocialLink>
-              <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="ORCID">
-                <IdCard className="h-5 w-5" />
-              </HeroSocialLink>
+            <div className="mt-4 flex items-center gap-4 text-primary">
+              <HeroSocialLink href="https://github.com/hatodove22" label="GitHub" iconSrc={githubIcon} />
+              <HeroSocialLink href="https://x.com/troll01234" label="X (Twitter)" iconSrc={xIcon} />
+              <HeroSocialLink href="https://www.linkedin.com/in/hiroki-ota-54a11119b/" label="LinkedIn" iconSrc={linkedinIcon} />
+              <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="Google Scholar" iconSrc={googleScholarIcon} />
+              <HeroSocialLink href="https://orcid.org/0009-0003-5546-921X" label="ORCID" iconSrc={orcidIcon} />
             </div>
 
             <div className="mt-4 flex w-full flex-wrap gap-4">

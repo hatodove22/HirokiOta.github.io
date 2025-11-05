@@ -86,7 +86,7 @@ export function generateStructuredData(
         sameAs: [
           'https://scholar.google.com/citations?user=example',
           'https://github.com/example',
-          'https://orcid.org/0000-0000-0000-0000',
+          'https://orcid.org/0009-0003-5546-921X',
           'https://linkedin.com/in/example',
         ],
         knowsAbout: [
