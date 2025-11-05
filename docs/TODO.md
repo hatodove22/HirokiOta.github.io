@@ -6,6 +6,11 @@
 - [x] MCP: GitHub サーバー導入（@missionsquad/mcp-github + .codex 設定）
   - 2025-10-10 PAT: env GITHUB_PAT 設定済み（codex MCP 経由）
 - [ ] Refactor audit: risk/impact matrix (2025-10-10 Codex調査開始)
+- [ ] Repo cleanup: cleanup-procedure.md を 2025-11-05 版に更新し、バックアップ→AS IS→TO BE→棚卸し→テスト→ドキュメント整備の流れを確定（docs/refactoring/cleanup-procedure.md）
+- [ ] リポジトリ大掃除: 不要ファイル・フォルダの削除
+  - 作業手順書: `docs/refactoring/cleanup-procedure.md`
+  - 削除対象: `tmp/`, `build/`, `api/`, ルートの一時ファイル、誤作成フォルダ
+  - 注意: 破壊的操作のため、バックアップ必須
 - [ ] Edit Mode: プレビュー言語トグルの表示確認（docs/issues/EditMode/issue-15-preview-language-toggle.md）
 - [ ] Edit Mode: Markdown プレビュー整備（markdown-it -> generateJSON -> generateHTML -> DOMPurify Plan B）
   - 2025-10-10: Tailwind Typography / .prose の導入検討（tiptap-markdown + markdown-it）
