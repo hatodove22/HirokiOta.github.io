@@ -66,6 +66,8 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
   const t = getTranslations(locale)
 
   useEffect(() => {
+    setLoading(true)
+    
     const fetchData = async () => {
       try {
         const [allProjects, newsPosts, papers] = await Promise.all([
@@ -109,6 +111,19 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
 
   const labUrl = 'https://carelab.info/ja/'
 
+  if (loading) {
+    return (
+      <div className="flex flex-col space-y-16 pb-16">
+        <div className="container mx-auto px-4 py-16">
+          <div className="animate-pulse space-y-8">
+            <div className="h-64 bg-muted rounded"></div>
+            <div className="h-32 bg-muted rounded"></div>
+            <div className="h-32 bg-muted rounded"></div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col space-y-16 pb-16">
