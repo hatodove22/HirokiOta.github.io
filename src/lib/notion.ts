@@ -344,7 +344,7 @@ class NotionService {
       const news = await loadNews()
       const newsPosts = await Promise.all(
         news.map(async (newsItem) => {
-          const newsPost = await loadNewsDetail(newsItem.link?.split('/').pop() || '')
+          const newsPost = await loadNewsDetail(newsItem.link?.split('/').pop() || '', locale)
           return newsPost || {
             id: newsItem.id,
             title: newsItem.title,
@@ -420,7 +420,7 @@ class NotionService {
   async getNewsPostBySlug(locale: Locale, slug: string): Promise<NewsPost | null> {
     try {
       // 新しいコンテンツローダーを使用
-      const newsPost = await loadNewsDetail(slug)
+      const newsPost = await loadNewsDetail(slug, locale)
       return newsPost && newsPost.language === locale ? newsPost : null
     } catch (error) {
       console.warn('Failed to load news post from content files, falling back to mock data:', error)
@@ -434,25 +434,17 @@ class NotionService {
       const news = await loadNews()
       const newsPosts = await Promise.all(
         news.map(async (newsItem) => {
-          const newsPost = await loadNewsDetail(newsItem.link?.split('/').pop() || '')
-          return newsPost || {
-            id: newsItem.id,
-            title: newsItem.title,
-            slug: newsItem.link?.split('/').pop() || '',
-            date: newsItem.date,
-            content: '',
-            heroImage: '',
-            readTime: newsItem.readTime || '5 min',
-            language: newsItem.language,
-            author: '太田裕紀',
-            category: newsItem.category || 'general',
-            tags: [],
-            summary: ''
-          }
+          const slug = newsItem.link?.split('/').pop() || ''
+          const newsPost = await loadNewsDetail(slug, locale)
+          // loadNewsDetail が null を返した場合、ロケール別のコンテンツファイルが存在しないため null を返す
+          return newsPost
         })
       )
       
-      let posts = newsPosts
+      // null を除外
+      const validPosts = newsPosts.filter((post): post is NewsPost => post !== null)
+      
+      let posts = validPosts
         .filter(post => post.language === locale)
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 

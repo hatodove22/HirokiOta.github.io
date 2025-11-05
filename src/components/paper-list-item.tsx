@@ -80,15 +80,6 @@ export function PaperListItem({ paper, locale, onCategoryClick }: PaperListItemP
               </Button>
             )}
             
-            {paper.arxiv && (
-              <Button asChild variant="outline" size="sm">
-                <a href={paper.arxiv} target="_blank" rel="noopener noreferrer">
-                  <FileText className="mr-2 h-4 w-4" />
-                  arXiv
-                </a>
-              </Button>
-            )}
-            
             {paper.slidesUrl && (
               <Button asChild variant="outline" size="sm">
                 <a href={paper.slidesUrl} target="_blank" rel="noopener noreferrer">

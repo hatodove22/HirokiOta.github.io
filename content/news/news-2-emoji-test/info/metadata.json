@@ -1,0 +1,21 @@
+{
+  "id": "news-2",
+  "title": {
+    "ja": "絵文字テスト用ニュース",
+    "en": "Emoji Test News"
+  },
+  "slug": "emoji-test",
+  "date": "2025-01-15",
+  "tags": ["test", "emoji"],
+  "summary": {
+    "ja": "サムネ画像が指定されなかった場合に絵文字が自動で配置されるかどうかをテストするためのダミーニュースです。",
+    "en": "This article is a dummy news item for testing whether emojis are automatically placed when no thumbnail image is specified."
+  },
+  "heroImage": "",
+  "readTime": "2 min",
+  "language": "ja",
+  "status": "published",
+  "author": "太田裕紀",
+  "category": "test"
+}
+

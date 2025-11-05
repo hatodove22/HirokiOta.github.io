@@ -2,7 +2,6 @@
 import type { CSSProperties } from 'react'
 import { Card, CardContent } from './ui/card'
 import { ImageWithFallback } from './figma/ImageWithFallback'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Project, Locale } from '../lib/types'
 
 const CLAMP_STYLES: CSSProperties = (() => {
@@ -25,7 +24,6 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, locale, onClick }: ProjectCardProps) {
   const mainCategory = project.tags[0] || ''
-  const authorName = locale === 'ja' ? '太田裕紀' : 'Ota Hiroki'
   const summaryText = project.summary ?? ''
 
   const formatProjectDate = (dateString: string) => {
@@ -72,17 +70,7 @@ export function ProjectCard({ project, locale, onClick }: ProjectCardProps) {
           </p>
         </div>
 
-        <div className="flex items-center justify-between mt-auto">
-          <div className="flex items-center space-x-2">
-            <Avatar className="h-5 w-5">
-              <AvatarImage src="/avatar-placeholder.jpg" />
-              <AvatarFallback className="bg-muted text-muted-foreground text-xs">
-                {authorName.split(' ').map((name) => name[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-muted-foreground text-xs">{authorName}</span>
-          </div>
-
+        <div className="mt-auto">
           <span className="text-muted-foreground text-xs">{formatProjectDate(project.date)}</span>
         </div>
       </CardContent>

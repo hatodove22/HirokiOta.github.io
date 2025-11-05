@@ -128,7 +128,7 @@ export function generateStructuredData(
           '@type': 'Organization',
           name: data.venue,
         },
-        url: data.doi || data.arxiv,
+        url: data.doi || data.url,
       }
 
     default:

@@ -1,0 +1,21 @@
+{
+  "id": "news-3",
+  "title": {
+    "ja": "DC2内定しました！",
+    "en": "DC2 Research Fellowship Accepted!"
+  },
+  "slug": "dc2-accepted",
+  "date": "2025-10-01",
+  "tags": ["Research", "Fellowship", "JSPS"],
+  "summary": {
+    "ja": "日本学術振興会が募集する特別研究員（DC）に内定しました。",
+    "en": "I have been accepted as a Research Fellow (DC) by the Japan Society for the Promotion of Science (JSPS)."
+  },
+  "heroImage": "",
+  "readTime": "3 min",
+  "language": "ja",
+  "status": "published",
+  "author": "太田裕紀",
+  "category": "research"
+}
+

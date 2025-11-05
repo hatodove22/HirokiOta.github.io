@@ -38,3 +38,33 @@ export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(email)
 }
+
+// ニュース記事のIDやslugから一貫性のあるランダムな絵文字を生成
+export function getRandomEmojiForNews(idOrSlug: string): string {
+  // ニュース関連の絵文字リスト（重複なし、ニュース・研究・技術関連）
+  const emojis = [
+    '📰', '📝', '📄', '📋', '📑', '📊', '📈', '📉', '📌', '📍',
+    '🔍', '💡', '🎯', '🚀', '⭐', '✨', '🌟', '💫', '🔥', '💎',
+    '🎨', '🎭', '🎪', '🎬', '🎮', '🎲',
+    '📚', '📖', '📗', '📘', '📙', '📕', '📓', '📔', '📒', '📃',
+    '🔬', '🔭', '⚗️', '🧪', '🧬',
+    '💻', '📱', '⌚', '💾', '💿', '📀', '🖥️', '⌨️', '🖱️', '🖨️',
+    '🌐', '🌍', '🌎', '🌏', '🗺️', '🧭',
+    '⛰️', '🏔️', '🌋', '🗻', '🏕️', '🏖️', '🏜️', '🏝️', '🏞️', '🏟️',
+    '🏛️', '🏗️', '🏘️', '🏙️', '🏚️', '🏠', '🏡', '🏢', '🏣', '🏤',
+    '🏥', '🏦', '🏧', '🏨', '🏩', '🏪', '🏫', '🏬', '🏭', '🏯',
+    '🏰', '💒', '🗼', '🗽',
+  ]
+  
+  // IDやslugからハッシュ値を生成して一貫性のあるランダムなインデックスを取得
+  let hash = 0
+  for (let i = 0; i < idOrSlug.length; i++) {
+    const char = idOrSlug.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash = hash & hash // Convert to 32bit integer
+  }
+  
+  // 絶対値を使ってインデックスを取得
+  const index = Math.abs(hash) % emojis.length
+  return emojis[index]
+}

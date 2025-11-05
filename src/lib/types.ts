@@ -31,7 +31,7 @@ export interface NewsPost {
   content?: string
   heroImage?: string
   readTime?: string
-  body?: { heading: string; content: string }[]
+  body?: NotionBlock[]
   language: Locale | 'both'
   author?: string
   category?: string
@@ -46,7 +46,6 @@ export interface Paper {
   url?: string
   pdfUrl?: string
   doi?: string
-  arxiv?: string
   slidesUrl?: string
   posterUrl?: string
   award?: string
@@ -108,6 +107,8 @@ export interface NotionBlock {
   type: string
   content: string
   children?: NotionBlock[]
+  level?: number
+  ordered?: boolean
 }
 
 export interface ContactFormData {

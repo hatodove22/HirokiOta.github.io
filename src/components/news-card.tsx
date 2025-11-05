@@ -1,11 +1,9 @@
 
 import type { CSSProperties } from 'react'
-import { Calendar } from 'lucide-react'
 import { Card, CardContent } from './ui/card'
 import { ImageWithFallback } from './figma/ImageWithFallback'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { NewsPost, Locale } from '../lib/types'
-import { formatDate, formatDateJa } from '../lib/utils'
+import { formatDate, formatDateJa, getRandomEmojiForNews } from '../lib/utils'
 
 const CLAMP_STYLES: CSSProperties = (() => {
   const styles: CSSProperties = {
@@ -26,25 +24,35 @@ interface NewsCardProps {
 }
 
 export function NewsCard({ post, locale, onClick }: NewsCardProps) {
-  const authorName = locale === 'ja' ? '太田裕紀' : 'Ota Hiroki'
-  const primaryTag = post.tags[0] || ''
+  const primaryTag = post.tags?.[0] ?? ''
   const summaryText = post.summary ?? ''
   const publishedAt = locale === 'ja' ? formatDateJa(post.date) : formatDate(post.date)
+  const hasHeroImage = post.heroImage && post.heroImage.trim() !== ''
+  const emoji = getRandomEmojiForNews(post.id || post.slug)
 
   return (
     <Card
       className="group cursor-pointer overflow-hidden bg-card border border-border hover:shadow-lg transition-all duration-300 hover:scale-[1.02] flex h-full flex-col"
       onClick={onClick}
     >
-      {post.heroImage && (
-        <div className="relative aspect-[3/2] overflow-hidden">
+      <div className="relative aspect-[3/2] overflow-hidden">
+        {hasHeroImage ? (
           <ImageWithFallback
-            src={post.heroImage}
+            src={post.heroImage!}
             alt={post.title}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        </div>
-      )}
+        ) : (
+          <div 
+            className="flex items-center justify-center h-full w-full transition-colors duration-300"
+            style={{ backgroundColor: '#88beca' }}
+          >
+            <span className="text-[100px] md:text-[120px] lg:text-[140px]" role="img" aria-label="News" style={{ fontSize: '100px' }}>
+              {emoji}
+            </span>
+          </div>
+        )}
+      </div>
 
       <CardContent className="flex flex-1 flex-col gap-3 px-4 pb-4 pt-3">
         <div className="space-y-3">
@@ -58,27 +66,13 @@ export function NewsCard({ post, locale, onClick }: NewsCardProps) {
             {post.title}
           </h3>
 
-          <p className="text-xs leading-relaxed text-muted-foreground" style={CLAMP_STYLES}>
+          <p className="text-sm leading-relaxed text-muted-foreground" style={CLAMP_STYLES}>
             {summaryText}
           </p>
         </div>
 
-        <div className="mt-auto flex items-center justify-between text-xs text-muted-foreground">
-          <div className="flex items-center space-x-2">
-            <Avatar className="h-5 w-5">
-              <AvatarImage src="/avatar-placeholder.jpg" alt={authorName} />
-              <AvatarFallback className="bg-muted text-muted-foreground text-[10px]">
-                {authorName.split(' ').map((name) => name[0]).join('')}
-              </AvatarFallback>
-            </Avatar>
-            <span>{authorName}</span>
-          </div>
-
-          <div className="flex items-center gap-1">
-            <Calendar className="h-3.5 w-3.5" />
-            <span>{publishedAt}</span>
-            {post.readTime && <span>・{post.readTime}</span>}
-          </div>
+        <div className="mt-auto">
+          <span className="text-muted-foreground text-xs">{publishedAt}</span>
         </div>
       </CardContent>
     </Card>

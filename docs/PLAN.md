@@ -8,3 +8,4 @@
 - 目的2: docs/TODO.md と docs/PLAN.md にタスク・検証方法を反映する
 - 目的3: content 配下の更新手順と AI 連携方針を整理する
 
+- Progress 2025-11-05: content-loader auto-scan ready for projects/papers/news; fallback lists kept for safety.

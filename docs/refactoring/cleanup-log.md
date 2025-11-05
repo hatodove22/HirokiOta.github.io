@@ -1,4 +1,4 @@
-# Cleanup Log
+﻿# Cleanup Log
 
 ## 2025-11-05 フェーズ0準備
 - 対象: バックアップ体制整備
@@ -29,3 +29,10 @@
 - 判定: 本番リポジトリから切り離し -> 別リポジトリまたは履歴で保全
 - 検証: 未（本番ビルド／テストは後続フェーズで実施予定）
 - 備考: 高影響削除込みの検証ブランチ `cleanup/delete-validation` を運用中。必要に応じて ForHandsOff リモートへプッシュ予定。
+## 2025-11-05 content-loader auto-scan
+- Target: src/lib/content-loader.ts (papers & news loaders)
+- Decision: switched to /__content/list/* responses and removed hard-coded folder arrays.
+- Verification: npm run build OK / npm run test missing script -> not executed.
+- Note: manuals/papers-update.md & manuals/news-update.md updated for auto discovery workflow.
+- Action: Added test folder `content/news/news-99-autoscan-test` and verified build output.
+- Fix: Updated loadNews slug/link generation so auto-scanned folders appear in listings.

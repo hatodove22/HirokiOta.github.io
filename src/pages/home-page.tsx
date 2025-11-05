@@ -132,16 +132,19 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                     {heroLines.title}
                     {locale === 'ja' ? ' / 日本学術振興会 特別研究員（DC2）' : ' / JSPS Research Fellow (DC2)'}
                   </div>
-                  <div>{heroLines.university}</div>
-                  <a
-                    href={labUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary hover:underline"
-                  >
-                    {heroLines.lab}
-                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                  </a>
+                  <div>
+                    {heroLines.university}
+                    <br />
+                    <a
+                      href={labUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-muted-foreground hover:text-primary hover:underline"
+                    >
+                      {heroLines.lab}
+                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    </a>
+                  </div>
                   {/* Social links */}
                   <div className="mt-2 flex items-center gap-4 text-primary">
                     <HeroSocialLink href="https://github.com/hatodove22" label="GitHub" iconSrc={githubIcon} />
@@ -277,38 +280,49 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
-          <div className="py-12 text-center text-muted-foreground">
-            <div className="text-6xl mb-4">🚧</div>
-            <p className="text-lg">{locale === 'ja' ? '現在工事中です' : 'Under construction'}</p>
-          </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {[...Array(3)].map((_, index) => (
+                <Card key={index} className="h-full">
+                  <CardContent className="space-y-4 p-6 animate-pulse">
+                    <div className="h-36 w-full rounded-lg bg-muted" />
+                    <div className="space-y-2">
+                      <div className="h-4 w-3/4 rounded bg-muted" />
+                      <div className="h-3 w-2/3 rounded bg-muted" />
+                      <div className="h-3 w-1/2 rounded bg-muted" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : latestNews.length === 0 ? (
+            <div className="py-12 text-center text-muted-foreground">
+              <div className="text-6xl mb-4">🚧</div>
+              <p className="text-lg">
+                {locale === 'ja' ? '現在工事中です' : 'Under construction'}
+              </p>
+              <p className="mt-2 text-sm">
+                {locale === 'ja' ? 'ニュースコンテンツは準備中です。' : 'News updates will appear here soon.'}
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {latestNews.map((post) => (
+                <NewsCard
+                  key={post.id}
+                  post={post}
+                  locale={locale}
+                  onClick={() => onNavigate('news-detail', post.slug)}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="container mx-auto px-4 max-w-4xl">
-        <div className="text-center space-y-6">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold">{t.home.sections.contact}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t.contact.description}
-            </p>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" onClick={() => onNavigate('contact')} className="cursor-pointer">
-              {t.nav.contact}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            
-            {/* Press kit button removed as requested; keep only contact button */}
-          </div>
-        </div>
-      </section>
-
-      {/* Press Kit removed as requested */}
 
       
     </div>
   )
 }
-

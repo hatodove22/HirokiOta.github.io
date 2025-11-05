@@ -169,8 +169,8 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
         {/* Summary (highlighted text, no box) */}
         <div className="px-2 md:px-0 py-2">
           <p className="leading-relaxed text-primary font-medium">
-            {project.summary}
-          </p>
+              {project.summary}
+            </p>
         </div>
 
         {/* Demo video (YouTube) right below summary if provided */}
@@ -202,7 +202,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
             {(() => {
               let insertAfterNextParagraph: 'approach' | 'benefit' | null = null
               return project.body.map((block, index) => {
-                switch (block.type) {
+              switch (block.type) {
                 case 'paragraph':
                   // YouTube 埋め込み（URLのみの段落をiframe化）
                   {
@@ -212,17 +212,17 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                       const url = new URL(ytMatch[1])
                       const videoId = url.hostname === 'youtu.be' ? url.pathname.slice(1) : url.searchParams.get('v')
                       const embed = `https://www.youtube.com/embed/${videoId}`
-                        return (
-                          <div key={index} className="aspect-video w-full overflow-hidden rounded-lg">
-                            <iframe
-                              className="w-full h-full"
-                              src={embed}
-                              title="YouTube video"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                              allowFullScreen
-                            />
-                          </div>
-                        )
+                      return (
+                        <div key={index} className="aspect-video w-full overflow-hidden rounded-lg">
+                          <iframe
+                            className="w-full h-full"
+                            src={embed}
+                            title="YouTube video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          />
+                        </div>
+                      )
                     }
                   }
                   // Markdown画像行を検出して画像として描画
@@ -231,7 +231,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                     const imgMatch = img && img.match(/^!\[[^\]]*\]\(([^)]+)\)$/)
                     if (imgMatch) {
                       const src = imgMatch[1]
-                      return (
+                  return (
                         <div key={index} className="my-4">
                           <ImageWithFallback src={src} alt="image" className="w-full rounded-lg" />
                         </div>
@@ -264,7 +264,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                                 className="w-full rounded-lg"
                               />
                             </div>
-                          )
+                  )
                         }
                         insertAfterNextParagraph = null
                       }
@@ -305,7 +305,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                       {block.content}
                     </div>
                   )
-                }
+              }
               })
             })()}
           </div>

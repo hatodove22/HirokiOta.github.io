@@ -1,0 +1,21 @@
+{
+  "id": "news-4",
+  "title": {
+    "ja": "フランスへ留学しました！",
+    "en": "Study Abroad in France!"
+  },
+  "slug": "france-study-abroad",
+  "date": "2024-10-01",
+  "tags": ["Study Abroad", "Research", "Haptics"],
+  "summary": {
+    "ja": "2024年10月から半年間、フランスの国立研究所INRIA/IRISAへ留学しました。",
+    "en": "From October 2024, I spent six months studying abroad at INRIA/IRISA, a national research institute in France."
+  },
+  "heroImage": "",
+  "readTime": "4 min",
+  "language": "ja",
+  "status": "published",
+  "author": "太田裕紀",
+  "category": "research"
+}
+
