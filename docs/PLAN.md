@@ -1,44 +1,10 @@
 ﻿# PLAN - 博士課程学生ポートフォリオ V1
 
-中期計画（マイルストーンと受け入れ条件）。完了時は日付を追記してください。
+マイルストーンと長期計画を管理するメモです。必要に応じて更新してください。
 
-## M1: サイト基盤の整備
-- 受入: 主要ページ（Home/Projects/Papers/Blogs/Contact）がビルド通過しナビゲーション可能。
-- 受入: i18n の土台が稼働（言語トグルで主要文言が切替）。
-
-### 進捗メモ（2025-10-30）
-- Papers カタログ拡充：国内/国際の実績10件を `content/papers/*/metadata.json` として追加。
-
-## M2: Edit Mode プロトの安定化
-- 2025-10-10: Codex refactoring audit will produce risk/impact matrix for repo cleanup options.
-- 受入: 編集用プレビュー（ニュース一覧/詳細）が UI と整合。
-- 受入: 言語トグルの状態がプレビューに反映（URL か状態共有）。
-- 追加: プレビュー再表示とUI視認性を確保（JA文字化け解消・ライトテーマ対応・パネル固定）
-- 追加: Issue19 Plan B ? markdown-it -> generateJSON -> generateHTML -> DOMPurify パイプラインでニュースプレビューのH1/H2/リスト整合を担保。
-- 追記: 公開ボタンでGitHub App OAuth→PR作成まで自動化（news slug生成とcontent/news JSONコミットを含む）
-
-## M3: Decap CMS 連携（GitHub バックエンド）
-- 受入: public/admin/ からログイン?一覧?プレビューまで通る。
-- 受入: public/admin/config.yml と src/lib/types.ts のスキーマ差分が解消。
-
-## M4: 認証/認可フロー適用
-- 追加: MCP 経由で GitHub API を扱えるよう @missionsquad/mcp-github を設定（Codex .codex/config.toml）
-- 受入: docs/AuthDesign.md に基づき、編集可否が画面で制御される（ヘッダー/編集ボタン）。
-- 受入: 非権限ユーザーは編集 UI が表示されない。
-
-## M5: 多言語バリデーション
-- 受入: 日英いずれの入力欠落も検知し、プレビューで警告。
-- 受入: 必須フィールドは Decap とアプリの両方で一貫。
-
-## M6: デプロイ/CI
-- 受入: main ブランチ push で型チェック/ビルド/Lighthouse（スモーク）を自動実行。
-- 受入: ステージング環境で CMS プレビューを確認可能。
-
-## 運用ルール
-- 日々の実作業は docs/TODO.md に記載し、マイルストーン達成時に本ファイルへ反映。
-- 大きな設計判断は docs/ 配下に 1?3 行で根拠メモを追加。
-## 方針更新（2025-09-29）
-- 編集UIは Portfolio_EditSystem_Proto を正式採用し、/edit で稼働させます。
-- Decap のカスタムプレビュー連携は廃止。Decap は認証/メディア運用の補助として任意利用します。
-- 型・スキーマの一次情報は src/lib/types.ts に統一し、Proto 側フォーム/プレビューと整合させます。
+## M0: リポジトリ整理ベースライン（2025-11-05 着手）
+- 進捗: 2025-11-05 フェーズ0（事前準備）を開始。TODO/PLAN 更新とバックアップ計画を実行中
+- 目的1: cleanup-procedure.md を最新版方針に沿って維持する
+- 目的2: docs/TODO.md と docs/PLAN.md にタスク・検証方法を反映する
+- 目的3: content 配下の更新手順と AI 連携方針を整理する
 

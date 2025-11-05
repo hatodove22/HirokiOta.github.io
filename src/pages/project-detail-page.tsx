@@ -240,7 +240,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                   }
                     {
                       const elements: any[] = [
-                        <p key={`p-${index}`} className="mb-4 leading-relaxed text-muted-foreground">
+                        <p key={`p-${index}`} className="mb-4 leading-relaxed text-body">
                           {renderInlineBold(block.content as string)}
                         </p>
                       ]
@@ -287,7 +287,7 @@ export function ProjectDetailPage({ locale, slug, onNavigate }: ProjectDetailPag
                         }
                       }
                     return (
-                      <h2 key={index} className="text-2xl font-semibold mt-8 mb-4">
+                      <h2 key={index} className="text-2xl font-semibold mt-8 mb-2">
                         {renderInlineBold((block as any).content as string)}
                       </h2>
                     )

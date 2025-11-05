@@ -67,7 +67,7 @@ export function ProjectCard({ project, locale, onClick }: ProjectCardProps) {
             {project.title}
           </h3>
 
-          <p className="text-muted-foreground text-xs leading-relaxed mt-0 mb-4" style={CLAMP_STYLES}>
+          <p className="text-muted-foreground text-sm leading-relaxed mt-0 mb-4" style={CLAMP_STYLES}>
             {summaryText}
           </p>
         </div>

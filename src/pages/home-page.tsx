@@ -46,7 +46,7 @@ function HeroSocialLink({ href, label, iconSrc }: {
             src={iconSrc} 
             alt={label}
             className="h-full w-full object-contain"
-            style={{ width: '25px', height: '25px' }}
+            style={{ width: '18px', height: '18px' }}
           />
         </a>
       </TooltipTrigger>
@@ -142,17 +142,16 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
                     {heroLines.lab}
                     <ExternalLink className="h-4 w-4" aria-hidden="true" />
                   </a>
+                  {/* Social links */}
+                  <div className="mt-2 flex items-center gap-4 text-primary">
+                    <HeroSocialLink href="https://github.com/hatodove22" label="GitHub" iconSrc={githubIcon} />
+                    <HeroSocialLink href="https://x.com/troll01234" label="X (Twitter)" iconSrc={xIcon} />
+                    <HeroSocialLink href="https://www.linkedin.com/in/hiroki-ota-54a11119b/" label="LinkedIn" iconSrc={linkedinIcon} />
+                    <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="Google Scholar" iconSrc={googleScholarIcon} />
+                    <HeroSocialLink href="https://orcid.org/0009-0003-5546-921X" label="ORCID" iconSrc={orcidIcon} />
+                  </div>
                 </div>
               </div>
-            </div>
-
-            {/* Social links under the header row */}
-            <div className="mt-4 flex items-center gap-4 text-primary">
-              <HeroSocialLink href="https://github.com/hatodove22" label="GitHub" iconSrc={githubIcon} />
-              <HeroSocialLink href="https://x.com/troll01234" label="X (Twitter)" iconSrc={xIcon} />
-              <HeroSocialLink href="https://www.linkedin.com/in/hiroki-ota-54a11119b/" label="LinkedIn" iconSrc={linkedinIcon} />
-              <HeroSocialLink href="https://scholar.google.co.kr/citations?user=zhDHaR4AAAAJ&hl" label="Google Scholar" iconSrc={googleScholarIcon} />
-              <HeroSocialLink href="https://orcid.org/0009-0003-5546-921X" label="ORCID" iconSrc={orcidIcon} />
             </div>
 
             <div className="mt-4 flex w-full flex-wrap gap-4">
@@ -163,7 +162,7 @@ export function HomePage({ locale, onNavigate }: HomePageProps) {
               ))}
             </div>
 
-            <p className="mt-4 max-w-2xl text-left text-lg text-muted-foreground">
+            <p className="mt-4 max-w-2xl text-left text-lg text-body">
               {t.home.description}
             </p>
 

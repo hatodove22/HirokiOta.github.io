@@ -7,6 +7,8 @@
   - 2025-10-10 PAT: env GITHUB_PAT 設定済み（codex MCP 経由）
 - [ ] Refactor audit: risk/impact matrix (2025-10-10 Codex調査開始)
 - [ ] Repo cleanup: cleanup-procedure.md を 2025-11-05 版に更新し、バックアップ→AS IS→TO BE→棚卸し→テスト→ドキュメント整備の流れを確定（docs/refactoring/cleanup-procedure.md）
+  - 2025-11-05 フォルダ構成の理想案を docs/refactoring/structure-proposal.md として作成
+  - 2025-11-05 フェーズ0開始: 事前準備タスクのログ化とバックアップ計画を実行中
 - [ ] リポジトリ大掃除: 不要ファイル・フォルダの削除
   - 作業手順書: `docs/refactoring/cleanup-procedure.md`
   - 削除対象: `tmp/`, `build/`, `api/`, ルートの一時ファイル、誤作成フォルダ

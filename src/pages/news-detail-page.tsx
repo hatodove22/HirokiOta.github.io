@@ -147,11 +147,11 @@ export function NewsDetailPage({ locale, slug, onNavigate }: NewsDetailPageProps
               post.body.map((section, index) => (
                 <div key={index} className="space-y-3">
                   <h2 className="text-2xl font-semibold">{section.heading}</h2>
-                  <p className="leading-relaxed text-muted-foreground">{section.content}</p>
+                  <p className="leading-relaxed text-body">{section.content}</p>
                 </div>
               ))
             ) : (
-              <p className="leading-relaxed text-muted-foreground">{post.summary}</p>
+              <p className="leading-relaxed text-body">{post.summary}</p>
             )}
           </section>
         </div>

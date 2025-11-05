@@ -138,7 +138,7 @@ export function AboutPage({ locale }: AboutPageProps) {
           
           <Card>
             <CardContent className="p-6">
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-body leading-relaxed">
                 {locale === 'ja' 
                   ? '私は奈良先端科学技術大学院大学（NAIST）の博士課程学生です。触覚技術、ロボティクス、バーチャルリアリティの研究に従事しています。特に、人間の触覚的形状認知特性に着目したハンドヘルド型形状提示装置「FresnelShape」の開発と評価を行っています。VR環境における触覚体験の向上を目指しています。'
                   : 'I am a Ph.D. student at the Nara Institute of Science and Technology (NAIST). I am engaged in research on haptic technology, robotics, and virtual reality. Specifically, I am developing and evaluating "FresnelShape," a handheld shape display device focusing on human tactile shape perception characteristics. I aim to enhance tactile experiences in VR environments.'
