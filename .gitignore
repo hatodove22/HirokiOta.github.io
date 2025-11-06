@@ -119,6 +119,7 @@ private_docs/
 !/content/
 !/api/
 !/scripts/
+!/manuals/
 !/sdd-*.md
 !/Portfolio_EditSystem_Proto/
 !/tmp_devchrome_lh.jsonAGENTS.md
